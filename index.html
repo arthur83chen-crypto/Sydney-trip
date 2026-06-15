@@ -3,94 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🇦🇺 澳洲山海大冒險</title>
+    <title>🇦🇺 澳洲山海大冒險 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
-        body { font-family: 'Noto Sans TC', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Noto+Sans+TC:wght@400;700;900&display=swap');
+        body { font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .page-content { display: none; }
         .page-content.active { display: block; }
-        .avatar-glow { box-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
-        .itinerary-card img { transition: transform 0.5s ease; }
-        .itinerary-card:hover img { transform: scale(1.05); }
+        /* 復刻高級 App 漸層毛玻璃 */
+        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); }
+        /* 時間軸線條 */
+        .timeline-line::before { content: ''; position: absolute; left: 18px; top: 32px; bottom: -24px; width: 2px; background: #cbd5e1; }
+        .timeline-card:last-child .timeline-line::before { display: none; }
     </style>
 </head>
-<body class="bg-[#041619] text-slate-800 min-h-screen flex justify-center antialiased">
+<body class="bg-[#031214] text-slate-800 min-h-screen flex justify-center antialiased">
 
-    <div class="w-full max-w-md bg-gradient-to-b from-[#0b3c41] via-[#0b3c41] to-[#f1f5f9] min-h-screen flex flex-col justify-between relative shadow-2xl overflow-hidden pb-24">
+    <div class="w-full max-w-md bg-gradient-to-b from-[#0a3236] via-[#0f3f44] to-[#f8fafc] min-h-screen flex flex-col justify-between relative shadow-2xl overflow-hidden pb-24">
         
-        <div class="pt-8 pb-6 px-4 text-center z-10 relative">
-            <div class="grid grid-cols-4 gap-2 mb-4">
-                <div class="flex flex-col items-center">
-                    <div class="w-14 h-14 bg-white border-2 border-amber-400 rounded-2xl flex items-center justify-center text-2xl shadow-xl avatar-glow overflow-hidden">👦</div>
-                    <span class="text-[10px] text-white bg-amber-600 px-2 py-0.5 rounded-full mt-1.5 font-black shadow-sm">Arthur</span>
+        <div class="pt-8 pb-5 px-5 z-10 relative">
+            <div class="flex justify-between items-center mb-5">
+                <div class="bg-white/10 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-white text-[11px] font-bold tracking-widest uppercase">
+                    🚀 Active Mode
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-14 h-14 bg-white border-2 border-pink-400 rounded-2xl flex items-center justify-center text-2xl shadow-xl avatar-glow overflow-hidden">👧</div>
-                    <span class="text-[10px] text-white bg-pink-500 px-2 py-0.5 rounded-full mt-1.5 font-black shadow-sm">Karen</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-14 h-14 bg-white border-2 border-blue-400 rounded-2xl flex items-center justify-center text-2xl shadow-xl avatar-glow overflow-hidden">👨</div>
-                    <span class="text-[10px] text-white bg-blue-600 px-2 py-0.5 rounded-full mt-1.5 font-black shadow-sm">Steven</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-14 h-14 bg-white border-2 border-emerald-400 rounded-2xl flex items-center justify-center text-2xl shadow-xl avatar-glow overflow-hidden">🕴️</div>
-                    <span class="text-[10px] text-white bg-emerald-600 px-2 py-0.5 rounded-full mt-1.5 font-black shadow-sm">副總</span>
-                </div>
+                <div class="text-white text-xs opacity-80 font-bold"><i class="fa-solid fa-cloud-sun mr-1"></i> Sydney 18°C</div>
             </div>
-            <h1 class="text-3xl font-black text-white tracking-tighter drop-shadow-lg italic">澳洲山海大冒險 <span class="text-amber-400 text-sm not-italic ml-1">v1.0</span></h1>
-            <p class="text-teal-200 text-[10px] mt-1 font-medium tracking-widest uppercase">7/2 - 7/9 • Family Road Movie</p>
-        </div>
-
-        <div id="page-itinerary" class="page-content active bg-[#f8fafc] rounded-t-[2.5rem] flex-1 px-4 pt-6 shadow-2xl z-0">
             
-            <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-4 mb-4 border-b border-slate-100" id="day-tabs">
-                <button onclick="switchDay('flight')" id="tab-flight" class="day-tab px-5 py-2 rounded-xl font-black text-xs bg-[#0b3c41] text-white whitespace-nowrap transition-all shadow-lg scale-105">7/2 啟程</button>
-                <button onclick="switchDay('d1')" id="tab-d1" class="day-tab px-5 py-2 rounded-xl font-black text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">DAY 1</button>
-                <button onclick="switchDay('d2')" id="tab-d2" class="day-tab px-5 py-2 rounded-xl font-black text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">DAY 2</button>
-                <button onclick="switchDay('d3')" id="tab-d3" class="day-tab px-5 py-2 rounded-xl font-black text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">DAY 3</button>
-                <button onclick="switchDay('d4')" id="tab-d4" class="day-tab px-5 py-2 rounded-xl font-black text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">DAY 4</button>
-                <button onclick="switchDay('d5')" id="tab-d5" class="day-tab px-5 py-2 rounded-xl font-black text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">DAY 5</button>
-                <button onclick="switchDay('d6')" id="tab-d6" class="day-tab px-5 py-2 rounded-xl font-black text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">DAY 6</button>
-                <button onclick="switchDay('d7')" id="tab-d7" class="day-tab px-5 py-2 rounded-xl font-black text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">DAY 7</button>
+            <div class="grid grid-cols-4 gap-3 mb-5">
+                <div class="flex flex-col items-center group">
+                    <div class="w-14 h-14 bg-white/90 p-0.5 rounded-2xl shadow-xl transition-all duration-300 group-hover:scale-105 border border-amber-400">
+                        <div class="w-full h-full bg-amber-50 rounded-xl flex items-center justify-center text-2xl shadow-inner">👦</div>
+                    </div>
+                    <span class="text-[11px] text-white/90 font-black mt-2 tracking-tight">Arthur</span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <div class="w-14 h-14 bg-white/90 p-0.5 rounded-2xl shadow-xl transition-all duration-300 group-hover:scale-105 border border-pink-400">
+                        <div class="w-full h-full bg-pink-50 rounded-xl flex items-center justify-center text-2xl shadow-inner">👧</div>
+                    </div>
+                    <span class="text-[11px] text-white/90 font-black mt-2 tracking-tight">Karen</span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <div class="w-14 h-14 bg-white/90 p-0.5 rounded-2xl shadow-xl transition-all duration-300 group-hover:scale-105 border border-blue-400">
+                        <div class="w-full h-full bg-blue-50 rounded-xl flex items-center justify-center text-2xl shadow-inner">👨</div>
+                    </div>
+                    <span class="text-[11px] text-white/90 font-black mt-2 tracking-tight">Steven</span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <div class="w-14 h-14 bg-white/90 p-0.5 rounded-2xl shadow-xl transition-all duration-300 group-hover:scale-105 border border-emerald-400">
+                        <div class="w-full h-full bg-emerald-50 rounded-xl flex items-center justify-center text-2xl shadow-inner">🕴️</div>
+                    </div>
+                    <span class="text-[11px] text-white/90 font-black mt-2 tracking-tight">副總</span>
+                </div>
+            </div>
+            
+            <h1 class="text-3xl font-black text-white tracking-tight drop-shadow-md">澳洲山海大冒險</h1>
+            <p class="text-teal-300/80 text-xs font-bold mt-1 tracking-wider"><i class="fa-solid fa-location-dot mr-1"></i> Sydney, Australia • 7 Days Trip</p>
+        </div>
+
+        <div id="page-itinerary" class="page-content active bg-[#f8fafc] rounded-t-[2.5rem] flex-1 px-4 pt-6 shadow-2xl z-0 border-t border-white/20">
+            
+            <div class="flex space-x-2.5 overflow-x-auto no-scrollbar pb-4 mb-4 border-b border-slate-200/60" id="day-tabs">
+                <button onclick="switchDay('flight')" id="tab-flight" class="day-tab px-5 py-2.5 rounded-2xl font-black text-xs bg-[#0b3c41] text-white whitespace-nowrap transition-all shadow-md scale-105">7/2 啟程</button>
+                <button onclick="switchDay('d1')" id="tab-d1" class="day-tab px-5 py-2.5 rounded-2xl font-black text-xs bg-white text-slate-500 border border-slate-200/80 whitespace-nowrap transition-all">DAY 1</button>
+                <button onclick="switchDay('d2')" id="tab-d2" class="day-tab px-5 py-2.5 rounded-2xl font-black text-xs bg-white text-slate-500 border border-slate-200/80 whitespace-nowrap transition-all">DAY 2</button>
+                <button onclick="switchDay('d3')" id="tab-d3" class="day-tab px-5 py-2.5 rounded-2xl font-black text-xs bg-white text-slate-500 border border-slate-200/80 whitespace-nowrap transition-all">DAY 3</button>
+                <button onclick="switchDay('d4')" id="tab-d4" class="day-tab px-5 py-2.5 rounded-2xl font-black text-xs bg-white text-slate-500 border border-slate-200/80 whitespace-nowrap transition-all">DAY 4</button>
+                <button onclick="switchDay('d5')" id="tab-d5" class="day-tab px-5 py-2.5 rounded-2xl font-black text-xs bg-white text-slate-500 border border-slate-200/80 whitespace-nowrap transition-all">DAY 5</button>
+                <button onclick="switchDay('d6')" id="tab-d6" class="day-tab px-5 py-2.5 rounded-2xl font-black text-xs bg-white text-slate-500 border border-slate-200/80 whitespace-nowrap transition-all">DAY 6</button>
+                <button onclick="switchDay('d7')" id="tab-d7" class="day-tab px-5 py-2.5 rounded-2xl font-black text-xs bg-white text-slate-500 border border-slate-200/80 whitespace-nowrap transition-all">DAY 7</button>
             </div>
 
-            <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-4 mb-6 flex items-center shadow-sm">
-                <div class="bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-inner mr-4 text-2xl">📸</div>
+            <div class="bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/20 rounded-2xl p-4 mb-6 flex items-center shadow-sm">
+                <div class="bg-amber-500 text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-md mr-3.5 text-lg">
+                    <i class="fa-solid fa-camera-retro"></i>
+                </div>
                 <div class="flex-1">
-                    <h4 class="text-amber-800 font-black text-[10px] uppercase tracking-tighter">今日規定拍照任務</h4>
-                    <p id="photo-task" class="text-slate-700 text-xs font-bold mt-0.5 leading-tight italic">載入中...</p>
+                    <h4 class="text-amber-800 font-black text-[10px] tracking-wider uppercase">Today's Mission</h4>
+                    <p id="photo-task" class="text-slate-700 text-xs font-bold mt-0.5 leading-snug">載入中...</p>
                 </div>
             </div>
 
-            <div id="itinerary-content" class="space-y-6 pb-12"></div>
+            <div id="itinerary-content" class="space-y-1 pb-12"></div>
         </div>
 
-        <div id="page-tasks" class="page-content bg-slate-50 rounded-t-[2.5rem] flex-1 px-4 pt-6">
-             <h2 class="text-xl font-black text-slate-800 mb-4 px-2">🏆 成員成就系統</h2>
-             <div class="space-y-3" id="task-list">
-                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center">
-                     <span class="font-bold text-slate-700">Arthur: 專業領航員</span>
-                     <span class="text-xs bg-emerald-100 text-emerald-600 font-bold px-3 py-1 rounded-full">已達成</span>
+        <div id="page-tasks" class="page-content bg-[#f8fafc] rounded-t-[2.5rem] flex-1 px-5 pt-6 shadow-2xl">
+             <h2 class="text-xl font-black text-slate-900 mb-4"><i class="fa-solid fa-trophy mr-2 text-amber-500"></i>冒險者成就系統</h2>
+             <div class="space-y-3">
+                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/60 flex justify-between items-center">
+                     <div>
+                         <h3 class="font-extrabold text-sm text-slate-800">🗺️ Arthur：神級領航員</h3>
+                         <p class="text-[11px] text-slate-400 mt-0.5">成功架設全家專屬手冊網站</p>
+                     </div>
+                     <span class="text-xs bg-emerald-100 text-emerald-700 font-bold px-3 py-1 rounded-full">已解鎖 🔓</span>
+                 </div>
+                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/60 flex justify-between items-center">
+                     <div>
+                         <h3 class="font-extrabold text-sm text-slate-800">🦘 Karen：動物外交官</h3>
+                         <p class="text-[11px] text-slate-400 mt-0.5">在塔龍加與無尾熊成功同框</p>
+                     </div>
+                     <span class="text-xs bg-slate-100 text-slate-400 font-bold px-3 py-1 rounded-full">未解鎖</span>
+                 </div>
+                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/60 flex justify-between items-center">
+                     <div>
+                         <h3 class="font-extrabold text-sm text-slate-800">📸 Steven：黃金推手</h3>
+                         <p class="text-[11px] text-slate-400 mt-0.5">拍出獲得全家一致讚賞的網美照</p>
+                     </div>
+                     <span class="text-xs bg-slate-100 text-slate-400 font-bold px-3 py-1 rounded-full">未解鎖</span>
+                 </div>
+                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/60 flex justify-between items-center">
+                     <div>
+                         <h3 class="font-extrabold text-sm text-slate-800">💼 副總：最高指導原則</h3>
+                         <p class="text-[11px] text-slate-400 mt-0.5">全程帶著滿意且欣慰的笑容</p>
+                     </div>
+                     <span class="text-xs bg-slate-100 text-slate-400 font-bold px-3 py-1 rounded-full">未解鎖</span>
                  </div>
              </div>
         </div>
 
-        <div class="fixed bottom-0 max-w-md w-full bg-[#062427]/95 backdrop-blur-lg border-t border-teal-900/50 flex justify-around py-4 text-center z-50">
-            <button onclick="switchTab('itinerary', this)" class="nav-btn flex-1 text-amber-400 font-black">
-                <i class="fa-solid fa-map-location-dot text-xl mb-1 block"></i>
-                <span class="text-[10px]">行程</span>
+        <div id="page-messages" class="page-content bg-[#f8fafc] rounded-t-[2.5rem] flex-1 px-5 pt-6 shadow-2xl">
+            <h2 class="text-xl font-black text-slate-900 mb-4"><i class="fa-solid fa-comments mr-2 text-teal-600"></i>旅行即時動態</h2>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm text-center py-8">
+                <span class="text-4xl block mb-2">💬</span>
+                <p class="text-sm font-bold text-slate-700">準備好要出發了嗎？</p>
+                <p class="text-xs text-slate-400 mt-1">出發後，這裡可以當作大家記錄心情的小天地！</p>
+                <button onclick="navigator.clipboard.writeText(window.location.href); alert('網址已複製！快傳給 Karen、Steven 和副總吧！')" class="mt-5 text-xs bg-[#0b3c41] text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:bg-[#072427] transition">
+                    <i class="fa-solid fa-share-nodes mr-1.5"></i> 複製專屬網址傳 LINE
+                </button>
+            </div>
+        </div>
+
+        <div class="fixed bottom-0 max-w-md w-full bg-[#051a1c]/95 backdrop-blur-xl border-t border-white/5 flex justify-around py-4 text-center z-50 rounded-b-none">
+            <button onclick="switchTab('itinerary', this)" class="nav-btn flex-1 text-amber-400 font-black focus:outline-none transition-all">
+                <i class="fa-solid fa-compass text-xl mb-1 block"></i>
+                <span class="text-[10px] tracking-wider">每日行程</span>
             </button>
-            <button onclick="switchTab('tasks', this)" class="nav-btn flex-1 text-teal-600 hover:text-white transition">
-                <i class="fa-solid fa-medal text-xl mb-1 block"></i>
-                <span class="text-[10px]">成就</span>
+            <button onclick="switchTab('tasks', this)" class="nav-btn flex-1 text-slate-400 font-medium hover:text-white focus:outline-none transition-all">
+                <i class="fa-solid fa-award text-xl mb-1 block"></i>
+                <span class="text-[10px] tracking-wider">特別成就</span>
             </button>
-            <button onclick="switchTab('messages', this)" class="nav-btn flex-1 text-teal-600 hover:text-white transition">
-                <i class="fa-solid fa-paper-plane text-xl mb-1 block"></i>
-                <span class="text-[10px]">留言</span>
+            <button onclick="switchTab('messages', this)" class="nav-btn flex-1 text-slate-400 font-medium hover:text-white focus:outline-none transition-all">
+                <i class="fa-solid fa-message text-xl mb-1 block"></i>
+                <span class="text-[10px] tracking-wider">互動留言</span>
             </button>
         </div>
     </div>
@@ -98,92 +154,116 @@
     <script>
         const tourData = {
             flight: {
-                photo: "與全家在登機閘口來一張「冒險開始」的拳頭握緊大合照！",
+                photo: "與 Arthur、Karen、Steven、副總在登機閘口比出冒險手勢合照！",
                 events: [
-                    { time: "10:00 - 20:00", title: "✈️ 飛向雪梨 🇦🇺 (期待啟航)", img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80", desc: "機上多休息，準備迎接南半球的冬日陽光。" },
-                    { time: "21:00 - 22:30", title: "🏨 酒店 Check-in & 達令港", img: "https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?auto=format&fit=crop&w=600&q=80", desc: "專車接送至酒店。晚上的達令港夜景是雪梨給家人的見面禮。" }
+                    { time: "10:00", type: "flight", title: "✈️ 飛向雪梨 (期待啟航)", img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80", desc: "準時起飛！長途飛行約9點多小時，機上多休息，準備迎接南半球的冬日陽光。" },
+                    { time: "21:00", type: "hotel", title: "🏨 酒店 Check-in & 達令港", img: "https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?auto=format&fit=crop&w=600&q=80", desc: "專車接送至酒店辦理入住。晚上的達令港夜景是雪梨給家人的第一個驚喜。" }
                 ]
             },
             d1: {
-                photo: "四人在「麥覺理夫人椅子」前，拍下一張以歌劇院為背景的世紀合照！",
+                photo: "四人在「麥覺理夫人椅子」前，拍下一張以歌劇院和大橋為背景的世紀合照！",
                 events: [
-                    { time: "09:30 - 11:30", title: "🏛️ 維多利亞女王大廈 (QVB)", img: "https://images.unsplash.com/photo-1524293568345-75d82c066df4?auto=format&fit=crop&w=600&q=80", desc: "在世界上最美的購物中心喝咖啡，展開優雅的一天。" },
-                    { time: "15:30 - 17:30", title: "⛵ 雪梨歌劇院 深度解密", img: "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=600&q=80", desc: "近距離朝聖人類建築奇蹟，感受帆船造型的壯麗。" }
+                    { time: "09:30", type: "shop", title: "🏛️ 維多利亞女王大廈 (QVB)", img: "https://images.unsplash.com/photo-1524293568345-75d82c066df4?auto=format&fit=crop&w=600&q=80", desc: "在世界上最美的百年購物中心喝澳式咖啡，展開優雅的第一天。" },
+                    { time: "13:00", type: "park", title: "🌳 皇家植物園綠意漫步", img: "https://images.unsplash.com/photo-1513407030348-c983a97b98d8?auto=format&fit=crop&w=600&q=80", desc: "沿著海濱散步，這裡冬日下午的陽光最柔和，拍歌劇院角度最完美。" },
+                    { time: "15:30", type: "star", title: "⛵ 雪梨歌劇院 深度解密", img: "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=600&q=80", desc: "近距離朝聖人類建築奇蹟，特別安排官方內部導覽走進大廳聽故事。" }
                 ]
             },
             d2: {
-                photo: "在塔龍加動物園找到一隻「看鏡頭」的袋鼠同框！",
+                photo: "在塔龍加動物園找到一隻「正在看鏡頭」的無尾熊或袋鼠同框！",
                 events: [
-                    { time: "10:00 - 14:00", title: "🐨 塔龍加動物園 (Taronga Zoo)", img: "https://images.unsplash.com/photo-1542358896-932338f0d571?auto=format&fit=crop&w=600&q=80", desc: "搭纜車上山看無尾熊，還能飽覽整個海港美景。" },
-                    { time: "15:00 - 17:30", title: "🌊 邦代海灘 (Bondi Beach)", img: "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80", desc: "在著名的冰山泳池旁漫步，聽浪拍打礁岩的聲音。" }
+                    { time: "10:00", type: "zoo", title: "🐨 塔龍加動物園 (Taronga Zoo)", img: "https://images.unsplash.com/photo-1542358896-932338f0d571?auto=format&fit=crop&w=600&q=80", desc: "搭船出海，進園先搭空中纜車直達山頂再往下走。和澳洲特有種動物打招呼。" },
+                    { time: "15:00", type: "beach", title: "🌊 邦代海灘 (Bondi Beach)", img: "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80", desc: "在著名的網紅冰山泳池旁漫步，吹著太平洋的海風，享受地道澳式慢生活。" }
                 ]
             },
             d3: {
-                photo: "四人手拿精釀啤酒，在酒廠打卡牆拍一張酷帥團照！",
+                photo: "四人手拿海鮮與冰啤酒，在魚市場前來一張吃貨主題大合照！",
                 events: [
-                    { time: "11:30 - 13:30", title: "🦞 雪梨魚市場 海鮮盛宴", img: "https://images.unsplash.com/photo-1559739511-e130c20af6ad?auto=format&fit=crop&w=600&q=80", desc: "現開生蠔、鮮甜龍蝦，中午大飽口福。" },
-                    { time: "17:30 - 19:30", title: "🎡 月亮公園 魔幻夜景", img: "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=600&q=80", desc: "復古樂園大門與市區對岸燈火，絕美拍照點。" }
+                    { time: "11:30", type: "food", title: "🦞 雪梨魚市場 海鮮盛宴", img: "https://images.unsplash.com/photo-1559739511-e130c20af6ad?auto=format&fit=crop&w=600&q=80", desc: "中午直奔海鮮聖地！現開生蠔、鮮甜黑金鮑、起司焗龍蝦大飽口福。" },
+                    { time: "17:30", type: "park", title: "🎡 月亮公園 (Luna Park) 夜景", img: "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=600&q=80", desc: "夜晚點燈後的復古遊樂園大門彷彿走進老電影，隔海眺望整個市區燈火極美。" }
                 ]
             },
             d4: {
-                photo: "在海崖大橋的壯闊弧線前，來一張「公路旅行」主題照！",
+                photo: "車子駛過海崖大橋後，在觀景台拍下一張極具電影感的全家公路合照！",
                 events: [
-                    { time: "09:00 - 11:00", title: "🚗 藍色海洋路 Sea Cliff Bridge", img: "https://images.unsplash.com/photo-1545144464-3c725755bc67?auto=format&fit=crop&w=600&q=80", desc: "行經震撼的海上高架橋，感受太平洋的壯闊。" },
-                    { time: "11:30 - 14:30", title: "⚓ 臥龍崗燈塔 & 午餐", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", desc: "看白燈塔，在 The Boathouse 享用美味料理。" }
+                    { time: "09:00", type: "car", title: "🚗 藍色海洋路 Sea Cliff Bridge", img: "https://images.unsplash.com/photo-1545144464-3c725755bc67?auto=format&fit=crop&w=600&q=80", desc: "自駕悠閒模式。車子駛上依山傍海、巨大懸空的高架橋，景色非常震撼。" },
+                    { time: "11:30", type: "food", title: "⚓ 臥龍崗燈塔 & 海岸午餐", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", desc: "造訪浪漫雙白燈塔。中午在極具質感的 The Boathouse 享用海濱度假風餐點。" }
                 ]
             },
             d5: {
-                photo: "捕捉噴水洞噴出的那一瞬間，拍下家人的驚喜表情！",
+                photo: "精準捕捉到噴水洞噴出巨型水柱的瞬間，留下副總與全家的驚喜表情！",
                 events: [
-                    { time: "09:30 - 11:30", title: "💥 凱阿馬噴水洞 (Blowhole)", img: "https://images.unsplash.com/photo-1590579491624-f98f36d4c763?auto=format&fit=crop&w=600&q=80", desc: "看海水衝入礁岩噴出數層樓高的巨浪。" }
+                    { time: "09:30", type: "star", title: "💥 凱阿馬噴水洞 (Kiama Blowhole)", img: "https://images.unsplash.com/photo-1590579491624-f98f36d4c763?auto=format&fit=crop&w=600&q=80", desc: "感受大自然的鬼斧神工。海水衝入礁岩縫隙，瞬間噴出數層樓高的壯麗水柱。" }
                 ]
             },
             d6: {
-                photo: "在夕陽餘暉的三姐妹岩前，拍下完美的旅行收尾全家福！",
+                photo: "在金黃色落日餘暉的三姐妹岩前，拍下此趟旅程最完美的一張全家福！",
                 events: [
-                    { time: "10:30 - 13:30", title: "🚡 藍山國家公園 Scenic World", img: "https://images.unsplash.com/photo-1506450983270-d729442ad558?auto=format&fit=crop&w=600&q=80", desc: "搭全澳最陡火車與高空纜車，穿梭峽谷林間。" }
+                    { time: "10:30", type: "mountain", title: "🚡 藍山國家公園 Scenic World", img: "https://images.unsplash.com/photo-1506450983270-d729442ad558?auto=format&fit=crop&w=600&q=80", desc: "搭乘全澳最陡峭的森林鐵道火車與高空玻璃纜車穿梭峽谷，輕鬆觀賞三姐妹岩。" }
                 ]
             },
             d7: {
-                photo: "在機場機艙口，比個讚宣告冒險圓滿完成！",
+                photo: "在機艙座位上四人一起舉起手比「YA」，慶祝澳洲大冒險圓滿成功！",
                 events: [
-                    { time: "13:00 之後", title: "✈️ 前往雪梨機場 ➔ 返航", img: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=600&q=80", desc: "揮別美麗雪梨，帶著滿滿回憶回家。" }
+                    { time: "13:00", type: "flight", title: "✈️ 前往機場 ➔ 溫馨返航", img: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=600&q=80", desc: "揮別美麗的雪梨，把滿滿的歡笑與回憶打包進展新的旅程。" }
                 ]
             }
         };
 
+        // 專屬時間軸圖示映射
+        const iconMap = {
+            flight: 'fa-plane-departure text-blue-500',
+            hotel: 'fa-hotel text-indigo-500',
+            shop: 'fa-bag-shopping text-pink-500',
+            park: 'fa-tree text-emerald-500',
+            star: 'fa-wand-magic-sparkles text-amber-500',
+            zoo: 'fa-paw text-orange-500',
+            beach: 'fa-umbrella-beach text-sky-500',
+            food: 'fa-utensils text-red-500',
+            car: 'fa-car text-teal-500',
+            mountain: 'fa-mountain text-lime-500'
+        };
+
         function switchDay(dayId) {
             document.querySelectorAll('.day-tab').forEach(tab => {
-                tab.classList.remove('bg-[#0b3c41]', 'text-white', 'shadow-lg', 'scale-105');
-                tab.classList.add('bg-white', 'text-slate-500', 'border', 'border-slate-200');
+                tab.classList.remove('bg-[#0b3c41]', 'text-white', 'shadow-md', 'scale-105');
+                tab.classList.add('bg-white', 'text-slate-500', 'border', 'border-slate-200/80');
             });
             const activeTab = document.getElementById(`tab-${dayId}`);
-            activeTab.classList.remove('bg-white', 'text-slate-500', 'border', 'border-slate-200');
-            activeTab.classList.add('bg-[#0b3c41]', 'text-white', 'shadow-lg', 'scale-105');
+            activeTab.classList.remove('bg-white', 'text-slate-500', 'border', 'border-slate-200/80');
+            activeTab.classList.add('bg-[#0b3c41]', 'text-white', 'shadow-md', 'scale-105');
 
             document.getElementById('photo-task').innerText = tourData[dayId].photo;
 
             const container = document.getElementById('itinerary-content');
             container.innerHTML = '';
 
+            // 轉化為東京手冊最經典的 Timeline 時間軸卡片結構
             tourData[dayId].events.forEach(event => {
+                const iconClass = iconMap[event.type] || 'fa-location-dot text-slate-500';
                 const card = document.createElement('div');
-                card.className = "itinerary-card bg-white rounded-[2rem] overflow-hidden shadow-md border border-slate-100 relative active:scale-[0.98] transition";
+                card.className = "timeline-card flex items-start relative pb-6";
                 card.innerHTML = `
-                    <div class="h-40 overflow-hidden relative">
-                        <img src="${event.img}" class="w-full h-full object-cover">
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full shadow-sm">
-                            <span class="text-[10px] font-black text-teal-900"><i class="fa-solid fa-clock mr-1"></i>${event.time}</span>
+                    <div class="timeline-line flex flex-col items-center mr-4 relative z-10">
+                        <div class="w-9 h-9 bg-white border border-slate-200 rounded-xl flex items-center justify-center shadow-sm">
+                            <i class="fa-solid ${iconClass} text-sm"></i>
                         </div>
                     </div>
-                    <div class="p-5">
-                        <h3 class="text-base font-black text-slate-800 mb-1 leading-tight">${event.title}</h3>
-                        <p class="text-xs text-slate-500 font-medium leading-relaxed mb-3">${event.desc}</p>
-                        <div class="flex justify-between items-center pt-3 border-t border-slate-50">
-                             <button onclick="handleLike(this)" class="text-xs text-slate-400 flex items-center gap-1.5 focus:outline-none">
-                                <i class="fa-regular fa-heart text-sm"></i> <span class="like-count">0</span>
-                             </button>
-                             <span class="text-[10px] font-bold text-emerald-500">推薦度 ⭐⭐⭐⭐⭐</span>
+                    <div class="flex-1 bg-white border border-slate-200/70 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 active:scale-[0.99]">
+                        <div class="h-32 overflow-hidden relative">
+                            <img src="${event.img}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute bottom-2 left-2 bg-black/40 backdrop-blur-md px-2.5 py-0.5 rounded-lg">
+                                <span class="text-[11px] font-extrabold text-white"><i class="fa-regular fa-clock mr-1"></i>${event.time}</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-sm font-black text-slate-800 tracking-tight">${event.title}</h3>
+                            <p class="text-[11px] text-slate-400 font-medium leading-relaxed mt-1">${event.desc}</p>
+                            <div class="flex justify-between items-center pt-2.5 mt-2 border-t border-slate-100">
+                                <button onclick="handleLike(this)" class="text-[11px] text-slate-400 font-bold flex items-center gap-1 focus:outline-none">
+                                    <i class="fa-regular fa-heart"></i> <span class="like-count">0</span>
+                                </button>
+                                <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-bold">必訪推薦 ★</span>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -194,8 +274,33 @@
         function handleLike(btn) {
             const countSpan = btn.querySelector('.like-count');
             const heartIcon = btn.querySelector('i');
-            let currentCount = parseInt(countSpan.innerText);
+            let count = parseInt(countSpan.innerText);
             if (heartIcon.classList.contains('fa-regular')) {
                 heartIcon.classList.replace('fa-regular', 'fa-solid');
-                heartIcon.classList.add('text-red-500', 'animate-ping');
-                setTimeout(()=>heartIcon.classList.remove
+                heartIcon.classList.add('text-red-500', 'scale-125');
+                setTimeout(() => heartIcon.classList.remove('scale-125'), 200);
+                countSpan.innerText = count + 1;
+                countSpan.classList.add('text-red-500');
+            } else {
+                heartIcon.classList.replace('fa-solid', 'fa-regular');
+                heartIcon.classList.remove('text-red-500');
+                countSpan.innerText = count - 1;
+                countSpan.classList.remove('text-red-500');
+            }
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.page-content').forEach(p => page=p.classList.remove('active'));
+            document.getElementById(`page-${tabId}`).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.replace('text-amber-400', 'text-slate-400');
+                b.classList.replace('font-black', 'font-medium');
+            });
+            btn.classList.replace('text-slate-400', 'text-amber-400');
+            btn.classList.replace('font-medium', 'font-black');
+        }
+
+        window.onload = () => switchDay('flight');
+    </script>
+</body>
+</html>

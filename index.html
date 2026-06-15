@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇦🇺 雪梨山海大冒險 v1</title>
+    <!-- 引入 Tailwind CSS 快速渲染精美 UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 隱藏滾動條但保持滾動功能 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-[#0b3c41] text-slate-800 font-sans min-h-screen flex justify-center">
+
+    <!-- 手機外殼容器 (最大寬度限制，模擬 App 畫面) -->
+    <div class="w-full max-w-md bg-[#0b3c41] min-h-screen flex flex-col justify-between relative shadow-2xl overflow-hidden pb-20">
+        
+        <!-- 頂部全局組件：成員頭像與大標題 -->
+        <div class="pt-6 pb-4 px-4 text-center">
+            <!-- 頭像組 (呼應 image_3.png) -->
+            <div class="flex justify-center space-x-6 mb-3">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-white border-2 border-orange-400 rounded-full flex items-center justify-center text-2xl shadow-md">👦</div>
+                    <span class="text-xs text-white bg-orange-500 px-2 py-0.5 rounded-full mt-1 inline-block font-bold">我</span>
+                </div>
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-white border-2 border-orange-400 rounded-full flex items-center justify-center text-2xl shadow-md">👩</div>
+                    <span class="text-xs text-white bg-orange-500 px-2 py-0.5 rounded-full mt-1 inline-block font-bold">媽媽</span>
+                </div>
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-white border-2 border-orange-400 rounded-full flex items-center justify-center text-2xl shadow-md">👩</div>
+                    <span class="text-xs text-white bg-orange-500 px-2 py-0.5 rounded-full mt-1 inline-block font-bold">大姐</span>
+                </div>
+            </div>
+            <!-- 主標題 -->
+            <h1 class="text-2xl font-black text-white tracking-wide drop-shadow-md">🇦🇺 雪梨山海大冒險 v1</h1>
+        </div>
+
+        <!-- 白色主內容卡片區 -->
+        <div class="bg-white rounded-t-3xl flex-1 px-4 pt-5 shadow-inner">
+            
+            <!-- 每日行程快速看標題 -->
+            <div class="flex items-center text-[#d95d39] font-bold text-lg mb-3">
+                <i class="fa-solid fa-calendar-days mr-2"></i> 每日行程快速看
+            </div>
+
+            <!-- 日期橫向導航列 (可左右滑動) -->
+            <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-3 mb-4" id="day-tabs">
+                <button onclick="switchDay('flight')" id="tab-flight" class="day-tab px-4 py-2 rounded-full font-bold text-sm bg-[#0b3c41] text-white whitespace-nowrap transition shadow">7/2 飛航</button>
+                <button onclick="switchDay('d1')" id="tab-d1" class="day-tab px-4 py-2 rounded-full font-bold text-sm bg-slate-100 text-slate-600 border border-slate-300 whitespace-nowrap transition">Day 1</button>
+                <button onclick="switchDay('d2')" id="tab-d2" class="day-tab px-4 py-2 rounded-full font-bold text-sm bg-slate-100 text-slate-600 border border-slate-300 whitespace-nowrap transition">Day 2</button>
+                <button onclick="switchDay('d3')" id="tab-d3" class="day-tab px-4 py-2 rounded-full font-bold text-sm bg-slate-100 text-slate-600 border border-slate-300 whitespace-nowrap transition">Day 3</button>
+                <button onclick="switchDay('d4')" id="tab-d4" class="day-tab px-4 py-2 rounded-full font-bold text-sm bg-slate-100 text-slate-600 border border-slate-300 whitespace-nowrap transition">Day 4</button>
+                <button onclick="switchDay('d5')" id="tab-d5" class="day-tab px-4 py-2 rounded-full font-bold text-sm bg-slate-100 text-slate-600 border border-slate-300 whitespace-nowrap transition">Day 5</button>
+                <button onclick="switchDay('d6')" id="tab-d6" class="day-tab px-4 py-2 rounded-full font-bold text-sm bg-slate-100 text-slate-600 border border-slate-300 whitespace-nowrap transition">Day 6</button>
+                <button onclick="switchDay('d7')" id="tab-d7" class="day-tab px-4 py-2 rounded-full font-bold text-sm bg-slate-100 text-slate-600 border border-slate-300 whitespace-nowrap transition">Day 7</button>
+            </div>
+
+            <!-- 今日規定拍照任務（會隨著切換日期而改變） -->
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4 flex items-start shadow-sm">
+                <span class="text-xl mr-2">📸</span>
+                <div>
+                    <h4 class="text-amber-800 font-bold text-xs">今日規定拍照</h4>
+                    <p id="photo-task" class="text-amber-700 text-sm font-medium mt-0.5">抵達雪梨機場後，三人推著行李箱與歡迎標語來一張「澳洲我們到啦！」大合照！</p>
+                </div>
+            </div>
+
+            <!-- 行程卡片動態顯示區域 -->
+            <div id="itinerary-content" class="space-y-4 pb-6">
+                <!-- 預設顯示 7/2 飛航內容 -->
+            </div>
+        </div>
+
+        <!-- 底部固定導航列 (完美復刻四大功能) -->
+        <div class="absolute bottom-0 left-0 right-0 bg-[#062427] border-t border-teal-900 flex justify-around py-2 text-center text-xs text-teal-400">
+            <div class="flex-1 cursor-pointer text-emerald-400 font-bold">
+                <i class="fa-solid fa-calendar-alt text-xl mb-1 block"></i> 行程
+            </div>
+            <div class="flex-1 cursor-pointer hover:text-white" onclick="alert('功能開發中！這是專屬任務系統 🏆')">
+                <i class="fa-solid fa-trophy text-xl mb-1 block"></i> 任務
+            </div>
+            <div class="flex-1 cursor-pointer hover:text-white" onclick="alert('功能開發中！這是網美拍照姿勢庫 📸')">
+                <i class="fa-solid fa-face-smile text-xl mb-1 block"></i> 姿勢
+            </div>
+            <div class="flex-1 cursor-pointer hover:text-white" onclick="alert('功能開發中！這是家人即時留言板 💬')">
+                <i class="fa-solid fa-comment-dots text-xl mb-1 block"></i> 留言
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript 互動邏輯：控制資料切換與點擊效果 -->
+    <script>
+        // 儲存 8 天的所有行程資料
+        const tourData = {
+            flight: {
+                photo: "抵達雪梨機場後，三人推著行李箱與歡迎標語來一張「澳洲我們到啦！」大合照！",
+                events: [
+                    { time: "10:00 - 20:00", title: "✈️ 飛向雪梨 🇦🇺 (期待啟航)", desc: "準時起飛！長途飛行約9點多小時，機上多休息、多喝水，準備迎接南半球的冬日陽光。" },
+                    { time: "21:00 - 22:30", title: "🏨 酒店 Check-in & 達令港夜色", desc: "專車接送至酒店辦理入住。若體力允許，下樓到達令港散步15分鐘，吹吹溫和的海風。" }
+                ]
+            },
+            d1: {
+                photo: "在皇家植物園的「麥覺理夫人椅子」前，拍下一張以歌劇院和港灣大橋為完美背景的三人世紀大合照！",
+                events: [
+                    { time: "09:30 - 11:30", title: "🏛️ 維多利亞女王大廈 (QVB) 百年浪漫", desc: "早晨睡到自然醒，慢步至QVB。欣賞世界上最美的購物中心，喝杯澳式咖啡、吃個早午餐。" },
+                    { time: "13:00 - 15:00", title: "🌳 皇家植物園 綠意漫步", desc: "沿著市區綠肺散步，一路走到麥覺理夫人椅子，這裡冬日下午的陽光最適合拍照。" },
+                    { time: "15:30 - 17:30", title: "⛵ 雪梨歌劇院 深度中文解密", desc: "朝聖人類建築奇蹟。特別安排官方中文導覽走進內部聆聽故事。傍晚剛好在環形碼頭看落日。" }
+                ]
+            },
+            d2: {
+                photo: "在 Taronga Zoo 捕捉到一隻袋鼠或無尾熊與媽媽、大姐同框的超萌互動瞬間！",
+                events: [
+                    { time: "09:15 - 09:45", title: "🛳️ 環形碼頭渡輪 ➔ 塔龍加動物園", desc: "搭乘雪梨最具特色的水上交通工具，從海上換個角度欣賞歌劇院與大橋，風景超美。" },
+                    { time: "10:00 - 14:00", title: "KOALA 塔龍加動物園 (Taronga Zoo)", desc: "進園先搭空中纜車直達山頂，再順著坡度「一路往下走」，最省體力！和無尾熊、長頸鹿打招呼。" },
+                    { time: "15:00 - 17:30", title: "🌊 邦代海灘 (Bondi Beach) 漫步", desc: "雪梨靈魂海灘。漫步在著名的 Icebergs 網紅泳池旁，感受最在地的澳式海濱慢生活。" }
+                ]
+            },
+            d3: {
+                photo: "大姐和媽媽手拿精釀啤酒（或特調），在極具工業風的酒廠打卡牆前拍一張時尚雜誌封面照！",
+                events: [
+                    { time: "11:30 - 13:30", title: "🦞 雪梨魚市場 海鮮盛宴", desc: "中午直奔海鮮聖地！現開澳洲生蠔、鮮甜黑金鮑、起司焗龍蝦大飽口福。" },
+                    { time: "14:30 - 16:30", title: "🍺 One Drop Brewing Co. 潮流微醺", desc: "造訪雪梨在地最潮的精釀啤酒廠。點一套 Tasting Paddle，在舒適空間裡放鬆聊天。" },
+                    { time: "17:30 - 19:30", title: "🎡 月亮公園 (Luna Park) 魔幻夜景", desc: "夜晚點燈後的復古大門彷彿讓人走進經典電影，隔海眺望整個市區燈火也是絕美。" }
+                ]
+            },
+            d4: {
+                photo: "車子駛過海崖大橋後在觀觀景點停留，幫媽媽和大姐拍一張以海上高架橋為背景的公路電影感照片！",
+                events: [
+                    { time: "09:00 - 11:00", title: "🚗 藍色海洋路 ➔ 橫跨 Sea Cliff Bridge", desc: "開啟自駕/包車悠閒模式。這段公路依山傍海，車子開上巨大懸空的海崖大橋時，風景震撼。" },
+                    { time: "11:30 - 14:30", title: "⚓ 臥龍崗燈塔 & The Boathouse 午餐", desc: "造訪海濱雙燈塔。中午在極具質感、海岸度假風的 The Boathouse 享用豐盛午餐與甜點。" },
+                    { time: "15:30 之後", title: "🏨 入住南海岸景觀酒店", desc: "不趕行程，入住海濱小鎮酒店，悠閒享用晚餐，享受安靜、沒有光害的南半球星空。" }
+                ]
+            },
+            d5: {
+                photo: "在 Kiama Blowhole 噴出巨型水柱的瞬間，精準按下快門，捕捉媽媽和大姐驚喜驚呼的表情！",
+                events: [
+                    { time: "09:30 - 11:30", title: "💥 凱阿馬噴水洞 (Kiama Blowhole)", desc: "大自然的鬼斧神工。看海水衝入礁岩縫隙、噴出十幾米高巨型水柱的奇景。" },
+                    { time: "12:00 - 13:30", title: "☕ Kiama 濱海小鎮悠閒午餐", desc: "在充滿歐式海濱風情的小鎮挑一家順眼的文青咖啡廳，坐下來享受沒壓力的慢時光。" },
+                    { time: "14:00 - 16:30", title: "🌱 傑林岡 (Gerringong) 秘境綠坡", desc: "綠色草坡直接延伸進蔚藍大海的絕景。帶家人在柔軟草地上走走，極度療癒。傍晚回雪梨。" }
+                ]
+            },
+            d6: {
+                photo: "在回音谷觀景台，以金黃色落日餘暉下的「三姐妹岩」為背景，三人來一張完美的旅行大合照！",
+                events: [
+                    { time: "08:30 - 10:30", title: "🚗 前往世界自然遺產 — 藍山國家公園", desc: "清晨從市區出發，車程約 1.5 - 2 小時，一路上聽著音樂，欣賞窗外尤加利樹林的景致。" },
+                    { time: "10:30 - 13:30", title: "🚡 景觀世界 (Scenic World) 三色纜車", desc: "體力零消耗設計：搭乘森林鐵道火車與高空纜車穿梭峽谷，不費膝蓋就能觀賞三姐妹岩。" },
+                    { time: "14:00 - 16:00", title: "🏡 羅拉小鎮 (Leura) 英式童話時光", desc: "藍山最美百年小鎮。兩旁開滿特色手工藝品店與咖啡廳，適合帶媽媽大姐逛街、喝下午茶。" }
+                ]
+            },
+            d7: {
+                photo: "在回程的飛機座位上，大姐、媽媽和最強導遊（你）一起比個「YA」，宣告雪梨冒險圓滿成功！",
+                events: [
+                    { time: "09:30 - 12:00", title: "🍳 澳式早午餐 & 伴手禮最後大掃貨", desc: "享用最道地的澳式 Brunch。去超市或藥妝店補貨：木瓜膏、蜂蜜、巧克力，把行李箱塞滿。" },
+                    { time: "13:00 之後", title: "✈️ 前往雪梨機場 ➔ 溫馨返航", desc: "專車前往機場辦理退稅與登機。揮別美麗的雪梨，這趟精心規劃的家庭大冒險圓滿落幕！" }
+                ]
+            }
+        };
+
+        // 切換天數的函式
+        function switchDay(dayId) {
+            // 1. 更新導航列按鈕樣式
+            document.querySelectorAll('.day-tab').forEach(tab => {
+                tab.classList.remove('bg-[#0b3c41]', 'text-white', 'shadow');
+                tab.classList.add('bg-slate-100', 'text-slate-600', 'border', 'border-slate-300');
+            });
+            const activeTab = document.getElementById(`tab-${dayId}`);
+            activeTab.classList.remove('bg-slate-100', 'text-slate-600', 'border', 'border-slate-300');
+            activeTab.classList.add('bg-[#0b3c41]', 'text-white', 'shadow');
+
+            // 2. 更新拍照任務文字
+            document.getElementById('photo-task').innerText = tourData[dayId].photo;
+
+            // 3. 渲染行程卡片內容
+            const container = document.getElementById('itinerary-content');
+            container.innerHTML = ''; // 清空舊內容
+
+            tourData[dayId].events.forEach(event => {
+                const card = document.createElement('div');
+                card.className = "bg-white border border-slate-100 rounded-xl p-4 shadow-sm relative";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="inline-block bg-teal-800 text-white text-xs font-bold px-2 py-0.5 rounded-md">
+                            <i class="fa-solid fa-clock mr-1"></i> ${event.time}
+                        </span>
+                        <span class="text-xs text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full flex items-center">
+                            <i class="fa-regular fa-heart mr-1 text-red-400"></i> 0
+                        </span>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-800 mb-1">${event.title}</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">${event.desc}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 初始化：網頁載入時預設顯示 7/2 飛航行程
+        window.onload = function() {
+            switchDay('flight');
+        };
+    </script>
+</body>
+</html>

@@ -1,375 +1,579 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🇦🇺 2026 澳洲雪梨山海公路大冒險</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
-        body { font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .page-content { display: none; }
-        .page-content.active { display: block; }
-        .timeline-line::before { content: ''; position: absolute; left: 18px; top: 32px; bottom: -24px; width: 2px; background: #e2e8f0; }
-        .timeline-card:last-child .timeline-line::before { display: none; }
-        .tab-active { background-color: #0b3c41 !important; color: white !important; transform: scale(1.05); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>2026 澳洲雪梨山海公路大冒險</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --ocean:#006D77;--ocean-dark:#004E56;--ocean-light:#83C5BE;
+  --sand:#F4A261;--sand-light:#FFDDD2;
+  --sun:#E9C46A;--coral:#E76F51;
+  --green:#52B788;--sky:#90E0EF;
+  --bg:#F0F4F8;--white:#FFFFFF;
+  --text:#1A2332;--text2:#4A5568;--text3:#8A97A8;
+  --border:#E2E8F0;--card:#FFFFFF;
+  --r:16px;--rs:12px;
+}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:90px;font-size:14px}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#004E56 0%,#006D77 40%,#0A9396 75%,#52B788 100%);padding:20px 16px 0;position:relative;overflow:hidden}
+.hero::after{content:'🦘';position:absolute;right:-10px;bottom:0;font-size:130px;opacity:.12;transform:scaleX(-1)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:.5px;margin-bottom:14px}
+.members{display:flex;justify-content:center;gap:12px;margin-bottom:14px}
+.member{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer}
+.member-ring{width:62px;height:62px;border-radius:50%;border:3px solid rgba(255,255,255,.9);background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .2s}
+.member:active .member-ring{transform:scale(.92)}
+.member-name{background:var(--sand);color:var(--text);font-size:10px;font-weight:800;padding:2px 9px;border-radius:10px}
+.hero-title{color:#fff;font-size:20px;font-weight:900;text-align:center;line-height:1.3;text-shadow:0 2px 8px rgba(0,0,0,.2);margin-bottom:4px}
+.hero-sub{color:rgba(255,255,255,.75);font-size:12px;text-align:center;margin-bottom:16px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:rgba(0,0,0,.2);border-radius:14px 14px 0 0;overflow:hidden}
+.stat{padding:12px 6px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+.stat:last-child{border-right:none}
+.stat-num{font-size:22px;font-weight:900;color:var(--sun);line-height:1}
+.stat-label{font-size:10px;color:rgba(255,255,255,.65);margin-top:3px}
+
+/* NAV TABS */
+.nav-tabs{display:flex;background:var(--ocean-dark);overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:200}
+.nav-tabs::-webkit-scrollbar{display:none}
+.ntab{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-family:inherit;transition:all .2s;border-bottom:3px solid transparent;white-space:nowrap}
+.ntab.on{color:#fff;border-bottom-color:var(--sun)}
+.ntab-icon{font-size:18px}
+.ntab-label{font-size:11px;font-weight:700}
+
+/* SECTIONS */
+.sec{display:none;padding:14px 14px 0;animation:fadeUp .3s ease}
+.sec.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* UTILS */
+.card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.card-head{padding:14px 16px 12px;display:flex;justify-content:space-between;align-items:flex-start}
+.card-body{padding:0 16px 14px}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:var(--ocean);color:#fff}
+.pill.sand{background:var(--sand);color:var(--text)}
+.pill.sun{background:var(--sun);color:var(--text)}
+.pill.coral{background:var(--coral);color:#fff}
+.pill.green{background:var(--green);color:#fff}
+.pill.sky{background:var(--sky);color:var(--text)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:#EEF7F4;color:var(--ocean);margin:2px 3px 2px 0}
+.tag.o{background:#FFF4EC;color:var(--coral)}
+.tag.y{background:#FFFBEB;color:#92600A}
+.sec-title{font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin:16px 0 10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-full{width:100%;padding:13px;background:linear-gradient(135deg,var(--ocean),#0A9396);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.btn-full:active{opacity:.85}
+.divider{height:1px;background:var(--border);margin:0 16px}
+.like-btn{display:flex;flex-direction:row;align-items:center;gap:5px;background:none;border:none;cursor:pointer;padding:6px 10px;border-radius:20px;font-family:inherit;background:#FFF0F2;border:1px solid #FFD6DC}
+.like-icon{font-size:14px;color:var(--coral)}
+.like-num{font-size:11px;color:var(--coral);font-weight:700}
+
+/* FLIGHT CARD */
+.flight-card{background:linear-gradient(135deg,var(--ocean-dark),var(--ocean));border-radius:var(--r);padding:16px;color:#fff;margin-bottom:12px}
+.flight-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.flight-airport{text-align:center}
+.flight-code{font-size:22px;font-weight:900}
+.flight-name{font-size:10px;opacity:.7;margin-top:2px}
+.flight-line{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.flight-line-track{width:100%;height:2px;background:rgba(255,255,255,.3);position:relative}
+.flight-line-track::after{content:'✈️';position:absolute;top:50%;right:0;transform:translateY(-50%);font-size:16px}
+.flight-meta{font-size:10px;opacity:.7;text-align:center}
+.flight-info-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.fi-item{background:rgba(255,255,255,.12);border-radius:8px;padding:7px 11px;font-size:12px;flex:1;min-width:100px}
+.fi-label{opacity:.7;font-size:10px;margin-bottom:2px}
+.fi-val{font-weight:700}
+
+/* HOTEL */
+.hotel-card{background:linear-gradient(135deg,#1a3a4a,#2d5a70);border-radius:var(--r);padding:16px;color:#fff;margin-bottom:12px;position:relative}
+.hotel-card::after{content:'🏠';position:absolute;right:15px;bottom:10px;font-size:40px;opacity:0.15}
+
+/* DAY SELECTOR */
+.day-scroller{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:14px;padding-bottom:5px}
+.day-scroller::-webkit-scrollbar{display:none}
+.day-pill{flex:0 0 auto;padding:8px 14px;border-radius:22px;border:2px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:inherit}
+.day-pill.on{background:var(--ocean);border-color:var(--ocean);color:#fff}
+
+/* TIMELINE */
+.tl-item{background:#fff;border-radius:var(--r);border:1px solid var(--border);margin-bottom:10px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+.tl-accent{height:4px}
+.tl-head{padding:12px 14px 10px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.tl-left{flex:1}
+.tl-title{font-size:15px;font-weight:800;line-height:1.3;margin:4px 0 3px;color:var(--text)}
+.tl-sub{font-size:12px;color:var(--text3)}
+.tl-body{padding:0 14px 10px;display:flex;gap:12px;align-items:flex-start}
+.spot-thumb{flex:0 0 55px;height:55px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
+.tl-desc{font-size:13px;color:var(--text2);line-height:1.55;flex:1}
+.tl-foot{padding:8px 14px 12px;display:flex;flex-wrap:wrap;gap:6px;background:#FAFCFF;border-top:1px solid #F0F4F8}
+.map-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--ocean);text-decoration:none;background:#EEF7F4;padding:4px 10px;border-radius:20px}
+.map-link:active{opacity:.7}
+
+/* TIP BOX */
+.tip-box{background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border-left:4px solid var(--sun);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start}
+.tip-icon{font-size:22px;flex-shrink:0}
+.tip-text{font-size:12.5px;font-weight:600;color:#78350F;line-height:1.55}
+
+/* TASKS & BAGGAGE */
+.check-item{display:flex;align-items:center;gap:10px;background:#fff;padding:12px 14px;border-radius:var(--rs);border:1px solid var(--border);margin-bottom:8px;cursor:pointer}
+.check-item input{width:18px;height:18px;accent-color:var(--ocean)}
+.check-text{font-size:13.5px;font-weight:600;color:var(--text2)}
+.check-item input:checked + .check-text{text-decoration:line-through;color:var(--text3)}
+
+/* LEDGER */
+.ledger-box{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:12px}
+.ledger-row{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-bottom:10px}
+.input-field{padding:10px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;outline:none;font-family:inherit}
+.input-field:focus{border-color:var(--ocean)}
+.total-banner{background:var(--text);color:var(--sun);padding:14px;border-radius:var(--rs);display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:15px;margin-bottom:12px}
+.ledger-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.ledger-item:last-child{border-bottom:none}
+
+/* TRANSLATE CARD */
+.trans-card{background:#fff;border-radius:var(--rs);border:1px solid var(--border);padding:12px 14px;margin-bottom:8px}
+.trans-en{font-size:15px;font-weight:800;color:var(--ocean-dark);margin-bottom:2px}
+.trans-ch{font-size:12.5px;color:var(--text2);font-weight:500}
+
+/* FIXED FOOTER NAVIGATION */
+.fixed-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -4px 16px rgba(0,0,0,0.06);display:flex;z-index:999;border-top:1px solid var(--border)}
+.fnav-btn{flex:1;background:none;border:none;padding:12px 0;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--text3);cursor:pointer;font-family:inherit}
+.fnav-btn.on{color:var(--ocean)}
+.fnav-icon{font-size:20px}
+.fnav-label{font-size:10px;font-weight:700}
+</style>
 </head>
-<body class="bg-[#020f11] text-slate-800 min-h-screen flex justify-center antialiased">
+<body>
 
-    <div class="w-full max-w-md bg-gradient-to-b from-[#0a3236] via-[#0f3f44] to-[#f8fafc] min-h-screen flex flex-col justify-between relative shadow-2xl overflow-hidden pb-24">
-        
-        <div class="pt-6 pb-4 px-4 z-10 relative">
-            <div class="flex justify-between items-center mb-4">
-                <span class="bg-white/10 backdrop-blur-md px-3 py-0.5 rounded-full border border-white/10 text-amber-400 text-[10px] font-bold tracking-widest">ROAD TRIP 2026</span>
-                <span class="text-white text-[11px] opacity-90"><i class="fa-solid fa-plane-arrival mr-1 text-teal-400"></i> CI 51 / CI 52</span>
-            </div>
-            
-            <div class="grid grid-cols-4 gap-2 mb-4 text-center">
-                <div class="flex flex-col items-center">
-                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl shadow-md border-2 border-amber-400">👦</div>
-                    <span class="text-[10px] text-white/90 font-bold mt-1">Arthur</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl shadow-md border-2 border-pink-400">👧</div>
-                    <span class="text-[10px] text-white/90 font-bold mt-1">Karen</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl shadow-md border-2 border-blue-400">👨</div>
-                    <span class="text-[10px] text-white/90 font-bold mt-1">Steven</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl shadow-md border-2 border-emerald-400">👨‍🦰</div>
-                    <span class="text-[10px] text-white/90 font-bold mt-1">大哥</span>
-                </div>
-            </div>
-            <h1 class="text-2xl font-black text-white tracking-tight">澳洲雪梨山海公路大冒險</h1>
-            <p class="text-teal-300/80 text-[11px] font-medium mt-0.5"><i class="fa-solid fa-calendar mr-1"></i> 2026/07/01 - 2026/07/09 (共8天)</p>
-        </div>
-
-        <div id="page-itinerary" class="page-content active bg-[#f8fafc] rounded-t-[2rem] flex-1 px-4 pt-5 shadow-2xl z-0">
-            <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-3 mb-3 border-b border-slate-200" id="day-tabs">
-                <button onclick="switchDay('d0')" id="tab-d0" class="day-tab tab-active px-4 py-2 rounded-xl font-bold text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">7/1 飛航</button>
-                <button onclick="switchDay('d1')" id="tab-d1" class="day-tab px-4 py-2 rounded-xl font-bold text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">7/2 D1</button>
-                <button onclick="switchDay('d2')" id="tab-d2" class="day-tab px-4 py-2 rounded-xl font-bold text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">7/3 D2</button>
-                <button onclick="switchDay('d3')" id="tab-d3" class="day-tab px-4 py-2 rounded-xl font-bold text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">7/4 D3</button>
-                <button onclick="switchDay('d4')" id="tab-d4" class="day-tab px-4 py-2 rounded-xl font-bold text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">7/5 D4</button>
-                <button onclick="switchDay('d5')" id="tab-d5" class="day-tab px-4 py-2 rounded-xl font-bold text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">7/6 D5</button>
-                <button onclick="switchDay('d6')" id="tab-d6" class="day-tab px-4 py-2 rounded-xl font-bold text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">7/7 D6</button>
-                <button onclick="switchDay('d7')" id="tab-d7" class="day-tab px-4 py-2 rounded-xl font-bold text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">7/8 D7</button>
-                <button onclick="switchDay('d8')" id="tab-d8" class="day-tab px-4 py-2 rounded-xl font-bold text-xs bg-white text-slate-500 border border-slate-200 whitespace-nowrap transition-all">7/9 D8</button>
-            </div>
-
-            <div class="bg-gradient-to-r from-amber-500/10 to-orange-500/5 border border-amber-500/20 rounded-xl p-3 mb-4 flex items-center shadow-sm">
-                <span class="text-xl mr-3">📸</span>
-                <div>
-                    <h4 class="text-amber-800 font-bold text-[10px] tracking-wider uppercase">今日拍照任務</h4>
-                    <p id="photo-task" class="text-slate-700 text-xs font-medium mt-0.5 leading-snug">載入中...</p>
-                </div>
-            </div>
-
-            <div id="itinerary-content" class="space-y-1 pb-12"></div>
-        </div>
-
-        <div id="page-tools" class="page-content bg-[#f8fafc] rounded-t-[2rem] flex-1 px-4 pt-5 shadow-2xl">
-            <h2 class="text-lg font-black text-slate-900 mb-4"><i class="fa-solid fa-passport mr-2 text-teal-700"></i>入境卡與聯絡資訊</h2>
-            
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-4">
-                <div class="text-xs font-bold text-red-600 mb-2"><i class="fa-solid fa-pen-to-square mr-1"></i> 大哥 & Steven 飛機上填寫入境卡資訊</div>
-                <div class="space-y-2 text-xs">
-                    <p class="bg-slate-50 p-2 rounded"><strong class="text-slate-500">在澳聯絡人姓名:</strong><br><span class="font-mono text-sm font-bold">Peng-Xu Chen</span></p>
-                    <p class="bg-slate-50 p-2 rounded"><strong class="text-slate-500">聯絡電話:</strong><br><span class="font-mono text-sm font-bold">0478818498</span></p>
-                    <p class="bg-slate-50 p-2 rounded"><strong class="text-slate-500">電子郵件:</strong><br><span class="font-mono text-sm font-bold">Arthur83chen@gmail.com</span></p>
-                    <p class="bg-slate-50 p-2 rounded"><strong class="text-slate-500">澳洲住址:</strong><br><span class="font-mono text-[13px] font-bold text-teal-900">28 The Avenue, Granville NSW 2142</span></p>
-                    <p class="bg-amber-50 p-2 rounded border border-amber-200 text-amber-900"><strong class="text-amber-800">🏠 住宿名稱:</strong> Granville Share house</p>
-                </div>
-            </div>
-
-            <div class="bg-red-50 border border-red-200 p-4 rounded-xl shadow-sm">
-                <div class="text-xs font-bold text-red-800 mb-2"><i class="fa-solid fa-phone-flip mr-1"></i> 澳洲緊急救援聯絡</div>
-                <div class="grid grid-cols-2 gap-2 text-center">
-                    <a href="tel:000" class="bg-white border border-red-300 py-2 rounded-lg text-red-700 font-bold text-xs shadow-sm"><i class="fa-solid fa-ambulance mr-1"></i>澳洲報警/救護車: 000</a>
-                    <a href="tel:0478818498" class="bg-white border border-slate-300 py-2 rounded-lg text-slate-800 font-bold text-xs shadow-sm"><i class="fa-solid fa-user mr-1"></i>找 Arthur 專線</a>
-                </div>
-            </div>
-        </div>
-
-        <div id="page-baggage" class="page-content bg-[#f8fafc] rounded-t-[2rem] flex-1 px-4 pt-5 shadow-2xl">
-            <h2 class="text-lg font-black text-slate-900 mb-2"><i class="fa-solid fa-clipboard-list mr-2 text-blue-700"></i>出發前行李檢查清單</h2>
-            <p class="text-[11px] text-slate-400 mb-4">勾選已放進去行李箱的物品，避免漏掉喔！</p>
-            
-            <div class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
-                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-xl shadow-sm text-xs font-bold text-slate-700">
-                    <input type="checkbox" class="w-4 h-4 mr-3 text-teal-600 rounded focus:ring-teal-500"> 🪪 護照正本、澳洲電子簽證 (ETA) 批准信列印
-                </label>
-                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-xl shadow-sm text-xs font-bold text-slate-700">
-                    <input type="checkbox" class="w-4 h-4 mr-3 text-teal-600 rounded focus:ring-teal-500"> 🔌 澳洲三腳扁平轉接頭、延長線/多孔延長線
-                </label>
-                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-xl shadow-sm text-xs font-bold text-slate-700">
-                    <input type="checkbox" class="w-4 h-4 mr-3 text-teal-600 rounded focus:ring-teal-500"> 🧥 保暖外套（澳洲 7 月是冬季，早晚溫差大）
-                </label>
-                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-xl shadow-sm text-xs font-bold text-slate-700">
-                    <input type="checkbox" class="w-4 h-4 mr-3 text-teal-600 rounded focus:ring-teal-500"> 👟 舒適好走路的運動鞋（山海公路健行必備）
-                </label>
-                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-xl shadow-sm text-xs font-bold text-slate-700">
-                    <input type="checkbox" class="w-4 h-4 mr-3 text-teal-600 rounded focus:ring-teal-500"> 💊 個人常備藥品（感冒、腸胃藥，記得保留外包裝英文說明）
-                </label>
-                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-xl shadow-sm text-xs font-bold text-slate-700">
-                    <input type="checkbox" class="w-4 h-4 mr-3 text-teal-600 rounded focus:ring-teal-500"> 💳 信用卡、少量澳幣現金
-                </label>
-                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-xl shadow-sm text-xs font-bold text-slate-700">
-                    <input type="checkbox" class="w-4 h-4 mr-3 text-teal-600 rounded focus:ring-teal-500"> 🧴 太陽眼鏡、高係數防曬乳（澳洲陽光很強）
-                </label>
-            </div>
-        </div>
-
-        <div id="page-ledger" class="page-content bg-[#f8fafc] rounded-t-[2rem] flex-1 px-4 pt-5 shadow-2xl">
-            <h2 class="text-lg font-black text-slate-900 mb-1"><i class="fa-solid fa-calculator mr-2 text-amber-600"></i>家族公帳記帳本</h2>
-            <p class="text-[11px] text-slate-400 mb-4">隨手記下旅途花費，App 會自動算出總金額 (AUD)</p>
-            
-            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm mb-4">
-                <div class="grid grid-cols-3 gap-2">
-                    <input type="text" id="expense-name" placeholder="項目 (如: 魚市場吃龍蝦)" class="col-span-2 px-3 py-2 text-xs border rounded-lg focus:outline-none focus:border-teal-600">
-                    <input type="number" id="expense-amount" placeholder="金額 AUD" class="px-3 py-2 text-xs border rounded-lg focus:outline-none focus:border-teal-600">
-                </div>
-                <button onclick="addExpense()" class="w-full mt-2 bg-[#0b3c41] text-white text-xs py-2 rounded-lg font-bold shadow">新增一筆花費</button>
-            </div>
-
-            <div class="bg-slate-900 text-white p-4 rounded-xl flex justify-between items-center shadow-md mb-4">
-                <span class="text-xs font-bold text-teal-400 uppercase tracking-wider">目前總花費金額</span>
-                <span class="text-xl font-black text-amber-400">$ <span id="total-cost">0</span> AUD</span>
-            </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm max-h-[30vh] overflow-y-auto" id="expense-list">
-                <div class="p-4 text-center text-xs text-slate-400">目前尚無記帳紀錄</div>
-            </div>
-        </div>
-
-        <div id="page-translate" class="page-content bg-[#f8fafc] rounded-t-[2rem] flex-1 px-4 pt-5 shadow-2xl">
-            <h2 class="text-lg font-black text-slate-900 mb-4"><i class="fa-solid fa-language mr-2 text-indigo-700"></i>實用澳式手指英文</h2>
-            <div class="space-y-3">
-                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-                    <p class="text-[10px] text-slate-400 font-bold">點餐常用 (想要點這個)</p>
-                    <p class="text-sm font-black text-slate-800">"Can I have this one, please?"</p>
-                    <p class="text-xs text-indigo-600 mt-1 font-medium">中文：請問我可以點這個嗎？(用手指著菜單)</p>
-                </div>
-                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-                    <p class="text-[10px] text-slate-400 font-bold">結帳常用 (要分開付還是一起付)</p>
-                    <p class="text-sm font-black text-slate-800">"All together, please." / "Pay separately."</p>
-                    <p class="text-xs text-indigo-600 mt-1 font-medium">中文：請幫我們一起付 / 我們要分開付。</p>
-                </div>
-                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-                    <p class="text-[10px] text-slate-400 font-bold">問路常用 (廁所在哪裡)</p>
-                    <p class="text-sm font-black text-slate-800">"Excuse me, where is the toilet/restroom?"</p>
-                    <p class="text-xs text-indigo-600 mt-1 font-medium">中文：不好意思，請問廁所在哪裡？</p>
-                </div>
-                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-                    <p class="text-[10px] text-slate-400 font-bold">澳洲在地打招呼 (最道地的澳式口音)</p>
-                    <p class="text-sm font-black text-slate-800">"G'day, mate! (讀作：個得，妹特)"</p>
-                    <p class="text-xs text-indigo-600 mt-1 font-medium">中文：你好呀，朋友！(跟當地加油站或店員笑著說這句，他們會超開心)</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="fixed bottom-0 max-w-md w-full bg-[#051a1c]/95 backdrop-blur-xl border-t border-white/5 flex justify-around py-3.5 text-center z-50">
-            <button onclick="switchTab('itinerary', this)" class="nav-btn flex-1 text-amber-400 font-black focus:outline-none">
-                <i class="fa-solid fa-compass text-lg mb-1 block"></i>
-                <span class="text-[9px]">每日行程</span>
-            </button>
-            <button onclick="switchTab('tools', this)" class="nav-btn flex-1 text-slate-400 font-medium hover:text-white focus:outline-none">
-                <i class="fa-solid fa-address-card text-lg mb-1 block"></i>
-                <span class="text-[9px]">入境聯絡</span>
-            </button>
-            <button onclick="switchTab('baggage', this)" class="nav-btn flex-1 text-slate-400 font-medium hover:text-white focus:outline-none">
-                <i class="fa-solid fa-suitcases text-lg mb-1 block"></i>
-                <span class="text-[9px]">行李清單</span>
-            </button>
-            <button onclick="switchTab('ledger', this)" class="nav-btn flex-1 text-slate-400 font-medium hover:text-white focus:outline-none">
-                <i class="fa-solid fa-wallet text-lg mb-1 block"></i>
-                <span class="text-[9px]">記帳對帳</span>
-            </button>
-            <button onclick="switchTab('translate', this)" class="nav-btn flex-1 text-slate-400 font-medium hover:text-white focus:outline-none">
-                <i class="fa-solid fa-bullhorn text-lg mb-1 block"></i>
-                <span class="text-[9px]">手指英文</span>
-            </button>
-        </div>
-
+  <div class="hero">
+    <div style="display:flex; justify-content:space-between; align-items:center; width:100%">
+      <div class="hero-badge"><i class="fa-solid fa-compass"></i> ROAD TRIP 2026</div>
+      <div style="color:#fff; font-size:11px; font-weight:700; opacity:.8"><i class="fa-solid fa-cloud-sun"></i> Sydney 18°C</div>
+    </div>
+    
+    <div class="members">
+      <div class="member" onclick="alert('👦 Arthur：神級導航兼大卡車司機！')">
+        <div class="member-ring" style="border-color:var(--sun)">👦</div>
+        <div class="member-name">Arthur</div>
+      </div>
+      <div class="member" onclick="alert('👧 Karen：總體財務大總管兼氣氛組！')">
+        <div class="member-ring" style="border-color:var(--coral)">👧</div>
+        <div class="member-name">Karen</div>
+      </div>
+      <div class="member" onclick="alert('👨 Steven：黃金攝影師兼大胃王擔當！')">
+        <div class="member-ring" style="border-color:var(--sky)">👨</div>
+        <div class="member-name">Steven</div>
+      </div>
+      <div class="member" onclick="alert('👨‍🦰 大哥：本次公路長征最高精神領袖！')">
+        <div class="member-ring" style="border-color:var(--green)">👨‍🦰</div>
+        <div class="member-name">大哥</div>
+      </div>
     </div>
 
-    <script>
-        const tourData = {
-            d0: {
-                photo: "出發前在大哥家門口，或者是桃園機場第一航廈華航櫃檯前拍一張手拿護照的大合照！",
-                events: [
-                    { time: "20:00", type: "flight", title: "✈️ 桃園國際機場第一航廈集合", map: "https://maps.google.com/?q=桃園國際機場第一航廈", desc: "大哥和 Steven 提早抵達華航櫃檯辦理登機與行李托運，準備開啟澳洲大長征！" },
-                    { time: "22:30", type: "flight", title: "🚀 華航 CI 51 班機準時起飛", map: "", desc: "從台北飛往雪梨，航程約 9 小時 15 分。在飛機上多睡覺、多喝水，準備調整時差。" }
-                ]
-            },
-            d1: {
-                photo: "在雪梨機場接機大廳，Arthur 和 Karen 接到大哥與 Steven 的瞬間，四人來張驚喜大熊抱合照！",
-                events: [
-                    { time: "10:45", type: "flight", title: "🛬 抵達雪梨國際機場 (Kingsford Smith)", map: "https://maps.google.com/?q=Sydney+Airport", desc: "班機降落。大哥和 Steven 帶著行李出關，Arthur 和 Karen 會準時在接機大廳迎接你們！" },
-                    { time: "12:30", type: "food", title: "🦞 新雪梨魚市場 (Sydney Fish Market) 吃龍蝦", map: "https://maps.google.com/?q=Sydney+Fish+Market", desc: "接機完直奔新開張的海鮮聖地！現開生蠔、焗烤龍蝦、鮮甜鮑魚，當作全家在澳洲的第一頓奢華午餐。" },
-                    { time: "14:30", type: "hotel", title: "🏠 回 Granville Share house 放置行李與補眠", map: "https://maps.google.com/?q=Granville+NSW", desc: "開車回到 Granville 舒適的基地放行李。長途飛行辛苦了，大家先洗個澡、在房間稍微躺著休息一下。" },
-                    { time: "16:30", type: "shop", title: "🛍️ Westfield Parramatta 逛街採買", map: "https://maps.google.com/?q=Westfield+Parramatta", desc: "傍晚到隔壁超大的 Westfield 散步，採買這幾天公路旅行需要的零食、水果、水與生活用品。" },
-                    { time: "19:00", type: "food", title: "🍕 晚餐：Parramatta Criniti's 巨型披薩", map: "https://maps.google.com/?q=Criniti's+Parramatta", desc: "去吃在當地超有名的義式餐廳 Criniti's，點一份超大木盤披薩跟義大利麵慶祝全員到齊！（若太累也可以買材料回家煮喔）" }
-                ]
-            },
-            d2: {
-                photo: "在皇家植物園的最佳觀景角度，拍下一張把「雪梨歌劇院 + 港灣大橋」同時框進去的天花板級大合照！",
-                events: [
-                    { time: "09:00", type: "star", title: "⛵ 雪梨歌劇院 & 環形碼頭經典朝聖", map: "https://maps.google.com/?q=Sydney+Opera+House", desc: "朝聖南半球最偉大的建築奇蹟。漫步在環形碼頭，近距離感受歌劇院白色風帆的震撼。" },
-                    { time: "11:00", type: "park", title: "🌳 皇家植物園 & St Mary’s 大教堂", desc: "沿著海濱綠地走到聖瑪麗大教堂，欣賞宏偉的哥德式雙塔建築，拍照非常具有歐洲感。" },
-                    { time: "13:00", type: "shop", title: "🏛️ QVB 維多利亞女王大廈 & 澳式早午餐", map: "https://maps.google.com/?q=Queen+Victoria+Building", desc: "走進被譽為世界上最精緻美麗的百年購物中心 QVB，欣賞復古機械鐘，在這裡悠閒吃個澳式 Brunch。" },
-                    { time: "15:00", type: "beach", title: "🌊 邦代海灘 (Bondi Beach) 網美冰山泳池", map: "https://maps.google.com/?q=Bondi+Icebergs+Club", desc: "雪梨最著名的金色沙灘。帶大哥和 Steven 去看緊鄰蔚藍大海的 Icebergs 戶外海水泳池，景色壯麗。" },
-                    { time: "16:30", type: "park", title: "🏰 雪梨大學 (University of Sydney) 哈利波特樓", map: "https://maps.google.com/?q=The+Quadrangle+University+of+Sydney", desc: "造訪極具歷史感的古老校園，神還原電影《哈利波特》霍格華茲魔法學校的 Quadrangle 古堡建築。" }
-                ]
-            },
-            d3: {
-                photo: "在 Kiama Blowhole 巨型海浪沖天噴出的那一秒，四人一起抓拍一張張大嘴巴驚呼的動感照片！",
-                events: [
-                    { time: "09:00", type: "zoo", title: "🦘 Taralga Wildlife Park 野生動物近距離接觸", map: "https://maps.google.com/?q=Taralga+Wildlife+Park", desc: "帶 Steven 來看澳洲最標誌性的袋鼠與無尾熊！這裡可以體驗非常在地的野生自然感。" },
-                    { time: "12:30", type: "car", title: "🚗 Tasman Drive ➔ Gerringong 絕美綠色海岸公路", map: "https://maps.google.com/?q=Gerringong+NSW", desc: "開始自駕。車窗外是無邊無際的翠綠大草坡，草坡的盡頭直接連著太平洋，美到讓人屏息。" },
-                    { time: "14:30", type: "star", title: "💥 Kiama Blowhole 噴水洞 & 白色小金字塔", map: "https://maps.google.com/?q=Kiama+Blowhole", desc: "看海水衝入礁岩縫隙噴出十幾米高水柱的天然奇景！順便拜訪優雅的白色老燈塔與神祕的白色石頭小金字塔。" }
-                ]
-            },
-            d4: {
-                photo: "在黃昏的回音谷觀景台，以落日金光下的「三姐妹岩」為背景，拍一張經典家族電影感巨作！",
-                events: [
-                    { time: "09:00", type: "mountain", title: "🚡 藍山景觀世界 (Scenic World) 三色纜車體驗", map: "https://maps.google.com/?q=Scenic+World+Blue+Mountains", desc: "體力零消耗！搭乘南半球最陡峭的森林鐵道火車（Jungle Railway）和高空玻璃纜車穿梭大峽谷，看三姐妹岩。" },
-                    { time: "12:30", type: "food", title: "🏡 卡通巴 (Katoomba) 復古山城午餐", map: "https://maps.google.com/?q=Katoomba+NSW", desc: "在藍山的核心小鎮稍作休息，找一家溫馨的英式派店或小酒館享用熱騰騰的午餐。" },
-                    { time: "14:30", type: "mountain", title: "💐 羅拉小鎮 (Leura) 英式鄉村午後漫步", map: "https://maps.google.com/?q=Leura+NSW", desc: "藍山最美百年小鎮。街道兩旁開滿手工藝品店、糖果屋與特色咖啡廳，氣氛非常悠閒舒適。" },
-                    { time: "16:30", type: "star", title: "🌅 回音谷 (Echo Point) 捕捉染紅的三姐妹岩", map: "https://maps.google.com/?q=Echo+Point+Lookout", desc: "特別安排在傍晚前來，此時冬日的夕陽餘暉會將巨大的三姐妹岩染成金紅色，景色極具魔幻感。" }
-                ]
-            },
-            d5: {
-                photo: "抵達大香蕉地標前，四人學大香蕉彎腰的姿勢來一張趣味團體照！",
-                events: [
-                    { time: "03:00", type: "car", title: "🌌 凌晨熱血出發！一路向北長征", map: "", desc: "由 Arthur 領軍，全家大清早出發，避開雪梨市區塞車。車上準備好音樂與零食，向昆士蘭前進！" },
-                    { time: "10:30", type: "star", title: "🍌 抵達科夫斯港 (Coffs Harbour) 巨型大香蕉地標", map: "https://maps.google.com/?q=The+Big+Banana+Fun+Park", desc: "開車約 6 小時後抵達澳洲最著名的地標 Big Banana！下車伸展筋骨，吃根冰淇淋香蕉，欣賞濱海小鎮風光。" },
-                    { time: "14:30", type: "beach", title: "🏄‍♂️ 拜倫灣 (Byron Bay) 澳洲最東端白色燈塔", map: "https://maps.google.com/?q=Cape+Byron+Lighthouse", desc: "前往澳洲本土的最東端。站在 Cape Byron 燈塔上，有極高的機率能直接看到海面上跳躍的野生海豚與鯨魚！" },
-                    { time: "18:00", type: "hotel", title: "🌃 抵達黃金海岸 (Gold Coast) 衝浪者天堂入住", map: "https://maps.google.com/?q=Surfers+Paradise", desc: "跨越新南威爾斯州邊境，正式進入陽光昆士蘭！入住高聳的衝浪者天堂區域，晚上去逛夜市、聽海浪聲。" }
-                ]
-            },
-            d6: {
-                photo: "在布里斯本故事橋下的草地上，四人手拿澳式精釀啤酒來一張大笑擊掌合照！",
-                events: [
-                    { time: "09:30", type: "beach", title: "🏖️ 黃金海岸沙灘散步 ➔ 直奔布里斯本", map: "https://maps.google.com/?q=Gold+Coast+QLD", desc: "早晨在軟綿綿的黃金沙灘上走走。隨後開車約 1 小時，前往昆士蘭首府——布里斯本。" },
-                    { time: "11:30", type: "park", title: "🌴 南岸公園 (South Bank Parklands) 城市人造沙灘", map: "https://maps.google.com/?q=South+Bank+Parklands", desc: "拜訪當年世界博覽會舊址。這裡竟然在城市正中心建了一座超美的熱帶潟湖人工沙灘，非常神奇。" },
-                    { time: "15:00", type: "star", title: "🌉 故事橋 (Story Bridge) & 庫薩山 (Mt Coot-tha) 眺望", map: "https://maps.google.com/?q=Mount+Coot-tha+Lookout", desc: "傍晚開車上庫薩山觀觀景台，把整個布里斯本的摩天大樓市景與蜿蜒的布里斯本河盡收眼底。" }
-                ]
-            },
-            d7: {
-                photo: "長征回程的公路休息站，四人靠在車子旁邊來一張美式硬漢風格的公路旅行照！",
-                events: [
-                    { time: "08:00", type: "car", title: "🏁 開啟回程大長征：布里斯本 ➔ 殺回雪梨", map: "", desc: "一路上南下奔馳，Arthur 大哥輪流換手開車。中途停靠麥當勞與公路加油站，體驗最純正的澳洲 Road Trip 文化。" },
-                    { time: "19:00", type: "hotel", title: "🏡 順利返抵雪梨 Granville Share house 基底", map: "https://maps.google.com/?q=Granville+NSW", desc: "平安結束長達上千公里的昆士蘭公路大長征！今晚好好洗個熱水澡，在 Granville 家裡煮頓溫馨大餐犒賞自己。" }
-                ]
-            },
-            d8: {
-                photo: "在雪梨機場華航 CI 52 機艙閘口前，四人一起比個讚，宣告 2026 澳洲山海大冒險完美大成功！",
-                events: [
-                    { time: "10:00", type: "food", title: "🍳 Granville 附近享用最後的澳式豐盛早午餐", map: "", desc: "不趕行程，睡到自然醒。起床和大家一起悠閒喝咖啡、吃最道地的酸種麵包水波蛋早午餐。" },
-                    { time: "13:00", type: "shop", title: "🎁 超市伴手禮最後大掃貨 (木瓜膏、TimTam)", map: "https://maps.google.com/?q=Woolworths", desc: "去 Woolworths 或 Coles 超市進行最後採購！把 TimTam 巧克力、澳洲蜂蜜、綿羊油和木瓜膏塞滿行李箱。" },
-                    { time: "18:30", type: "flight", title: "🚗 前往雪梨國際機場辦理退稅與登機", map: "https://maps.google.com/?q=Sydney+Airport", desc: "Arthur 載大家前往機場。協助大哥與 Steven 辦理 TRS 機場退稅，依依不捨道別。" },
-                    { time: "22:10", type: "flight", title: "✈️ 華航 CI 52 班機啟航返台", map: "", desc: "班機準時起航，帶著滿滿一整身相機記憶卡的照片和一輩子的溫馨家庭回憶，返回台北。" }
-                ]
-            }
-        };
+    <h1 class="hero-title">2026 澳洲雪梨山海公路大冒險</h1>
+    <p class="hero-sub">7/1 - 7/9 • 全家自駕熱血長征</p>
 
-        const iconMap = {
-            flight: 'fa-plane-departure text-blue-600',
-            food: 'fa-utensils text-red-500',
-            hotel: 'fa-hotel text-indigo-500',
-            shop: 'fa-bag-shopping text-pink-500',
-            star: 'fa-wand-magic-sparkles text-amber-500',
-            park: 'fa-tree text-emerald-500',
-            beach: 'fa-umbrella-beach text-sky-500',
-            zoo: 'fa-paw text-orange-500',
-            car: 'fa-car text-teal-600',
-            mountain: 'fa-mountain text-lime-600'
-        };
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">8</div><div class="stat-label">總天數</div></div>
+      <div class="stat"><div class="stat-num">22</div><div class="stat-label">探訪景點</div></div>
+      <div class="stat"><div class="stat-num" style="color:var(--green)">100%</div><div class="stat-label">親情指數</div></div>
+      <div class="stat"><div class="stat-num" id="total-likes" style="color:var(--coral)">12</div><div class="stat-label">獲讚總數</div></div>
+    </div>
+  </div>
 
-        function switchDay(dayId) {
-            document.querySelectorAll('.day-tab').forEach(tab => tab.classList.remove('tab-active'));
-            document.getElementById(`tab-${dayId}`).classList.add('tab-active');
-            document.getElementById('photo-task').innerText = tourData[dayId].photo;
+  <div class="nav-tabs">
+    <button class="ntab on" onclick="switchSection('sec-itinerary', this)"><i class="fa-solid fa-route ntab-icon"></i><span class="ntab-label">每日行程</span></button>
+    <button class="ntab" onclick="switchSection('sec-arrival', this)"><i class="fa-solid fa-passport ntab-icon"></i><span class="ntab-label">入境聯絡</span></button>
+    <button class="ntab" onclick="switchSection('sec-baggage', this)"><i class="fa-solid fa-suitcase ntab-icon"></i><span class="ntab-label">行李清單</span></button>
+    <button class="ntab" onclick="switchSection('sec-ledger', this)"><i class="fa-solid fa-wallet ntab-icon"></i><span class="ntab-label">記帳公帳</span></button>
+    <button class="ntab" onclick="switchSection('sec-trans', this)"><i class="fa-solid fa-language ntab-icon"></i><span class="ntab-label">手指英文</span></button>
+  </div>
 
-            const container = document.getElementById('itinerary-content');
-            container.innerHTML = '';
+  <div id="sec-itinerary" class="sec on">
+    <div class="day-scroller">
+      <button class="day-pill on" onclick="switchDay('d0', this)">7/1 啟航</button>
+      <button class="day-pill" onclick="switchDay('d1', this)">7/2 D1 接機</button>
+      <button class="day-pill" onclick="switchDay('d2', this)">7/3 D2 市區</button>
+      <button class="day-pill" onclick="switchDay('d3', this)">7/4 D3 噴水洞</button>
+      <button class="day-pill" onclick="switchDay('d4', this)">7/5 D4 藍山</button>
+      <button class="day-pill" onclick="switchDay('d5', this)">7/6 D5 奔昆士蘭</button>
+      <button class="day-pill" onclick="switchDay('d6', this)">7/7 D6 布里斯本</button>
+      <button class="day-pill" onclick="switchDay('d7', this)">7/8 D7 殺回雪梨</button>
+      <button class="day-pill" onclick="switchDay('d8', this)">7/9 D8 收尾返台</button>
+    </div>
 
-            tourData[dayId].events.forEach(event => {
-                const iconClass = iconMap[event.type] || 'fa-location-dot text-slate-500';
-                const mapButton = event.map ? `<a href="${event.map}" target="_blank" class="text-[10px] bg-teal-50 text-teal-700 border border-teal-200 px-2 py-0.5 rounded-md flex items-center gap-1 font-bold shadow-sm"><i class="fa-solid fa-map-location-dot"></i>地圖導航</a>` : '';
-                
-                const card = document.createElement('div');
-                card.className = "timeline-card flex items-start relative pb-5";
-                card.innerHTML = `
-                    <div class="timeline-line flex flex-col items-center mr-3 relative z-10">
-                        <div class="w-9 h-9 bg-white border border-slate-200 rounded-xl flex items-center justify-center shadow-sm">
-                            <i class="fa-solid ${iconClass} text-sm"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1 bg-white border border-slate-200/80 rounded-2xl p-4 shadow-sm active:scale-[0.99] transition">
-                        <div class="flex justify-between items-center mb-1.5">
-                            <span class="text-[11px] font-black text-[#0b3c41] bg-[#0b3c41]/10 px-2.5 py-0.5 rounded-md"><i class="fa-regular fa-clock mr-1"></i>${event.time}</span>
-                            ${mapButton}
-                        </div>
-                        <h3 class="text-sm font-black text-slate-800 tracking-tight">${event.title}</h3>
-                        <p class="text-[11px] text-slate-500 font-medium leading-relaxed mt-1">${event.desc}</p>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+    <div class="tip-box">
+      <div class="tip-icon">📸</div>
+      <div class="tip-text" id="day-mission">正在加載今日任務...</div>
+    </div>
+
+    <div id="timeline-container"></div>
+  </div>
+
+  <div id="sec-arrival" class="sec">
+    <div class="tip-box" style="background:linear-gradient(135deg,#EEF7F4,#E6F4EA); border-left-color:var(--green)">
+      <div class="tip-icon">📝</div>
+      <div class="tip-text" style="color:#137333">大哥與 Steven 在飛機上發放海關入境卡時，請照著下方欄位英文一字不漏抄寫進去即可！</div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><span class="pill coral"><i class="fa-solid fa-address-book"></i> 澳洲入境申報必填資訊</span></div>
+      <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+        <div style="background:var(--bg); padding:10px; border-radius:8px">
+          <div style="font-size:11px; color:var(--text3); font-weight:700">在澳聯絡人姓名 / Contact Person</div>
+          <div style="font-size:15px; font-weight:900; font-family:monospace; margin-top:2px">Peng-Xu Chen</div>
+        </div>
+        <div style="background:var(--bg); padding:10px; border-radius:8px">
+          <div style="font-size:11px; color:var(--text3); font-weight:700">聯絡電話 / Phone Number</div>
+          <div style="font-size:15px; font-weight:900; font-family:monospace; margin-top:2px">0478818498</div>
+        </div>
+        <div style="background:var(--bg); padding:10px; border-radius:8px">
+          <div style="font-size:11px; color:var(--text3); font-weight:700">電子郵件 / Email Address</div>
+          <div style="font-size:14px; font-weight:900; font-family:monospace; margin-top:2px">Arthur83chen@gmail.com</div>
+        </div>
+        <div style="background:var(--bg); padding:10px; border-radius:8px; border:1px solid var(--ocean-light)">
+          <div style="font-size:11px; color:var(--ocean); font-weight:700">澳洲居住地址 / Address in Australia</div>
+          <div style="font-size:14px; font-weight:900; font-family:monospace; margin-top:2px; color:var(--ocean-dark)">28 The Avenue, Granville NSW 2142</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div style="font-size:12px; opacity:0.8; font-weight:700; margin-bottom:4px">🏠 全宇宙最溫馨大基地</div>
+      <div style="font-size:18px; font-weight:900; margin-bottom:6px">Granville Share house</div>
+      <div style="font-size:12px; opacity:0.7">這幾天在雪梨的溫暖避風港，交通採買與開車出發都超級無敵方便！</div>
+    </div>
+
+    <div class="card" style="border-color:#FEB2B2; background:#FFF5F5">
+      <div class="card-head" style="padding-bottom:6px"><span class="pill" style="background:#E53E3E"><i class="fa-solid fa-phone"></i> 澳洲緊急聯絡專線</span></div>
+      <div class="card-body" style="color:#9B2C2C; font-weight:600; line-height:1.5">
+        澳洲報警、救護車、消防隊通用電話：<span style="font-size:16px; font-weight:900; font-family:monospace; color:#E53E3E">000</span><br>
+        若發生突發狀況或迷路，隨時隨地撥打給 **Arthur** 求助專線。
+      </div>
+    </div>
+  </div>
+
+  <div id="sec-baggage" class="sec">
+    <div class="sec-title">🎒 出發前黃金核對清單</div>
+    <div id="baggage-container"></div>
+  </div>
+
+  <div id="sec-ledger" class="sec">
+    <div class="total-banner">
+      <span>💰 家族目前公帳總支出：</span>
+      <span>$ <span id="total-amount-display">0.00</span> AUD</span>
+    </div>
+
+    <div class="ledger-box">
+      <div class="ledger-row">
+        <input type="text" id="item-name" placeholder="輸入花費項目 (如：魚市場大龍蝦)" class="input-field">
+        <input type="number" id="item-cost" placeholder="金額 AUD" class="input-field">
+      </div>
+      <button class="btn-full" onclick="addNewCost()"><i class="fa-solid fa-plus"></i> 記入公帳帳本</button>
+    </div>
+
+    <div class="sec-title">📊 支出帳目明細歷史</div>
+    <div class="card">
+      <div class="card-body" id="ledger-list" style="padding-top:14px"></div>
+    </div>
+  </div>
+
+  <div id="sec-trans" class="sec">
+    <div class="sec-title">🗣️ 澳式點餐與生活手指英文</div>
+    <div id="trans-container"></div>
+  </div>
+
+  <div class="fixed-nav">
+    <button class="fnav-btn on" onclick="document.querySelectorAll('.nav-tabs .ntab')[0].click(); handleNavActive(this);"><i class="fa-solid fa-route fnav-icon"></i><span class="fnav-label">每日行程</span></button>
+    <button class="fnav-btn" onclick="document.querySelectorAll('.nav-tabs .ntab')[1].click(); handleNavActive(this);"><i class="fa-solid fa-passport fnav-icon"></i><span class="fnav-label">入境聯絡</span></button>
+    <button class="fnav-btn" onclick="document.querySelectorAll('.nav-tabs .ntab')[2].click(); handleNavActive(this);"><i class="fa-solid fa-suitcase fnav-icon"></i><span class="fnav-label">行李清單</span></button>
+    <button class="fnav-btn" onclick="document.querySelectorAll('.nav-tabs .ntab')[3].click(); handleNavActive(this);"><i class="fa-solid fa-wallet fnav-icon"></i><span class="fnav-label">記帳公帳</span></button>
+    <button class="fnav-btn" onclick="document.querySelectorAll('.nav-tabs .ntab')[4].click(); handleNavActive(this);"><i class="fa-solid fa-language fnav-icon"></i><span class="fnav-label">手指英文</span></button>
+  </div>
+
+  <script>
+    // 8天完整自駕長征行程資料庫
+    const database = {
+      d0: {
+        mission: "出發前在大哥家門口，或者在桃園機場華航櫃檯前拍一張手拿護照的熱血大合照！",
+        items: [
+          { time: "20:00", type: "flight", tag: "機場集合", title: "✈️ 桃園國際機場第一航廈華航櫃檯", desc: "大哥與 Steven 提早抵達櫃檯辦理登機與大件行李托運，準備開啟驚艷的南半球冬日避暑大征途！", map: "https://maps.google.com" },
+          { time: "22:30", type: "flight", tag: "華航啟航", title: "🚀 中華航空 CI 51 班機起飛", desc: "直飛雪梨！航程約 9 小時 15 分。機上提供兩餐供餐，建議大哥與 Steven 全程多補充水分、好好補眠，迎接明天的完美體力！", map: "" }
+        ]
+      },
+      d1: {
+        mission: "在雪梨國際機場入境大廳，Arthur 與 Karen 接到大哥與 Steven 的那一秒，四人來張世紀大擁抱！",
+        items: [
+          { time: "10:45", type: "flight", tag: "平安降落", title: "🛬 順利抵達雪梨國際機場 (Kingsford Smith)", desc: "班機著陸南半球。Arthur 將早早在接機大廳守候，給家人最溫暖的第一時間迎接！", map: "https://maps.google.com" },
+          { time: "12:30", type: "food", tag: "海鮮大餐", title: "🦞 新雪梨魚市場 (Sydney Fish Market) 享用海鮮午餐", desc: "現開澳洲肥美生蠔、起司大龍蝦、鮮甜鮑魚，大飽口福！", map: "https://maps.google.com" },
+          { time: "14:30", type: "hotel", tag: "基地安頓", title: "🏠 返回 Granville Share house 放行李與補眠", desc: "長途飛行辛苦了，先舒舒服服洗個熱水澡，在房間躺著小歇補足精氣神。", map: "https://maps.google.com" },
+          { time: "16:30", type: "shop", tag: "公路補給", title: "🛍️ Westfield Parramatta 逛街大補給", desc: "採買接下來幾天長途公路旅行必備的車上零食、水果、礦泉水與日常物資。", map: "https://maps.google.com" },
+          { time: "19:00", type: "food", tag: "義式慶功", title: "🍕 晚餐精選：Parramatta Criniti's 巨型木盤披薩", desc: "吃雪梨有名的義式地標餐廳！點一份超浮誇的一公尺木盤披薩與濃郁義大利麵，舉杯歡慶！", map: "https://maps.google.com" }
+        ]
+      },
+      d2: {
+        mission: "在麥覺理夫人椅子的海濱，拍下一張將歌劇院、雪梨港灣大橋完美框入的明信片級全家福！",
+        items: [
+          { time: "09:00", type: "star", tag: "地標打卡", title: "⛵ 雪梨歌劇院 (Opera House) & 環形碼頭漫步", desc: "近距離感受這座全人類建築奇蹟的震撼，白色風帆在冬日陽光下閃耀。", map: "https://maps.google.com" },
+          { time: "11:00", type: "park", tag: "古典朝聖", title: "🌳 皇家植物園綠意漫步 & St Mary's 大教堂朝盛", desc: "沿著海景草坡漫步。隨後參訪宏偉的聖瑪麗大教堂，哥德式的雙塔與神聖彩繪玻璃超好拍！", map: "https://maps.google.com" },
+          { time: "13:00", type: "shop", tag: "早午餐", title: "🏛️ QVB 維多利亞女王大廈享用精緻澳式咖啡", desc: "步入被讚譽為全球最唯美奢華的百年古典購物中心 QVB，悠閒喝杯地道澳式 Flat White 咖啡。", map: "https://maps.google.com" },
+          { time: "15:00", type: "beach", tag: "無敵海景", title: "🌊 邦代海灘 (Bondi Beach) 朝聖網紅網美冰山泳池", desc: "雪梨最傳奇的金色沙灘！觀賞緊鄰著澎湃海浪、巨浪會直接拍打進去的 Icebergs 戶外海上泳池。", map: "https://maps.google.com" },
+          { time: "16:30", type: "park", tag: "魔幻校園", title: "🏰 雪梨大學 (University of Sydney) 魔幻古堡巡禮", desc: "打卡神還原電影《哈利波特》霍格華茲魔法學校主視覺的 Quadrangle 砂岩四合院主樓！", map: "https://maps.google.com" }
+        ]
+      },
+      d3: {
+        mission: "在 Kiama 噴水洞巨幅海浪衝上高空的一瞬間，四人同步比讚並抓拍下超準的大合照！",
+        items: [
+          { time: "09:00", type: "zoo", tag: "袋鼠袋熊", title: "🦘 近距離野生動物園體驗 (與無尾熊袋鼠互動)", desc: "深入體驗原生態野生動物園！超近距離餵食親切袋鼠、和軟萌無尾熊同框合照。", map: "https://maps.google.com" },
+          { time: "12:30", type: "car", tag: "藍海自駕", title: "🚗 Tasman Drive ➔ Gerringong 夢幻海岸自駕", desc: "左手邊是無垠的蔚藍深海，右手邊是牛羊成群的連綿翠綠大山坡，開車極度享受。", map: "https://maps.google.com" },
+          { time: "14:30", type: "star", tag: "上帝奇蹟", title: "💥 Kiama Blowhole 噴水洞與古老白燈塔", desc: "當澎湃海浪沖入巨岩縫隙，會瞬間發出轟鳴並噴射出高達數層樓的壯麗噴泉。", map: "https://maps.google.com" }
+        ]
+      },
+      d4: {
+        mission: "在黃昏的回音谷觀景台，捕捉三姐妹岩被夕陽餘暉染成金紅色的魔幻時刻！",
+        items: [
+          { time: "09:00", type: "mountain", tag: "輕鬆玩法", title: "🚡 藍山國家公園景觀世界 (Scenic World) 三色纜車", desc: "搭乘全澳洲最陡峭、角度高達 52 度的森林鐵道火車直衝谷底，全景飽覽賈米遜峽谷。", map: "https://maps.google.com" },
+          { time: "12:30", type: "food", tag: "山城小鎮", title: "🏡 卡通巴 (Katoomba) 百年山城小鎮享用溫馨午餐", desc: "在藍山最核心的復古淘金小鎮稍作歇息，點份美味炸魚薯條或手工烘焙派補給熱量。", map: "https://maps.google.com" },
+          { time: "16:30", type: "star", tag: "黃昏魔幻", title: "🌅 回音谷 (Echo Point) 捕捉黃金落日下的三姐妹岩", desc: "特別守候在最佳日落觀景點，冬日的晚霞會將擎天巨石染成耀眼奪目的玫瑰金紅色。", map: "https://maps.google.com" }
+        ]
+      },
+      d5: {
+        mission: "在 Coffs Harbour 巨大的「大香蕉」地標前，四個人學香蕉彎腰留下幽默合照！",
+        items: [
+          { time: "03:00", type: "car", tag: "熱血長征", title: "🌌 凌晨 03:00 開車一路向北衝刺！跨州大出征", desc: "由 Arthur 領航開路，全家凌晨熱血出發，避開雪梨塞車潮！車上放滿提神音樂，跨州長征！", map: "" },
+          { time: "10:30", type: "star", tag: "經典地標", title: "🍌 科夫斯港 (Coffs Harbour) 巨型大香蕉 (Big Banana)", desc: "連續奔馳約 6 小時後順利抵達！下車舒展筋骨，吃根冰涼的特製香蕉冰淇淋。", map: "https://maps.google.com" },
+          { time: "14:30", type: "beach", tag: "澳洲最東端", title: "🏄‍♂️ 拜倫灣 (Byron Bay) 最東端白色燈塔", desc: "登上 Cape Byron 白石燈塔頂峰，這裡冬日極大機率能看到野生海豚與巨大的鯨魚躍出海面！", map: "https://maps.google.com" },
+          { time: "18:00", type: "hotel", tag: "進昆士蘭", title: "🌃 抵達黃金海岸 (Gold Coast) 衝浪者天堂入住", desc: "順利進入陽光昆士蘭！晚上漫步熱鬧的濱海夜市，聽著南太平洋的海浪聲入眠。", map: "https://maps.google.com" }
+        ]
+      },
+      d6: {
+        mission: "在庫薩山觀景台，以整片布里斯本市區閃爍的百萬夜景為背景拍大合照！",
+        items: [
+          { time: "09:30", type: "beach", tag: "陽光沙灘", title: "🏖️ 黃金海岸長灘散步 ➔ 啟程前進布里斯本", desc: "早晨在軟綿如細粉的長灘上踩水散步。隨後開車約 1 小時前往布里斯本。", map: "https://maps.google.com" },
+          { time: "11:30", type: "park", tag: "都市沙灘", title: "🌴 南岸公園 (South Bank) 朝聖市中心人造熱帶沙灘", desc: "在都市正核心、高樓大廈包圍下，建造了一整座被熱帶椰子樹環繞的人工沙灘，格外放鬆！", map: "https://maps.google.com" },
+          { time: "15:00", type: "star", tag: "百萬夜景", title: "🌉 故事橋 (Story Bridge) 巡禮 & 庫薩山夜景眺望", desc: "打卡傳奇的鋼鐵故事橋。傍晚驅車直上庫薩山觀景台，將整個布里斯本市區的霓虹一覽無遺。", map: "https://maps.google.com" }
+        ]
+      },
+      d7: {
+        mission: "在回程的公路休息區，四人靠在車子旁邊，拍一張美式西部片風格的帥氣公路電影劇照！",
+        items: [
+          { time: "08:00", type: "car", tag: "王者歸來", title: "🏁 史詩級回程大長征：布里斯本 ➔ 直奔殺回雪梨", desc: "千里走單騎！Arthur 與大哥輪流換手開車。體驗最純粹的澳洲卡車司機 Road Trip 奔馳文化。", map: "" },
+          { time: "19:30", type: "hotel", tag: "凱旋歸來", title: "🏡 順利返抵雪梨 Granville Share house 溫馨基地", desc: "平安順利完成跨州山海熱血大長征！今晚好好洗個熱水澡，在 Granville 基地家裡煮餐熱騰騰的火鍋犒賞自己！", map: "https://maps.google.com" }
+        ]
+      },
+      d8: {
+        mission: "在雪梨機場華航登機閘口前，四人齊聲大喊「澳洲大成功！」，拍下最後一張完美終極大合照！",
+        items: [
+          { time: "10:00", type: "food", tag: "慢活早晨", title: "🍳 Granville 睡到自然醒 & 享用豐盛澳式早午餐", desc: "最後一天不趕行程，睡到自然醒。起床一起喝熱咖啡、吃外酥內軟的酸種麵包配水波蛋。", map: "" },
+          { time: "13:00", type: "shop", tag: "伴手禮掃貨", title: "🎁 Woolworths / Coles 超級市場最後瘋狂大採購", desc: "把澳洲國寶 TimTam 巧克力、神奇木瓜膏、蜂膠牙膏、綿羊油、夏威夷豆跟維他命通通塞滿行李箱！", map: "https://maps.google.com" },
+          { time: "18:30", type: "flight", tag: "TRS退稅", title: "🚗 前往雪梨國際機場 ➔ 協助辦理 TRS 機場退稅", desc: "載全家前往機場。協助大哥與 Steven 透過手機 App 辦理觀光客退稅 (10%)，依依不捨道別。", map: "https://maps.google.com" },
+          { time: "22:10", type: "flight", tag: "溫馨返航", title: "✈️ 大哥 & Steven 搭乘華航 CI 52 班機飛回台北", desc: "帶著滿滿一整身相機記憶卡的高清照片與一輩子的溫馨回憶，飛回台北溫暖的家。", map: "" }
+        ]
+      }
+    };
+
+    // 行李清單
+    const baggageItems = [
+      "🪪 護照正本、澳洲電子簽證 (ETA) 批准信列印本",
+      "🔌 澳洲專屬三腳扁平轉接頭 (含多孔延長線最完美)",
+      "🧥 冬季防風保暖厚外套（澳洲 7 月是冬天，早晚溫差極大）",
+      "👟 舒適高彈性運動鞋（山海公路長途自駕與健行必備）",
+      "💊 個人常備藥品 (感冒、胃藥、暈車藥，保留英文外包裝佳)",
+      "💳 國際信用卡、少量澳幣現金",
+      "🧴 墨鏡、高係數防曬乳 (南半球冬季紫外線依舊非常強)",
+      "📱 手機長傳輸線、車用手機支架與行動電源",
+      "🦷 澳洲注重環保，請自備牙刷、牙膏、個人手帕"
+    ];
+
+    // 手指英文
+    const transItems = [
+      { en: "Can I have this one, please?", ch: "請問我可以點這個嗎？(伸出手指頭指向菜單或景點)" },
+      { en: "All together, please. / Pay separately.", ch: "請幫我們全部一起付。 / 我們想要分開刷卡付款。" },
+      { en: "Excuse me, where is the toilet / restroom?", ch: "不好意思打擾一下，請問公共廁所在哪裡？" },
+      { en: "G'day, mate! (讀音：個得，妹特！)", ch: "澳洲在地人打招呼神句！跟店員或加油站大叔笑著說，他們會超熱情！" },
+      { en: "Could we get a container for leftovers?", ch: "請問吃不完，可以給我們一個打包外帶的餐盒嗎？" },
+      { en: "Where is the nearest petrol station?", ch: "請問這附近最近的加油站 / 公路休息站在哪裡？" }
+    ];
+
+    window.onload = function() {
+      switchDay('d0', document.querySelector('.day-pill'));
+      
+      const bagContainer = document.getElementById('baggage-container');
+      baggageItems.forEach((item, index) => {
+        bagContainer.innerHTML += `
+          <label class="check-item">
+            <input type="checkbox" id="bag-${index}" onchange="saveBaggageState(${index})">
+            <span class="check-text">${item}</span>
+          </label>
+        `;
+      });
+      loadBaggageState();
+
+      const transContainer = document.getElementById('trans-container');
+      transItems.forEach(item => {
+        transContainer.innerHTML += `
+          <div class="trans-card">
+            <div class="trans-en">"${item.en}"</div>
+            <div class="trans-ch">${item.ch}</div>
+          </div>
+        `;
+      });
+
+      renderExpenses();
+    };
+
+    function switchSection(secId, tabBtn) {
+      document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+      document.getElementById(secId).classList.add('on');
+      document.querySelectorAll('.nav-tabs .ntab').forEach(t => t.classList.remove('on'));
+      tabBtn.classList.add('on');
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function handleNavActive(btn) {
+      document.querySelectorAll('.fixed-nav .fnav-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+    }
+
+    function switchDay(dayKey, pillBtn) {
+      document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('on'));
+      pillBtn.classList.add('on');
+
+      const data = database[dayKey];
+      document.getElementById('day-mission').innerText = data.mission;
+
+      const container = document.getElementById('timeline-container');
+      container.innerHTML = '';
+
+      const colorMap = {
+        flight: 'var(--ocean)', food: 'var(--coral)', hotel: '#2d5a70',
+        shop: 'var(--sand)', star: 'var(--sun)', park: 'var(--green)',
+        car: '#0A9396', mountain: '#52B788'
+      };
+
+      data.items.forEach((item) => {
+        const accentColor = colorMap[item.type] || 'var(--text3)';
+        const mapHtml = item.map ? `<a href="${item.map}" target="_blank" class="map-link"><i class="fa-solid fa-map-location-dot"></i> 🗺️ 地圖導航連結</a>` : '';
+        
+        container.innerHTML += `
+          <div class="tl-item">
+            <div class="tl-accent" style="background:${accentColor}"></div>
+            <div class="tl-head">
+              <div class="tl-left">
+                <span class="pill" style="background:${accentColor}; font-size:10px; padding:2px 8px"><i class="fa-regular fa-clock"></i> ${item.time}</span>
+                <span class="tag" style="margin-left:4px">${item.tag}</span>
+                <h3 class="tl-title">${item.title}</h3>
+              </div>
+            </div>
+            <div class="tl-body">
+              <div class="spot-thumb">🐨<div class="spot-label" style="background:${accentColor}">POINT</div></div>
+              <p class="tl-desc">${item.desc}</p>
+            </div>
+            <div class="tl-foot">
+              ${mapHtml}
+              <button class="like-btn" onclick="clickLike(this)">
+                <span class="like-icon">❤️</span>
+                <span class="like-num">1</span>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function clickLike(btn) {
+      const numSpan = btn.querySelector('.like-num');
+      let currentNum = parseInt(numSpan.innerText);
+      if(!btn.classList.contains('on')) {
+        btn.classList.add('on');
+        numSpan.innerText = currentNum + 1;
+        updateGlobalLikes(1);
+      } else {
+        btn.classList.remove('on');
+        numSpan.innerText = currentNum - 1;
+        updateGlobalLikes(-1);
+      }
+    }
+
+    function updateGlobalLikes(diff) {
+      const globalDisplay = document.getElementById('total-likes');
+      let total = parseInt(globalDisplay.innerText);
+      globalDisplay.innerText = total + diff;
+    }
+
+    function saveBaggageState(index) {
+      const checkbox = document.getElementById(`bag-${index}`);
+      localStorage.setItem(`sydney-bag-${index}`, checkbox.checked);
+    }
+
+    function loadBaggageState() {
+      for (let i = 0; i < baggageItems.length; i++) {
+        const stored = localStorage.getItem(`sydney-bag-${i}`);
+        if (stored === "true") {
+          const cb = document.getElementById(`bag-${i}`);
+          if(cb) cb.checked = true;
         }
+      }
+    }
 
-        let expenses = [];
-        function addExpense() {
-            const name = document.getElementById('expense-name').value;
-            const amount = parseFloat(document.getElementById('expense-amount').value);
-            if(!name || isNaN(amount)) { alert('請填寫完整項目和金額數字喔！'); return; }
-            
-            expenses.push({ name, amount });
-            document.getElementById('expense-name').value = '';
-            document.getElementById('expense-amount').value = '';
-            renderExpenses();
-        }
+    // 記帳公帳對帳本
+    let expenseData = JSON.parse(localStorage.getItem('sydney-expenses')) || [];
 
-        function renderExpenses() {
-            const list = document.getElementById('expense-list');
-            const totalSpan = document.getElementById('total-cost');
-            if(expenses.length === 0) { list.innerHTML = '<div class="p-4 text-center text-xs text-slate-400">目前尚無記帳紀錄</div>'; totalSpan.innerText = '0'; return; }
-            
-            list.innerHTML = '';
-            let total = 0;
-            expenses.forEach((item, idx) => {
-                total += item.amount;
-                list.innerHTML += `
-                    <div class="flex justify-between items-center p-3 border-b border-slate-100 text-xs">
-                        <span class="font-bold text-slate-700">${item.name}</span>
-                        <div class="flex items-center gap-3">
-                            <span class="font-mono font-bold text-slate-900">$ ${item.amount}</span>
-                            <button onclick="expenses.splice(${idx},1); renderExpenses();" class="text-red-400 hover:text-red-600"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
-                    </div>`;
-            });
-            totalSpan.innerText = total.toFixed(2);
-        }
+    function addNewCost() {
+      const nameInput = document.getElementById('item-name');
+      const costInput = document.getElementById('item-cost');
+      const name = nameInput.value.trim();
+      const cost = parseFloat(costInput.value);
 
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            document.getElementById(`page-${tabId}`).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(b => {
-                b.classList.remove('text-amber-400', 'font-black');
-                b.classList.add('text-slate-400', 'font-medium');
-            });
-            btn.classList.add('text-amber-400', 'font-black');
-        }
+      if(!name || isNaN(cost)) {
+        alert("請確認輸入了正確的品項名稱與金額數字唷！");
+        return;
+      }
 
-        window.onload = () => { switchDay('d0'); };
-    </script>
+      expenseData.push({ name, cost });
+      localStorage.setItem('sydney-expenses', JSON.stringify(expenseData));
+      nameInput.value = '';
+      costInput.value = '';
+      renderExpenses();
+    }
+
+    function deleteCost(index) {
+      expenseData.splice(index, 1);
+      localStorage.setItem('sydney-expenses', JSON.stringify(expenseData));
+      renderExpenses();
+    }
+
+    function renderExpenses() {
+      const listContainer = document.getElementById('ledger-list');
+      const totalDisplay = document.getElementById('total-amount-display');
+      
+      if(expenseData.length === 0) {
+        listContainer.innerHTML = `<div style="text-align:center; color:var(--text3); font-size:12px; padding:20px 0;">目前尚未有任何公帳紀錄，趕快記下第一筆吧！✈️</div>`;
+        totalDisplay.innerText = "0.00";
+        return;
+      }
+
+      listContainer.innerHTML = '';
+      let sum = 0;
+      
+      expenseData.forEach((item, idx) => {
+        sum += item.cost;
+        listContainer.innerHTML += `
+          <div class="ledger-item">
+            <div>
+              <div style="font-weight:700; color:var(--text); font-size:13.5px">${item.name}</div>
+              <div style="font-size:10px; color:var(--text3); margin-top:2px">序號: AUD_00${idx+1}</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px">
+              <span style="font-family:monospace; font-weight:900; color:var(--coral); font-size:14px">$ ${item.cost.toFixed(2)}</span>
+              <i class="fa-solid fa-trash-can" style="color:var(--text3); cursor:pointer; font-size:13px;" onclick="deleteCost(${idx})"></i>
+            </div>
+          </div>
+        `;
+      });
+      totalDisplay.innerText = sum.toFixed(2);
+    }
+  </script>
 </body>
 </html>

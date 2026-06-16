@@ -6,7 +6,7 @@
 <title>2026 澳洲雪梨山海長征 2.0</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
   --ocean:#006D77;--ocean-dark:#004E56;--ocean-light:#83C5BE;
@@ -20,7 +20,7 @@
 }
 body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:100px;font-size:14px;line-height:1.5}
 
-/* HERO SECTION */
+/* HERO */
 .hero{background:linear-gradient(160deg,#004E56 0%,#006D77 40%,#0A9396 75%,#52B788 100%);padding:25px 16px 20px;position:relative;overflow:hidden}
 .hero::after{content:'🦘';position:absolute;right:-10px;bottom:-10px;font-size:140px;opacity:.12;transform:scaleX(-1)}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:700;padding:6px 14px;border-radius:20px;letter-spacing:.5px;margin-bottom:16px}
@@ -31,12 +31,10 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .member-name{background:var(--sand);color:var(--text);font-size:11px;font-weight:800;padding:2px 10px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
 .hero-title{color:#fff;font-size:22px;font-weight:900;text-align:center;line-height:1.3;text-shadow:0 2px 10px rgba(0,0,0,.2);margin-bottom:4px}
 .hero-sub{color:rgba(255,255,255,.8);font-size:12px;text-align:center;margin-bottom:20px;font-weight:500}
-
-/* STATS INSTRUMENT */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:rgba(0,0,0,0.25);border-radius:16px;overflow:hidden;backdrop-filter:blur(5px)}
 .stat{padding:14px 6px;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
 .stat:last-child{border-right:none}
-.stat-num{font-size:16px;font-weight:900;color:var(--sun);line-height:1}
+.stat-num{font-size:18px;font-weight:900;color:var(--sun);line-height:1}
 .stat-label{font-size:10px;color:rgba(255,255,255,.75);margin-top:4px;font-weight:700}
 
 /* NAV TABS */
@@ -47,26 +45,29 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .ntab-icon{font-size:18px}
 .ntab-label{font-size:11px}
 
-/* SECTIONS WRAPPER */
+/* SECTIONS */
 .sec{display:none;padding:16px 14px 0;animation:fadeUp .3s ease}
 .sec.on{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* CARDS COMMON STYLE */
+/* UTILS CONTAINER */
 .card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:14px;box-shadow:0 4px 12px rgba(0,0,0,.03)}
 .card-head{padding:16px 16px 12px;display:flex;justify-content:space-between;align-items:center}
 .card-head h3{font-size:16px;font-weight:700;color:var(--text)}
 .card-body{padding:0 16px 16px}
 .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:5px 12px;border-radius:20px;background:var(--ocean);color:#fff}
+.pill.sand{background:var(--sand);color:var(--text)}
+.pill.sun{background:var(--sun);color:var(--text)}
 .pill.coral{background:var(--coral);color:#fff}
 .pill.green{background:var(--green);color:#fff}
 .pill.sky{background:var(--sky);color:var(--text)}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:#EEF7F4;color:var(--ocean)}
 .sec-title{font-size:13px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin:20px 0 12px;display:flex;align-items:center;gap:8px}
 .sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
 .btn-full{width:100%;padding:14px;background:linear-gradient(135deg,var(--ocean),#0A9396);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-full:active{opacity:.85}
 
-/* DAY SCROLLER & NAVIGATION SPOT CARD */
+/* DAY SELECTOR & SPOT CARD */
 .day-scroller{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:5px;margin-bottom:15px}
 .day-scroller::-webkit-scrollbar{display:none}
 .day-btn{padding:8px 16px;background:var(--white);border:1px solid var(--border);border-radius:30px;font-weight:700;font-size:12px;color:var(--text2);white-space:nowrap;cursor:pointer}
@@ -83,16 +84,16 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .spot-info p{font-size:12px;color:var(--text2)}
 .btn-nav{display:inline-flex;align-items:center;gap:4px;padding:8px 12px;background:var(--bg);color:var(--ocean);border-radius:20px;text-decoration:none;font-size:12px;font-weight:700}
 
-/* INTERACTIVE QUESTS */
-.quest-item{display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(--white);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:10px;transition:all .2s;cursor:pointer}
+/* QUESTS */
+.quest-item{display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(--white);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:10px;transition:all .2s}
 .quest-left{display:flex;align-items:center;gap:12px;flex:1}
-.quest-checkbox{width:20px;height:20px;border-radius:6px;border:2px solid var(--text3);display:flex;align-items:center;justify-content:center;color:transparent;font-size:12px;transition:all .15s;flex-shrink:0}
+.quest-checkbox{width:20px;height:20px;border-radius:6px;border:2px solid var(--text3);display:flex;align-items:center;justify-content:center;color:transparent;font-size:12px;cursor:pointer;transition:all .15s;flex-shrink:0}
 .quest-item.done .quest-checkbox{background:var(--green);border-color:var(--green);color:#fff}
 .quest-text{font-weight:500;color:var(--text);transition:all .2s}
 .quest-item.done .quest-text{text-decoration:line-through;color:var(--text3)}
 .quest-pts{font-size:11px;font-weight:800;color:var(--coral);background:var(--sand-light);padding:4px 8px;border-radius:8px}
 
-/* REALTIME AA ACCOUNTING */
+/* ACCOUNTING */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .input-field{width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--rs);font-family:inherit;font-size:13px;outline:none;background:var(--bg)}
 .input-field:focus{border-color:var(--ocean)}
@@ -104,17 +105,17 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .exp-item-right{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ocean)}
 .btn-del{color:var(--coral);background:none;border:none;cursor:pointer;font-size:14px}
 
-/* ANONYMOUS MESSAGE WALL */
+/* WALL */
 .wall-list{display:flex;flex-direction:column;gap:10px;max-height:250px;overflow-y:auto;margin-bottom:14px;padding-right:2px}
 .wall-item{background:var(--bg);padding:12px;border-radius:var(--rs);border-top-left-radius:4px}
 .wall-item-head{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--text3);margin-bottom:4px}
 .wall-author{color:var(--ocean);font-weight:800}
 .wall-msg{color:var(--text2);font-weight:500;word-break:break-all}
 
-/* NATIVE DETAILS COLLAPSE & POINT ENGLISH */
+/* DETAILS & ENG */
 details{background:var(--white);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:8px;overflow:hidden}
 summary{padding:14px;font-weight:700;color:var(--text);cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between}
-summary::-webkit-details-marker {display:none}
+summary::marker, summary::-webkit-details-marker {display:none}
 summary::after{content:'\f078';font-family:'Font Awesome 5 Free';font-weight:900;font-size:12px;color:var(--text3);transition:transform .2s}
 details[open] summary::after{transform:rotate(180deg)}
 .details-content{padding:0 14px 14px;border-top:1px dashed var(--border);background:#FAFBFC}
@@ -122,9 +123,9 @@ details[open] summary::after{transform:rotate(180deg)}
 .eng-row:last-child{border-bottom:none}
 .eng-row:active{background:rgba(0,0,0,0.02)}
 .eng-zh{font-size:12px;font-weight:700;color:var(--text3);margin-bottom:2px}
-.eng-en{font-size:13px;font-weight:700;color:var(--ocean);display:flex;align-items:center;justify-content:space-between;gap:6px}
+.eng-en{font-size:13px;font-weight:700;color:var(--ocean);display:flex;align-items:center;justify-content:between;gap:6px}
 
-/* MEMBERS MODAL POP */
+/* MODAL */
 .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(26,35,50,0.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:999;padding:20px}
 .modal.on{display:flex}
 .modal-card{background:var(--white);width:100%;max-width:320px;border-radius:var(--r);box-shadow:0 20px 40px rgba(0,0,0,0.15);overflow:hidden;animation:pop .25s cubic-bezier(0.34, 1.56, 0.64, 1)}
@@ -135,13 +136,13 @@ details[open] summary::after{transform:rotate(180deg)}
 .modal-body p{margin-bottom:10px;font-size:13px;color:var(--text2)}
 .modal-close{position:absolute;top:14px;right:16px;color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer}
 
-/* EMERGENCY DIAL SYSTEM */
+/* EMERGENCY CALL */
 .emg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .emg-box{background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:12px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
 .emg-name{font-weight:800;font-size:13px}
 .btn-call{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:8px;background:#FFF0F0;color:var(--coral);border:none;border-radius:10px;font-weight:700;text-decoration:none;font-size:12px}
 
-/* APP BOTTOM TABS FIXATION */
+/* FIXED BOTTOM NAV */
 .fixed-nav{position:fixed;bottom:0;left:0;width:100%;height:64px;background:var(--white);border-top:1px solid var(--border);display:flex;box-shadow:0 -4px 12px rgba(0,0,0,0.04);z-index:90;padding-bottom:env(safe-area-inset-bottom)}
 .fnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;border:none;color:var(--text3);font-family:inherit;cursor:pointer}
 .fnav-btn.on{color:var(--ocean);font-weight:700}
@@ -151,21 +152,21 @@ details[open] summary::after{transform:rotate(180deg)}
 </head>
 <body>
 
-  <!-- HERO TOP HEADBOARD -->
+  <!-- HERO TOP -->
   <div class="hero">
     <div class="hero-badge"><i class="fa-solid fa-plane-departure"></i> SYDNEY 2026</div>
     
-    <!-- 4人角色卡 -->
+    <!-- 4人角色頭像 -->
     <div class="members">
       <div class="member" onclick="showMember('阿明', '💰 財務大臣', '天賦：對澳幣匯率敏感度極高，算錢從不吃虧。<br>弱點：早上需要一杯大杯熱拿鐵否則無法導航。')">
         <div class="member-ring" style="background-color:#E9C46A">🦊</div>
         <div class="member-name">阿明</div>
       </div>
-      <div class="member" onclick="showMember('小美', '🗣 語文擔當', '天賦：日常手指英文操作熟練，點餐毫觀障礙。<br>弱點：看 Google Maps 地圖偶爾會南北反向。')">
+      <div class="member" onclick="showMember('小美', '🗣 語文擔當', '天賦：日常手指英文操作熟練，點餐毫無障礙。<br>弱點：看 Google Maps 地圖偶爾會南北反向。')">
         <div class="member-ring" style="background-color:#83C5BE">🐰</div>
         <div class="member-name">小美</div>
       </div>
-      <div class="member" onclick="showMember('大雄', '📸 攝影大師', '天賦：擁有把160公分拍成180公分的拍照神技。<br>弱點：走路每超過兩公里就需要勢必攝入熱量。')">
+      <div class="member" onclick="showMember('大雄', '📸 攝影大師', '天賦：擁有把160公分拍成180公分的拍照神技。<br>弱點：走路每超過兩公里就需要攝入熱量。')">
         <div class="member-ring" style="background-color:#F4A261">🦁</div>
         <div class="member-name">大雄</div>
       </div>
@@ -178,7 +179,7 @@ details[open] summary::after{transform:rotate(180deg)}
     <div class="hero-title">雪梨山海長征特攻手冊</div>
     <div class="hero-sub">2026 究極功能升級系統版 🚀</div>
 
-    <!-- 頂部即時聯動數據面板 -->
+    <!-- 頂部數據儀表板，全面連動 JS -->
     <div class="stats-row">
       <div class="stat">
         <div class="stat-num" id="stat-score">0</div>
@@ -199,7 +200,7 @@ details[open] summary::after{transform:rotate(180deg)}
     </div>
   </div>
 
-  <!-- 頂部導航切換按鈕 -->
+  <!-- 頂部頁籤 (滾動切換核心模組) -->
   <div class="nav-tabs">
     <button class="ntab on" onclick="switchSec('sec-trip', this)"><i class="fa-solid fa-compass ntab-icon"></i><span class="ntab-label">長征行程</span></button>
     <button class="ntab" onclick="switchSec('sec-quest', this)"><i class="fa-solid fa-trophy ntab-icon"></i><span class="ntab-label">任務積分</span></button>
@@ -207,7 +208,7 @@ details[open] summary::after{transform:rotate(180deg)}
     <button class="ntab" onclick="switchSec('sec-tools', this)"><i class="fa-solid fa-toolbox ntab-icon"></i><span class="ntab-label">工具應急</span></button>
   </div>
 
-  <!-- 分頁一：行程導航與天數篩選 -->
+  <!-- 模組一：行程真實導航 -->
   <div id="sec-trip" class="sec on">
     <div class="day-scroller">
       <button class="day-btn active" onclick="switchDay('all')">全部日程</button>
@@ -224,7 +225,7 @@ details[open] summary::after{transform:rotate(180deg)}
             <h4>雪梨歌劇院 Opera House</h4>
             <p>📌 Day 1 | 必備打卡拍照、黃昏酒吧小酌</p>
           </div>
-          <a href="https://maps.google.com/?q=Sydney+Opera+House" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Sydney+Opera+House" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
         </div>
       </div>
 
@@ -235,7 +236,7 @@ details[open] summary::after{transform:rotate(180deg)}
             <h4>QVB 維多利亞女王大廈</h4>
             <p>📌 Day 1 | 百年拜占庭建築、精品購物咖啡</p>
           </div>
-          <a href="https://maps.google.com/?q=Queen+Victoria+Building" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Queen+Victoria+Building" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
         </div>
       </div>
 
@@ -246,7 +247,7 @@ details[open] summary::after{transform:rotate(180deg)}
             <h4>藍山國家公園三姊妹岩</h4>
             <p>📌 Day 2 | 纜車極限俯瞰、漫步溫帶雨林</p>
           </div>
-          <a href="https://maps.google.com/?q=The+Three+Sisters+Echo+Point" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Echo+Point+Three+Sisters" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
         </div>
       </div>
 
@@ -257,7 +258,7 @@ details[open] summary::after{transform:rotate(180deg)}
             <h4>塔隆加動物園 Taronga Zoo</h4>
             <p>📌 Day 3 | 倚靠雪梨港與長頸鹿深情對望</p>
           </div>
-          <a href="https://maps.google.com/?q=Taronga+Zoo+Sydney" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Taronga+Zoo+Sydney" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
         </div>
       </div>
 
@@ -268,13 +269,13 @@ details[open] summary::after{transform:rotate(180deg)}
             <h4>邦代海灘 Bondi Beach</h4>
             <p>📌 Day 3 | 衝浪天堂、網美海水泳池 Icebergs</p>
           </div>
-          <a href="https://maps.google.com/?q=Bondi+Beach+NSW" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Bondi+Beach+Icebergs" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 分頁二：互動任務積分挑戰 -->
+  <!-- 模組二：任務積分系統 -->
   <div id="sec-quest" class="sec">
     <div class="card">
       <div class="card-head">
@@ -314,7 +315,7 @@ details[open] summary::after{transform:rotate(180deg)}
     </div>
   </div>
 
-  <!-- 分頁三：智能多功能記帳 -->
+  <!-- 模組三：智能公帳記帳 -->
   <div id="sec-accounting" class="sec">
     <div class="card">
       <div class="card-head">
@@ -337,21 +338,20 @@ details[open] summary::after{transform:rotate(180deg)}
         </div>
         
         <div class="accounting-summary">
-          <span>公帳動態明細</span>
+          <span>公帳清單</span>
           <span id="exp-total-badge">總計: A$ 0 / NT$ 0</span>
         </div>
 
         <div class="exp-list" id="expense-container">
-          <!-- 記帳條目將在此處生成 -->
+          <!-- 動態記帳項目 -->
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 分頁四：工具整合與留言板 -->
+  <!-- 模組四：工具應急與留言板 -->
   <div id="sec-tools" class="sec">
-    
-    <!-- 四人團隊內嵌留言板 -->
+    <!-- 四人留言板 -->
     <div class="card">
       <div class="card-head">
         <h3>長征特攻留言板</h3>
@@ -377,8 +377,8 @@ details[open] summary::after{transform:rotate(180deg)}
       </div>
     </div>
 
-    <!-- 豐富場景手指英文大字庫 -->
-    <div class="sec-title">🗣 場景大字手指英文 (點選一鍵複製)</div>
+    <!-- 擴充手指英文情境 -->
+    <div class="sec-title">🗣 場景大字手指英文</div>
     
     <details>
       <summary>☕️ 澳式客製咖啡點餐</summary>
@@ -395,20 +395,20 @@ details[open] summary::after{transform:rotate(180deg)}
     </details>
 
     <details>
-      <summary>🛒 結帳與 TRS 退稅處理</summary>
+      <summary>🛒 結帳與退稅處理</summary>
       <div class="details-content">
         <div class="eng-row" onclick="copyEng(this)">
           <p class="eng-zh">我們可以分開刷卡結帳嗎？</p>
           <p class="eng-en">Can we pay separately, please? <i class="fa-regular fa-copy"></i></p>
         </div>
         <div class="eng-row" onclick="copyEng(this)">
-          <p class="eng-zh">請給我一張可用於 TRS 退稅的有效發票（滿300澳幣）。</p>
+          <p class="eng-zh">請給我一張可用於 TRS 退稅的有效發票。</p>
           <p class="eng-en">Could you please give me a tax invoice for TRS tax refund? <i class="fa-regular fa-copy"></i></p>
         </div>
       </div>
     </details>
 
-    <!-- 入境硬核守則 -->
+    <!-- 入境注意事項 -->
     <div class="sec-title">🛂 澳洲海關入境硬核警告</div>
     <div class="card" style="border-left: 5px solid var(--coral)">
       <div class="card-body" style="padding:14px; font-size:12px; color:var(--text2);">
@@ -417,7 +417,7 @@ details[open] summary::after{transform:rotate(180deg)}
       </div>
     </div>
 
-    <!-- 安全醫院整合與一鍵快捷撥號 -->
+    <!-- 緊急聯絡人整合 -->
     <div class="sec-title">🚨 緊急求助醫療支援</div>
     <div class="emg-grid">
       <div class="emg-box">
@@ -432,18 +432,18 @@ details[open] summary::after{transform:rotate(180deg)}
       </div>
       <div class="emg-box">
         <div class="emg-name">聖文森特醫院 (急診)</div>
-        <div style="font-size:11px; color:var(--text3)">24小時創傷公立醫院</div>
+        <div style="font-size:11px; color:var(--text3)">24小時頂級創傷公立醫院</div>
         <a href="tel:0283821111" class="btn-call"><i class="fa-solid fa-phone"></i> 撥打電話</a>
       </div>
       <div class="emg-box">
         <div class="emg-name">駐雪梨台北辦事處</div>
-        <div style="font-size:11px; color:var(--text3)">國人重大危難外交聯絡</div>
+        <div style="font-size:11px; color:var(--text3)">國人海外遭遇重大危難聯絡</div>
         <a href="tel:+61412116809" class="btn-call"><i class="fa-solid fa-phone"></i> 撥打求助</a>
       </div>
     </div>
   </div>
 
-  <!-- 底部固定導航標籤欄（極致原生操作感） -->
+  <!-- 底部固定頁籤導航 (雙重映射防呆) -->
   <div class="fixed-nav">
     <button class="fnav-btn on" id="fn-trip" onclick="switchSec('sec-trip', null)"><i class="fa-solid fa-map"></i><span>找行程</span></button>
     <button class="fnav-btn" id="fn-quest" onclick="switchSec('sec-quest', null)"><i class="fa-solid fa-star"></i><span>刷任務</span></button>
@@ -451,7 +451,7 @@ details[open] summary::after{transform:rotate(180deg)}
     <button class="fnav-btn" id="fn-tools" onclick="switchSec('sec-tools', null)"><i class="fa-solid fa-life-ring"></i><span>救命箱</span></button>
   </div>
 
-  <!-- 成員角色視窗彈出彈窗 -->
+  <!-- 隊員資訊彈窗 Modal -->
   <div id="memberModal" class="modal" onclick="closeMember()">
     <div class="modal-card" onclick="event.stopPropagation()">
       <div class="modal-head" id="modal-head-bg">
@@ -466,19 +466,20 @@ details[open] summary::after{transform:rotate(180deg)}
     </div>
   </div>
 
-  <!-- 核心運作 JS 控制邏輯 -->
   <script>
     const RATE = 21.5; // 1 AUD = 21.5 TWD
     let totalScore = 0;
     let completedQuests = 0;
     let totalExpensesAUD = 0;
 
-    // 核心功能：模組分頁切換
+    // 核心模組切換 (兼顧頂部與底部導航欄聯動)
     function switchSec(secId, btnElement) {
       document.querySelectorAll('.sec').forEach(el => el.classList.remove('on'));
       document.getElementById(secId).classList.add('on');
       
+      // 更新頂部頁籤樣式
       document.querySelectorAll('.ntab').forEach(el => el.classList.remove('on'));
+      // 更新底部固定欄樣式
       document.querySelectorAll('.fnav-btn').forEach(el => el.classList.remove('on'));
 
       const mapping = {
@@ -489,9 +490,11 @@ details[open] summary::after{transform:rotate(180deg)}
       };
       document.getElementById(mapping[secId]).classList.add('on');
 
+      // 如果是點擊頂部頁籤觸發的，幫頂部上色
       if(btnElement) {
         btnElement.classList.add('on');
       } else {
+        // 如果是點擊底部觸發的，尋找頂部對應按鈕上色
         const tabs = document.querySelectorAll('.ntab');
         if(secId === 'sec-trip') tabs[0].classList.add('on');
         if(secId === 'sec-quest') tabs[1].classList.add('on');
@@ -501,7 +504,7 @@ details[open] summary::after{transform:rotate(180deg)}
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // 行程依據天數快速篩選
+    // 行程按天篩選
     function switchDay(day) {
       document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
@@ -515,7 +518,7 @@ details[open] summary::after{transform:rotate(180deg)}
       });
     }
 
-    // 互動任務勾選與動態儀表板計算
+    // 任務積分控制與儀表板聯動
     function toggleQuest(element, pts) {
       const isDone = element.classList.toggle('done');
       const totalQuests = document.querySelectorAll('.quest-item').length;
@@ -532,7 +535,7 @@ details[open] summary::after{transform:rotate(180deg)}
       document.getElementById('stat-progress').innerText = Math.round((completedQuests / totalQuests) * 100) + '%';
     }
 
-    // 智能公帳計算器
+    // 智能記帳模組邏輯
     function handleAddExpense() {
       const cat = document.getElementById('exp-cat').value;
       const title = document.getElementById('exp-title').value.trim();
@@ -562,6 +565,7 @@ details[open] summary::after{transform:rotate(180deg)}
       `;
       container.appendChild(div);
 
+      // 清空輸入域
       document.getElementById('exp-title').value = '';
       document.getElementById('exp-amt').value = '';
       
@@ -583,12 +587,15 @@ details[open] summary::after{transform:rotate(180deg)}
       const twdSum = Math.round(totalExpensesAUD * RATE);
       const aaSum = Math.round(twdSum / 4);
 
+      // 更新儀表板數據
       document.getElementById('stat-exp').innerText = totalExpensesAUD.toFixed(1);
       document.getElementById('stat-aa').innerText = aaSum.toLocaleString();
+      
+      // 更新記帳板內的小字提示
       document.getElementById('exp-total-badge').innerText = `總計: A$ ${totalExpensesAUD.toFixed(1)} / NT$ ${twdSum.toLocaleString()}`;
     }
 
-    // 純前端留言板虛擬推播
+    // 留言板模擬
     function postWall() {
       const author = document.getElementById('wall-user').value;
       const msg = document.getElementById('wall-input').value.trim();
@@ -609,7 +616,7 @@ details[open] summary::after{transform:rotate(180deg)}
       container.scrollTop = container.scrollHeight;
     }
 
-    // 單點英文自動複製核心功能
+    // 手指英文點擊複製
     function copyEng(row) {
       const text = row.querySelector('.eng-en').innerText.trim();
       navigator.clipboard.writeText(text).then(() => {
@@ -623,7 +630,7 @@ details[open] summary::after{transform:rotate(180deg)}
       });
     }
 
-    // 人員介紹卡片點選開啟
+    // 成員角色視窗彈出
     function showMember(name, title, desc) {
       document.getElementById('m-name').innerText = name;
       document.getElementById('m-title').innerText = title;
@@ -635,6 +642,9 @@ details[open] summary::after{transform:rotate(180deg)}
       document.getElementById('m-avatar').innerText = avatars[name] || '👤';
       document.getElementById('modal-head-bg').style.backgroundColor = colors[name] || 'var(--ocean)';
       document.getElementById('memberModal').classList.add('on');
+    }
+    function closeModal() { // 兼容舊命名
+      closeMember();
     }
     function closeMember() {
       document.getElementById('memberModal').classList.remove('on');

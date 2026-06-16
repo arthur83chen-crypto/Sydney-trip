@@ -34,7 +34,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:rgba(0,0,0,0.25);border-radius:16px;overflow:hidden;backdrop-filter:blur(5px)}
 .stat{padding:14px 6px;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
 .stat:last-child{border-right:none}
-.stat-num{font-size:18px;font-weight:900;color:var(--sun);line-height:1}
+.stat-num{font-size:20px;font-weight:900;color:var(--sun);line-height:1}
 .stat-label{font-size:10px;color:rgba(255,255,255,.75);margin-top:4px;font-weight:700}
 
 /* NAV TABS */
@@ -53,7 +53,6 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 /* UTILS CONTAINER */
 .card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:14px;box-shadow:0 4px 12px rgba(0,0,0,.03)}
 .card-head{padding:16px 16px 12px;display:flex;justify-content:space-between;align-items:center}
-.card-head h3{font-size:16px;font-weight:700;color:var(--text)}
 .card-body{padding:0 16px 16px}
 .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:5px 12px;border-radius:20px;background:var(--ocean);color:#fff}
 .pill.sand{background:var(--sand);color:var(--text)}
@@ -67,587 +66,655 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .btn-full{width:100%;padding:14px;background:linear-gradient(135deg,var(--ocean),#0A9396);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-full:active{opacity:.85}
 
-/* DAY SELECTOR & SPOT CARD */
-.day-scroller{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:5px;margin-bottom:15px}
+/* DAY SELECTOR */
+.day-scroller{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:14px;padding-bottom:4px}
 .day-scroller::-webkit-scrollbar{display:none}
-.day-btn{padding:8px 16px;background:var(--white);border:1px solid var(--border);border-radius:30px;font-weight:700;font-size:12px;color:var(--text2);white-space:nowrap;cursor:pointer}
-.day-btn.active{background:var(--ocean);color:var(--white);border-color:var(--ocean)}
+.day-pill{flex:0 0 auto;padding:10px 16px;border-radius:22px;border:2px solid var(--border);background:#fff;color:var(--text2);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:inherit}
+.day-pill.on{background:var(--ocean);border-color:var(--ocean);color:#fff;box-shadow:0 4px 10px rgba(0,109,119,0.2)}
 
-.spot-card{display:flex;align-items:stretch;background:var(--white);border-radius:var(--rs);border:1px solid var(--border);margin-bottom:12px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.02)}
-.spot-color{width:12px}
-.spot-color.nature{background:var(--green)}
-.spot-color.sea{background:var(--ocean)}
-.spot-color.city{background:var(--coral)}
-.spot-color.food{background:var(--sand)}
-.spot-content{flex:1;padding:14px;display:flex;justify-content:space-between;align-items:center}
-.spot-info h4{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
-.spot-info p{font-size:12px;color:var(--text2)}
-.btn-nav{display:inline-flex;align-items:center;gap:4px;padding:8px 12px;background:var(--bg);color:var(--ocean);border-radius:20px;text-decoration:none;font-size:12px;font-weight:700}
+/* TIMELINE 2.0 */
+.tl-item{background:#fff;border-radius:var(--r);border:1px solid var(--border);margin-bottom:12px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.02)}
+.tl-accent{height:5px}
+.tl-head{padding:14px 16px 10px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.tl-left{flex:1}
+.tl-title{font-size:16px;font-weight:900;line-height:1.35;margin:6px 0 4px;color:var(--text)}
+.tl-body{padding:0 16px 12px;display:flex;gap:14px;align-items:flex-start}
+.spot-thumb{flex:0 0 58px;height:58px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;position:relative;overflow:hidden;border:1px solid var(--border);box-shadow:inset 0 0 8px rgba(0,0,0,0.03)}
+.spot-label{position:absolute;bottom:0;left:0;right:0;font-size:8px;font-weight:900;color:#fff;text-align:center;padding:1px 0;letter-spacing:0.5px}
+.tl-desc{font-size:13.5px;color:var(--text2);line-height:1.6;flex:1}
+.tl-foot{padding:10px 16px 14px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;background:#FAFCFF;border-top:1px solid #F0F4F8;gap:8px}
+.map-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--ocean);text-decoration:none;background:#EEF7F4;padding:6px 12px;border-radius:20px;border:1px solid rgba(0,109,119,0.1)}
+.map-link:active{background:var(--ocean-light);color:#fff}
 
-/* QUESTS */
-.quest-item{display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(--white);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:10px;transition:all .2s}
-.quest-left{display:flex;align-items:center;gap:12px;flex:1}
-.quest-checkbox{width:20px;height:20px;border-radius:6px;border:2px solid var(--text3);display:flex;align-items:center;justify-content:center;color:transparent;font-size:12px;cursor:pointer;transition:all .15s;flex-shrink:0}
-.quest-item.done .quest-checkbox{background:var(--green);border-color:var(--green);color:#fff}
-.quest-text{font-weight:500;color:var(--text);transition:all .2s}
-.quest-item.done .quest-text{text-decoration:line-through;color:var(--text3)}
-.quest-pts{font-size:11px;font-weight:800;color:var(--coral);background:var(--sand-light);padding:4px 8px;border-radius:8px}
+/* MISSION CHECKBOX BUTTON */
+.mission-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid #E2E8F0;background:#F8FAFC;color:var(--text2);user-select:none;transition:all 0.2s}
+.mission-btn.done{background:#ECFDF5;border-color:#A7F3D0;color:#065F46}
 
-/* ACCOUNTING */
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.input-field{width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--rs);font-family:inherit;font-size:13px;outline:none;background:var(--bg)}
-.input-field:focus{border-color:var(--ocean)}
-.accounting-summary{background:var(--sand-light);padding:12px;border-radius:var(--rs);font-size:12px;font-weight:700;color:var(--coral);margin-bottom:14px;display:flex;justify-content:space-between}
-.exp-list{display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto}
-.exp-item{background:var(--bg);padding:12px;border-radius:var(--rs);display:flex;justify-content:space-between;align-items:center}
-.exp-item-left h5{font-size:13px;font-weight:700}
-.exp-item-left p{font-size:11px;color:var(--text3);margin-top:2px}
-.exp-item-right{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ocean)}
-.btn-del{color:var(--coral);background:none;border:none;cursor:pointer;font-size:14px}
+/* TIP BOX */
+.tip-box{background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border-left:5px solid var(--sun);border-radius:var(--rs);padding:14px;margin-bottom:14px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 4px 10px rgba(233,196,106,0.15)}
+.tip-icon{font-size:24px;flex-shrink:0}
+.tip-text{font-size:13px;font-weight:700;color:#78350F;line-height:1.6}
 
-/* WALL */
-.wall-list{display:flex;flex-direction:column;gap:10px;max-height:250px;overflow-y:auto;margin-bottom:14px;padding-right:2px}
-.wall-item{background:var(--bg);padding:12px;border-radius:var(--rs);border-top-left-radius:4px}
-.wall-item-head{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--text3);margin-bottom:4px}
-.wall-author{color:var(--ocean);font-weight:800}
-.wall-msg{color:var(--text2);font-weight:500;word-break:break-all}
+/* CHECKLIST */
+.check-item{display:flex;align-items:center;gap:12px;background:#fff;padding:14px;border-radius:var(--rs);border:1px solid var(--border);margin-bottom:8px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.01)}
+.check-item input{width:20px;height:20px;accent-color:var(--ocean);flex-shrink:0}
+.check-text{font-size:14px;font-weight:600;color:var(--text2)}
+.check-item input:checked + .check-text{text-decoration:line-through;color:var(--text3)}
 
-/* DETAILS & ENG */
-details{background:var(--white);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:8px;overflow:hidden}
-summary{padding:14px;font-weight:700;color:var(--text);cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between}
-summary::marker, summary::-webkit-details-marker {display:none}
-summary::after{content:'\f078';font-family:'Font Awesome 5 Free';font-weight:900;font-size:12px;color:var(--text3);transition:transform .2s}
-details[open] summary::after{transform:rotate(180deg)}
-.details-content{padding:0 14px 14px;border-top:1px dashed var(--border);background:#FAFBFC}
-.eng-row{padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
-.eng-row:last-child{border-bottom:none}
-.eng-row:active{background:rgba(0,0,0,0.02)}
-.eng-zh{font-size:12px;font-weight:700;color:var(--text3);margin-bottom:2px}
-.eng-en{font-size:13px;font-weight:700;color:var(--ocean);display:flex;align-items:center;justify-content:between;gap:6px}
+/* LEDGER 2.0 */
+.ledger-box{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:16px;margin-bottom:14px}
+.ledger-row{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.input-field, .select-field{padding:12px;border:1px solid var(--border);border-radius:var(--rs);font-size:13.5px;outline:none;font-family:inherit;width:100%;background:#F8FAFC}
+.input-field:focus, .select-field:focus{border-color:var(--ocean);background:#fff}
+.total-banner{background:var(--text);color:var(--sun);padding:16px;border-radius:var(--rs);display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:16px;margin-bottom:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.rate-indicator{font-size:11px;color:rgba(255,255,255,0.6);font-weight:500;text-align:right;margin-top:2px}
+.ledger-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+.ledger-item:last-child{border-bottom:none}
+.cate-badge{display:inline-block;font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;margin-right:4px;color:#fff}
 
-/* MODAL */
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(26,35,50,0.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:999;padding:20px}
-.modal.on{display:flex}
-.modal-card{background:var(--white);width:100%;max-width:320px;border-radius:var(--r);box-shadow:0 20px 40px rgba(0,0,0,0.15);overflow:hidden;animation:pop .25s cubic-bezier(0.34, 1.56, 0.64, 1)}
-@keyframes pop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
-.modal-head{background:var(--ocean);color:#fff;padding:20px;text-align:center;position:relative}
-.modal-avatar{font-size:48px;margin-bottom:8px}
-.modal-body{padding:20px}
-.modal-body p{margin-bottom:10px;font-size:13px;color:var(--text2)}
-.modal-close{position:absolute;top:14px;right:16px;color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer}
+/* MEMO BOARD */
+.memo-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.memo-user-btn{padding:8px;font-size:12px;font-weight:800;border:1px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-family:inherit;text-align:center}
+.memo-user-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
+.memo-item{background:#fff;border-radius:var(--rs);border:1px solid var(--border);padding:12px 14px;margin-bottom:10px;position:relative;box-shadow:0 2px 6px rgba(0,0,0,0.01)}
+.memo-meta{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--text3);margin-bottom:6px}
+.memo-text{font-size:13.5px;color:var(--text);font-weight:500;word-break:break-all}
 
-/* EMERGENCY CALL */
-.emg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.emg-box{background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:12px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
-.emg-name{font-weight:800;font-size:13px}
-.btn-call{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:8px;background:#FFF0F0;color:var(--coral);border:none;border-radius:10px;font-weight:700;text-decoration:none;font-size:12px}
+/* TRANSLATE TABS */
+.trans-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px}
+.trans-tabs::-webkit-scrollbar{display:none}
+.ttab{padding:8px 14px;background:#fff;border:1px solid var(--border);border-radius:16px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;color:var(--text2)}
+.ttab.on{background:var(--ocean-dark);color:#fff;border-color:var(--ocean-dark)}
+.trans-card{background:#fff;border-radius:var(--rs);border:1px solid var(--border);padding:14px;margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,0.01)}
+.trans-en{font-size:15px;font-weight:900;color:var(--ocean-dark);margin-bottom:4px;font-family:sans-serif}
+.trans-ch{font-size:13px;color:var(--text2);font-weight:700}
 
-/* FIXED BOTTOM NAV */
-.fixed-nav{position:fixed;bottom:0;left:0;width:100%;height:64px;background:var(--white);border-top:1px solid var(--border);display:flex;box-shadow:0 -4px 12px rgba(0,0,0,0.04);z-index:90;padding-bottom:env(safe-area-inset-bottom)}
-.fnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;border:none;color:var(--text3);font-family:inherit;cursor:pointer}
-.fnav-btn.on{color:var(--ocean);font-weight:700}
-.fnav-btn i{font-size:18px}
-.fnav-btn span{font-size:11px}
+/* PHONE CALL BUTTONS */
+.call-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:#FFF5F5;border:1px solid #FEB2B2;color:#C53030;border-radius:var(--rs);text-decoration:none;font-weight:800;font-size:13.5px;transition:all 0.2s}
+.call-btn:active{background:#FED7D7}
+
+/* POPUP MODAL */
+.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-content{background:#fff;border-radius:var(--r);width:100%;max-width:320px;padding:20px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.2);animation:pop .25s ease}
+@keyframes pop{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{margin-top:16px;padding:10px 24px;background:var(--text);color:#fff;border:none;border-radius:20px;font-weight:700;cursor:pointer}
+
+/* FIXED FOOTER NAVIGATION */
+.fixed-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -4px 20px rgba(0,0,0,0.08);display:flex;z-index:999;border-top:1px solid var(--border)}
+.fnav-btn{flex:1;background:none;border:none;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--text3);cursor:pointer;font-family:inherit}
+.fnav-btn.on{color:var(--ocean)}
+.fnav-icon{font-size:20px}
+.fnav-label{font-size:10px;font-weight:800}
 </style>
 </head>
 <body>
 
-  <!-- HERO TOP -->
   <div class="hero">
-    <div class="hero-badge"><i class="fa-solid fa-plane-departure"></i> SYDNEY 2026</div>
+    <div style="display:flex; justify-content:space-between; align-items:center; width:100%">
+      <div class="hero-badge"><i class="fa-solid fa-car-side"></i> ROAD TRIP 2026 ROAD KING</div>
+      <div style="color:#fff; font-size:11px; font-weight:700; opacity:.9"><i class="fa-solid fa-sun"></i> Sydney Winter 18°C</div>
+    </div>
     
-    <!-- 4人角色頭像 -->
     <div class="members">
-      <div class="member" onclick="showMember('阿明', '💰 財務大臣', '天賦：對澳幣匯率敏感度極高，算錢從不吃虧。<br>弱點：早上需要一杯大杯熱拿鐵否則無法導航。')">
-        <div class="member-ring" style="background-color:#E9C46A">🦊</div>
-        <div class="member-name">阿明</div>
+      <div class="member" onclick="openRoleCard('👦 Arthur', '神級跨州大卡車司機兼當地萬事通導航！負責整趟旅程的所有開路安全防護與技術支援！')">
+        <div class="member-ring" style="border-color:var(--sun)">👦</div>
+        <div class="member-name">Arthur</div>
       </div>
-      <div class="member" onclick="showMember('小美', '🗣 語文擔當', '天賦：日常手指英文操作熟練，點餐毫無障礙。<br>弱點：看 Google Maps 地圖偶爾會南北反向。')">
-        <div class="member-ring" style="background-color:#83C5BE">🐰</div>
-        <div class="member-name">小美</div>
+      <div class="member" onclick="openRoleCard('👧 Karen', '家族首席財務執行長兼歡樂氣氛組。掌控每一筆 AUD 的去向，負責投餵與點餐！')">
+        <div class="member-ring" style="border-color:var(--coral)">👧</div>
+        <div class="member-name">Karen</div>
       </div>
-      <div class="member" onclick="showMember('大雄', '📸 攝影大師', '天賦：擁有把160公分拍成180公分的拍照神技。<br>弱點：走路每超過兩公里就需要攝入熱量。')">
-        <div class="member-ring" style="background-color:#F4A261">🦁</div>
-        <div class="member-name">大雄</div>
+      <div class="member" onclick="openRoleCard('👨 Steven', '首席黃金攝影大師兼美食品鑑大胃王。本次旅行負責輸出無數張震撼朋友圈的明信片級大片！')">
+        <div class="member-ring" style="border-color:var(--sky)">👨</div>
+        <div class="member-name">Steven</div>
       </div>
-      <div class="member" onclick="showMember('隊長', '🗺 總體主揪', '天賦：行程、任務與緊急動態完全掌握。<br>弱點：看到可愛考拉或袋鼠智商會自動減半。')">
-        <div class="member-ring" style="background-color:#E76F51">🐨</div>
-        <div class="member-name">隊長</div>
+      <div class="member" onclick="openRoleCard('👨‍🦰 大哥', '本次熱血長征的最高精神領袖與榮譽副駕駛，與 Arthur 輪流交替，提供全隊最強穩定軍心力量！')">
+        <div class="member-ring" style="border-color:var(--green)">👨‍🦰</div>
+        <div class="member-name">大哥</div>
       </div>
     </div>
 
-    <div class="hero-title">雪梨山海長征特攻手冊</div>
-    <div class="hero-sub">2026 究極功能升級系統版 🚀</div>
+    <h1 class="hero-title">澳洲雪梨山海自駕熱血長征</h1>
+    <p class="hero-sub">7/1 - 7/9 • 全家跨州公路大冒險 2.0</p>
 
-    <!-- 頂部數據儀表板，全面連動 JS -->
     <div class="stats-row">
-      <div class="stat">
-        <div class="stat-num" id="stat-score">0</div>
-        <div class="stat-label">任務得分</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num" id="stat-progress">0%</div>
-        <div class="stat-label">任務進度</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num" id="stat-exp">0</div>
-        <div class="stat-label">總公帳 (A$)</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num" id="stat-aa">0</div>
-        <div class="stat-label">每人均分 (NT$)</div>
-      </div>
+      <div class="stat"><div class="stat-num">8</div><div class="stat-label">探險天數</div></div>
+      <div class="stat"><div class="stat-num" id="stat-points" style="color:var(--green)">0</div><div class="stat-label">任務總積分</div></div>
+      <div class="stat"><div class="stat-num" style="color:var(--sky)">22</div><div class="stat-label">打卡景點</div></div>
+      <div class="stat"><div class="stat-num" id="total-likes" style="color:var(--coral)">22</div><div class="stat-label">冒險愛心</div></div>
     </div>
   </div>
 
-  <!-- 頂部頁籤 (滾動切換核心模組) -->
   <div class="nav-tabs">
-    <button class="ntab on" onclick="switchSec('sec-trip', this)"><i class="fa-solid fa-compass ntab-icon"></i><span class="ntab-label">長征行程</span></button>
-    <button class="ntab" onclick="switchSec('sec-quest', this)"><i class="fa-solid fa-trophy ntab-icon"></i><span class="ntab-label">任務積分</span></button>
-    <button class="ntab" onclick="switchSec('sec-accounting', this)"><i class="fa-solid fa-wallet ntab-icon"></i><span class="ntab-label">智能記帳</span></button>
-    <button class="ntab" onclick="switchSec('sec-tools', this)"><i class="fa-solid fa-toolbox ntab-icon"></i><span class="ntab-label">工具應急</span></button>
+    <button class="ntab on" onclick="switchSection('sec-itinerary', this)"><i class="fa-solid fa-map-location-dot ntab-icon"></i><span class="ntab-label">長征行程</span></button>
+    <button class="ntab" onclick="switchSection('sec-arrival', this)"><i class="fa-solid fa-shield-cat ntab-icon"></i><span class="ntab-label">入境緊急</span></button>
+    <button class="ntab" onclick="switchSection('sec-baggage', this)"><i class="fa-solid fa-clipboard-list ntab-icon"></i><span class="ntab-label">物資行李</span></button>
+    <button class="ntab" onclick="switchSection('sec-ledger', this)"><i class="fa-solid fa-coins ntab-icon"></i><span class="ntab-label">智慧記帳</span></button>
+    <button class="ntab" onclick="switchSection('sec-trans', this)"><i class="fa-solid fa-comments ntab-icon"></i><span class="ntab-label">手指英文</span></button>
+    <button class="ntab" onclick="switchSection('sec-board', this)"><i class="fa-solid fa-chalkboard-user ntab-icon"></i><span class="ntab-label">四人留言</span></button>
   </div>
 
-  <!-- 模組一：行程真實導航 -->
-  <div id="sec-trip" class="sec on">
+  <div id="sec-itinerary" class="sec on">
     <div class="day-scroller">
-      <button class="day-btn active" onclick="switchDay('all')">全部日程</button>
-      <button class="day-btn" onclick="switchDay('d1')">Day 1 市區經典</button>
-      <button class="day-btn" onclick="switchDay('d2')">Day 2 藍山秘境</button>
-      <button class="day-btn" onclick="switchDay('d3')">Day 3 海灘動物</button>
+      <button class="day-pill on" onclick="switchDay('d0', this)">7/1 出征</button>
+      <button class="day-pill" onclick="switchDay('d1', this)">7/2 接機海鮮</button>
+      <button class="day-pill" onclick="switchDay('d2', this)">7/3 市區朝聖</button>
+      <button class="day-pill" onclick="switchDay('d3', this)">7/4 噴水巨浪</button>
+      <button class="day-pill" onclick="switchDay('d4', this)">7/5 藍山落日</button>
+      <button class="day-pill" onclick="switchDay('d5', this)">7/6 凌晨狂飆</button>
+      <button class="day-pill" onclick="switchDay('d6', this)">7/7 都市沙灘</button>
+      <button class="day-pill" onclick="switchDay('d7', this)">7/8 王者歸來</button>
+      <button class="day-pill" onclick="switchDay('d8', this)">7/9 慢活返台</button>
     </div>
 
-    <div class="trip-pool">
-      <div class="spot-card" data-day="d1">
-        <div class="spot-color city"></div>
-        <div class="spot-content">
-          <div class="spot-info">
-            <h4>雪梨歌劇院 Opera House</h4>
-            <p>📌 Day 1 | 必備打卡拍照、黃昏酒吧小酌</p>
-          </div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Sydney+Opera+House" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
-        </div>
-      </div>
-
-      <div class="spot-card" data-day="d1">
-        <div class="spot-color food"></div>
-        <div class="spot-content">
-          <div class="spot-info">
-            <h4>QVB 維多利亞女王大廈</h4>
-            <p>📌 Day 1 | 百年拜占庭建築、精品購物咖啡</p>
-          </div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Queen+Victoria+Building" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
-        </div>
-      </div>
-
-      <div class="spot-card" data-day="d2">
-        <div class="spot-color nature"></div>
-        <div class="spot-content">
-          <div class="spot-info">
-            <h4>藍山國家公園三姊妹岩</h4>
-            <p>📌 Day 2 | 纜車極限俯瞰、漫步溫帶雨林</p>
-          </div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Echo+Point+Three+Sisters" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
-        </div>
-      </div>
-
-      <div class="spot-card" data-day="d3">
-        <div class="spot-color nature"></div>
-        <div class="spot-content">
-          <div class="spot-info">
-            <h4>塔隆加動物園 Taronga Zoo</h4>
-            <p>📌 Day 3 | 倚靠雪梨港與長頸鹿深情對望</p>
-          </div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Taronga+Zoo+Sydney" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
-        </div>
-      </div>
-
-      <div class="spot-card" data-day="d3">
-        <div class="spot-color sea"></div>
-        <div class="spot-content">
-          <div class="spot-info">
-            <h4>邦代海灘 Bondi Beach</h4>
-            <p>📌 Day 3 | 衝浪天堂、網美海水泳池 Icebergs</p>
-          </div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Bondi+Beach+Icebergs" target="_blank" class="btn-nav"><i class="fa-solid fa-location-arrow"></i> 導航</a>
-        </div>
+    <div class="tip-box">
+      <div class="tip-icon">🏆</div>
+      <div class="tip-text">
+        <span style="font-size:14px; font-weight:900; color:#92400E">今日金牌打卡任務 & 姿勢挑戰：</span><br>
+        <span id="day-mission">正在精準加載...</span>
       </div>
     </div>
+
+    <div id="timeline-container"></div>
   </div>
 
-  <!-- 模組二：任務積分系統 -->
-  <div id="sec-quest" class="sec">
+  <div id="sec-arrival" class="sec">
+    <div class="tip-box" style="background:linear-gradient(135deg,#EEF7F4,#E6F4EA); border-left-color:var(--green)">
+      <div class="tip-icon">📝</div>
+      <div class="tip-text" style="color:#137333; font-weight:800">飛機上發放「澳洲海關入境申報卡」時，請大哥與 Steven 對照下方英文字母一字不漏填寫，就能秒速通關！</div>
+    </div>
+
     <div class="card">
-      <div class="card-head">
-        <h3>長征任務挑戰榜</h3>
-        <span class="pill coral">每完成一項點擊加分</span>
+      <div class="card-head"><span class="pill coral"><i class="fa-solid fa-paste"></i> 澳洲入境地址申報專區（Granville 基地）</span></div>
+      <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+        <div style="background:var(--bg); padding:12px; border-radius:10px">
+          <div style="font-size:11px; color:var(--text3); font-weight:800">聯絡人姓名 / Contact Name</div>
+          <div style="font-size:15px; font-weight:900; font-family:monospace; margin-top:2px; color:var(--text)">Peng-Xu Chen</div>
+        </div>
+        <div style="background:var(--bg); padding:12px; border-radius:10px">
+          <div style="font-size:11px; color:var(--text3); font-weight:800">聯絡電話 / Phone Number</div>
+          <div style="font-size:15px; font-weight:900; font-family:monospace; margin-top:2px; color:var(--text)">0478818498</div>
+        </div>
+        <div style="background:var(--bg); padding:12px; border-radius:10px; border:1.5px solid var(--ocean-light)">
+          <div style="font-size:11px; color:var(--ocean); font-weight:800">在澳居住地址 / Address in Australia</div>
+          <div style="font-size:14px; font-weight:900; font-family:monospace; margin-top:3px; color:var(--ocean-dark)">28 The Avenue, Granville NSW 2142</div>
+        </div>
       </div>
-      <div class="card-body">
-        <div class="quest-item" onclick="toggleQuest(this, 15)">
-          <div class="quest-left">
-            <div class="quest-checkbox"><i class="fa-solid fa-check"></i></div>
-            <span class="quest-text">成功使用手指英文點一杯客製化澳式咖啡</span>
-          </div>
-          <div class="quest-pts">+15分</div>
-        </div>
-        <div class="quest-item" onclick="toggleQuest(this, 20)">
-          <div class="quest-left">
-            <div class="quest-checkbox"><i class="fa-solid fa-check"></i></div>
-            <span class="quest-text">在雪梨歌劇院前擺出 4 人連鎖大姿勢合照</span>
-          </div>
-          <div class="quest-pts">+20分</div>
-        </div>
-        <div class="quest-item" onclick="toggleQuest(this, 25)">
-          <div class="quest-left">
-            <div class="quest-checkbox"><i class="fa-solid fa-check"></i></div>
-            <span class="quest-text">搭乘 F1 渡輪橫跨雪梨港且全員完全沒有暈船</span>
-          </div>
-          <div class="quest-pts">+25分</div>
-        </div>
-        <div class="quest-item" onclick="toggleQuest(this, 30)">
-          <div class="quest-left">
-            <div class="quest-checkbox"><i class="fa-solid fa-check"></i></div>
-            <span class="quest-text">在藍山景觀纜車上對著峽谷集體大喊發財</span>
-          </div>
-          <div class="quest-pts">+30分</div>
-        </div>
+    </div>
+
+    <div class="sec-title">🚨 澳洲國家緊急救援與一鍵撥打</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px">
+      <a href="tel:000" class="call-btn" style="background:#FEF2F2; color:#DC2626; border-color:#FCA5A5"><i class="fa-solid fa-phone-flip"></i> 澳洲通用報警 000</a>
+      <a href="tel:0478818498" class="call-btn" style="background:#EFF6FF; color:#2563EB; border-color:#93C5FD"><i class="fa-solid fa-user-shield"></i> 呼叫 Arthur 專線</a>
+    </div>
+
+    <div class="card" style="border-color:#FEB2B2">
+      <div class="card-head" style="background:#FFF5F5"><span class="pill coral"><i class="fa-solid fa-hospital"></i> Granville 基地周邊 24小時急診醫院</span></div>
+      <div class="card-body" style="padding-top:14px">
+        <div style="font-weight:900; font-size:14.5px; color:#9B2C2C">Auburn Hospital (奧本醫院 - 附設24小時急診)</div>
+        <div style="font-size:12.5px; color:var(--text2); margin:4px 0 10px">地址：Hargrave Rd, Auburn NSW 2144 (開車離基地僅 7 分鐘)</div>
+        <a href="https://www.google.com/maps/search/?api=1&query=Auburn+Hospital+NSW" target="_blank" class="map-link" style="background:#FFF5F5; color:#C53030; border-color:#FEB2B2"><i class="fa-solid fa-location-arrow"></i> 點我即刻開啟醫院導航</a>
       </div>
     </div>
   </div>
 
-  <!-- 模組三：智能公帳記帳 -->
-  <div id="sec-accounting" class="sec">
+  <div id="sec-baggage" class="sec">
+    <div class="sec-title">🎒 行李箱終極出發核對清單</div>
+    <div id="baggage-container"></div>
+  </div>
+
+  <div id="sec-ledger" class="sec">
+    <div class="total-banner">
+      <div>
+        <span>💰 家族公帳總支出：</span>
+        <div style="font-size:24px; margin-top:4px">$ <span id="total-amount-aud">0.00</span> <span style="font-size:14px; color:var(--sun)">AUD</span></div>
+      </div>
+      <div>
+        <div style="text-align:right; font-size:13px; opacity:0.8">約合台幣：</div>
+        <div style="font-size:18px; color:#fff; text-align:right">NT$ <span id="total-amount-twd">0</span></div>
+        <div class="rate-indicator">※ 依即時匯率基準 1 : 21.5 計算</div>
+      </div>
+    </div>
+
+    <div class="ledger-box">
+      <div class="ledger-row">
+        <input type="text" id="item-name" placeholder="花費品項 (如:大龍蝦)" class="input-field">
+        <input type="number" id="item-cost" placeholder="金額(AUD)" class="input-field">
+        <select id="item-cate" class="select-field">
+          <option value="🍔 餐飲">🍔 餐飲</option>
+          <option value="🚗 交通">🚗 交通</option>
+          <option value="🎟️ 門票">🎟️ 門票</option>
+          <option value="🛍️ 購物">🛍️ 購物</option>
+        </select>
+      </div>
+      <div style="display:flex; gap:8px">
+        <button class="btn-full" style="flex:2" onclick="addNewCost()"><i class="fa-solid fa-plus"></i> 記入公帳帳本</button>
+        <button class="btn-full" style="flex:1; background:var(--text)" onclick="copyLedgerText()"><i class="fa-solid fa-copy"></i> 複製LINE</button>
+      </div>
+    </div>
+
+    <div class="sec-title">📊 支出明細與即時雙幣別對帳</div>
     <div class="card">
-      <div class="card-head">
-        <h3>公帳收支計算機</h3>
-        <span class="pill green">即時匯率 1 AUD = 21.5 TWD</span>
-      </div>
-      <div class="card-body">
-        <div class="form-grid">
-          <select id="exp-cat" class="input-field">
-            <option value="🍔 餐飲美食">🍔 餐飲美食</option>
-            <option value="🚗 交通接駁">🚗 交通接駁</option>
-            <option value="🎟 景點門票">🎟 景點門票</option>
-            <option value="🛍 購物血拼">🛍 購物血拼</option>
-          </select>
-          <input type="text" id="exp-title" class="input-field" placeholder="品項名稱 (例: 炸魚薯條)">
-        </div>
-        <div class="form-grid" style="grid-template-columns: 2fr 1fr; margin-bottom: 12px;">
-          <input type="number" id="exp-amt" class="input-field" placeholder="金額 (輸入澳幣 A$)">
-          <button class="btn-full" onclick="handleAddExpense()"><i class="fa-solid fa-plus"></i> 記帳</button>
-        </div>
-        
-        <div class="accounting-summary">
-          <span>公帳清單</span>
-          <span id="exp-total-badge">總計: A$ 0 / NT$ 0</span>
-        </div>
-
-        <div class="exp-list" id="expense-container">
-          <!-- 動態記帳項目 -->
-        </div>
-      </div>
+      <div class="card-body" id="ledger-list" style="padding-top:14px"></div>
     </div>
   </div>
 
-  <!-- 模組四：工具應急與留言板 -->
-  <div id="sec-tools" class="sec">
-    <!-- 四人留言板 -->
-    <div class="card">
-      <div class="card-head">
-        <h3>長征特攻留言板</h3>
-        <span class="pill sky">內部訊息不留外人</span>
-      </div>
-      <div class="card-body">
-        <div class="wall-list" id="wall-container">
-          <div class="wall-item">
-            <div class="wall-item-head"><span class="wall-author">隊長</span><span>10:24</span></div>
-            <div class="wall-msg">大家注意！今天海邊風大，記得帶件防風外套哈。</div>
-          </div>
-        </div>
-        <div class="form-grid" style="grid-template-columns: 1fr 2fr auto; gap:6px;">
-          <select id="wall-user" class="input-field" style="padding:10px 4px;">
-            <option value="阿明">阿明</option>
-            <option value="小美">小美</option>
-            <option value="大雄">大雄</option>
-            <option value="隊長">隊長</option>
-          </select>
-          <input type="text" id="wall-input" class="input-field" placeholder="想跟同伴說什麼...">
-          <button class="btn-full" style="padding:0 15px; border-radius:var(--rs);" onclick="postWall()"><i class="fa-solid fa-paper-plane"></i></button>
-        </div>
-      </div>
+  <div id="sec-trans" class="sec">
+    <div class="trans-tabs">
+      <button class="ttab on" onclick="filterTrans('all', this)">全部實用句</button>
+      <button class="ttab" onclick="filterTrans('customs', this)">🛃 海關入境</button>
+      <button class="ttab" onclick="filterTrans('dine', this)">🍔 餐廳點餐</button>
+      <button class="ttab" onclick="filterTrans('drive', this)">⛽ 交通加油</button>
     </div>
-
-    <!-- 擴充手指英文情境 -->
-    <div class="sec-title">🗣 場景大字手指英文</div>
-    
-    <details>
-      <summary>☕️ 澳式客製咖啡點餐</summary>
-      <div class="details-content">
-        <div class="eng-row" onclick="copyEng(this)">
-          <p class="eng-zh">我要一杯大杯的熱拿鐵，換燕麥奶，不加糖。</p>
-          <p class="eng-en">Can I get a large hot latte with oat milk, no sugar, please? <i class="fa-regular fa-copy"></i></p>
-        </div>
-        <div class="eng-row" onclick="copyEng(this)">
-          <p class="eng-zh">我想點一杯澳式小白咖啡，內用 / 外帶。</p>
-          <p class="eng-en">A Flat White, have here / take away, please. <i class="fa-regular fa-copy"></i></p>
-        </div>
-      </div>
-    </details>
-
-    <details>
-      <summary>🛒 結帳與退稅處理</summary>
-      <div class="details-content">
-        <div class="eng-row" onclick="copyEng(this)">
-          <p class="eng-zh">我們可以分開刷卡結帳嗎？</p>
-          <p class="eng-en">Can we pay separately, please? <i class="fa-regular fa-copy"></i></p>
-        </div>
-        <div class="eng-row" onclick="copyEng(this)">
-          <p class="eng-zh">請給我一張可用於 TRS 退稅的有效發票。</p>
-          <p class="eng-en">Could you please give me a tax invoice for TRS tax refund? <i class="fa-regular fa-copy"></i></p>
-        </div>
-      </div>
-    </details>
-
-    <!-- 入境注意事項 -->
-    <div class="sec-title">🛂 澳洲海關入境硬核警告</div>
-    <div class="card" style="border-left: 5px solid var(--coral)">
-      <div class="card-body" style="padding:14px; font-size:12px; color:var(--text2);">
-        <p style="margin-bottom:6px;"><b style="color:var(--coral);">1. 申報申報再申報：</b> 只要有帶茶葉、泡麵、藥食品，一律在入境卡勾選【YES】申報。沒申報最高罰 $6,260 澳幣並當場遣返！</p>
-        <p><b>2. 免稅額度：</b> 18歲以上每人限帶 25 支香菸、2.25 公升酒類。</p>
-      </div>
-    </div>
-
-    <!-- 緊急聯絡人整合 -->
-    <div class="sec-title">🚨 緊急求助醫療支援</div>
-    <div class="emg-grid">
-      <div class="emg-box">
-        <div class="emg-name">澳洲官方全能報案</div>
-        <div style="font-size:11px; color:var(--text3)">強烈緊急、匪徒、救護車</div>
-        <a href="tel:000" class="btn-call"><i class="fa-solid fa-phone"></i> 撥打 000</a>
-      </div>
-      <div class="emg-box">
-        <div class="emg-name">雪梨市中心總醫院</div>
-        <div style="font-size:11px; color:var(--text3)">Sydney Hospital</div>
-        <a href="tel:0293827111" class="btn-call"><i class="fa-solid fa-phone"></i> 撥打電話</a>
-      </div>
-      <div class="emg-box">
-        <div class="emg-name">聖文森特醫院 (急診)</div>
-        <div style="font-size:11px; color:var(--text3)">24小時頂級創傷公立醫院</div>
-        <a href="tel:0283821111" class="btn-call"><i class="fa-solid fa-phone"></i> 撥打電話</a>
-      </div>
-      <div class="emg-box">
-        <div class="emg-name">駐雪梨台北辦事處</div>
-        <div style="font-size:11px; color:var(--text3)">國人海外遭遇重大危難聯絡</div>
-        <a href="tel:+61412116809" class="btn-call"><i class="fa-solid fa-phone"></i> 撥打求助</a>
-      </div>
-    </div>
+    <div id="trans-container"></div>
   </div>
 
-  <!-- 底部固定頁籤導航 (雙重映射防呆) -->
+  <div id="sec-board" class="sec">
+    <div class="sec-title">✍️ 冒險家即時留言板</div>
+    <div class="memo-selector">
+      <button class="memo-user-btn active" onclick="selectMemoUser('👦 Arthur', this)">👦 Arthur</button>
+      <button class="memo-user-btn" onclick="selectMemoUser('👧 Karen', this)">👧 Karen</button>
+      <button class="memo-user-btn" onclick="selectMemoUser('👨 Steven', this)">👨 Steven</button>
+      <button class="memo-user-btn" onclick="selectMemoUser('👨‍🦰 大哥', this)">👨‍🦰 大哥</button>
+    </div>
+    <div class="ledger-box" style="padding:12px">
+      <textarea id="memo-input" placeholder="對家人留句溫馨的話、或者交代等一下想吃什麼..." class="input-field" style="height:70px; resize:none; margin-bottom:8px"></textarea>
+      <button class="btn-full" onclick="addMemoMessage()"><i class="fa-regular fa-paper-plane"></i> 發布牆上留言</button>
+    </div>
+    <div id="memo-container"></div>
+  </div>
+
   <div class="fixed-nav">
-    <button class="fnav-btn on" id="fn-trip" onclick="switchSec('sec-trip', null)"><i class="fa-solid fa-map"></i><span>找行程</span></button>
-    <button class="fnav-btn" id="fn-quest" onclick="switchSec('sec-quest', null)"><i class="fa-solid fa-star"></i><span>刷任務</span></button>
-    <button class="fnav-btn" id="fn-accounting" onclick="switchSec('sec-accounting', null)"><i class="fa-solid fa-calculator"></i><span>精算師</span></button>
-    <button class="fnav-btn" id="fn-tools" onclick="switchSec('sec-tools', null)"><i class="fa-solid fa-life-ring"></i><span>救命箱</span></button>
+    <button class="fnav-btn on" onclick="document.querySelectorAll('.nav-tabs .ntab')[0].click(); handleNavActive(this);"><i class="fa-solid fa-map-location-dot fnav-icon"></i><span class="fnav-label">長征行程</span></button>
+    <button class="fnav-btn" onclick="document.querySelectorAll('.nav-tabs .ntab')[1].click(); handleNavActive(this);"><i class="fa-solid fa-shield-cat fnav-icon"></i><span class="fnav-label">入境緊急</span></button>
+    <button class="fnav-btn" onclick="document.querySelectorAll('.nav-tabs .ntab')[2].click(); handleNavActive(this);"><i class="fa-solid fa-clipboard-list fnav-icon"></i><span class="fnav-label">物資行李</span></button>
+    <button class="fnav-btn" onclick="document.querySelectorAll('.nav-tabs .ntab')[3].click(); handleNavActive(this);"><i class="fa-solid fa-coins fnav-icon"></i><span class="fnav-label">智慧記帳</span></button>
+    <button class="fnav-btn" onclick="document.querySelectorAll('.nav-tabs .ntab')[4].click(); handleNavActive(this);"><i class="fa-solid fa-comments fnav-icon"></i><span class="fnav-label">手指英文</span></button>
   </div>
 
-  <!-- 隊員資訊彈窗 Modal -->
-  <div id="memberModal" class="modal" onclick="closeMember()">
-    <div class="modal-card" onclick="event.stopPropagation()">
-      <div class="modal-head" id="modal-head-bg">
-        <div class="modal-close" onclick="closeMember()"><i class="fa-solid fa-xmark"></i></div>
-        <div class="modal-avatar" id="m-avatar">🦊</div>
-        <h3 id="m-name" style="font-size:18px; font-weight:900;">阿明</h3>
-      </div>
-      <div class="modal-body">
-        <h4 id="m-title" style="color:var(--ocean); font-weight:800; margin-bottom:10px;">職稱</h4>
-        <p id="m-desc">細節描述</p>
-      </div>
+  <div id="role-modal" class="modal">
+    <div class="modal-content">
+      <div id="modal-avatar" style="font-size:55px; margin-bottom:10px">👦</div>
+      <h3 id="modal-name" style="font-size:18px; font-weight:900; margin-bottom:8px; color:var(--text)"></h3>
+      <p id="modal-desc" style="font-size:13.5px; color:var(--text2); line-height:1.6; padding:0 8px"></p>
+      <button class="modal-close" onclick="closeRoleCard()">收到！公路老司機</button>
     </div>
   </div>
 
   <script>
-    const RATE = 21.5; // 1 AUD = 21.5 TWD
-    let totalScore = 0;
-    let completedQuests = 0;
-    let totalExpensesAUD = 0;
+    const TWD_RATE = 21.5; // 即時換算匯率基準
 
-    // 核心模組切換 (兼顧頂部與底部導航欄聯動)
-    function switchSec(secId, btnElement) {
-      document.querySelectorAll('.sec').forEach(el => el.classList.remove('on'));
-      document.getElementById(secId).classList.add('on');
-      
-      // 更新頂部頁籤樣式
-      document.querySelectorAll('.ntab').forEach(el => el.classList.remove('on'));
-      // 更新底部固定欄樣式
-      document.querySelectorAll('.fnav-btn').forEach(el => el.classList.remove('on'));
-
-      const mapping = {
-        'sec-trip': 'fn-trip',
-        'sec-quest': 'fn-quest',
-        'sec-accounting': 'fn-accounting',
-        'sec-tools': 'fn-tools'
-      };
-      document.getElementById(mapping[secId]).classList.add('on');
-
-      // 如果是點擊頂部頁籤觸發的，幫頂部上色
-      if(btnElement) {
-        btnElement.classList.add('on');
-      } else {
-        // 如果是點擊底部觸發的，尋找頂部對應按鈕上色
-        const tabs = document.querySelectorAll('.ntab');
-        if(secId === 'sec-trip') tabs[0].classList.add('on');
-        if(secId === 'sec-quest') tabs[1].classList.add('on');
-        if(secId === 'sec-accounting') tabs[2].classList.add('on');
-        if(secId === 'sec-tools') tabs[3].classList.add('on');
+    // 8天行程完整資料庫（含真實 Google Maps 搜尋導航連結）
+    const database = {
+      d0: {
+        mission: "在桃園機場華航櫃檯前，四人手拿護照、排成一列拍下熱血高呼出征的大合照！",
+        items: [
+          { time: "20:00", type: "flight", emoji: "✈️", bg: "#E0F2FE", label: "FLIGHT", tag: "機場集合", title: "桃園國際機場第一航廈華航櫃檯", desc: "提早抵達櫃檯辦理大件行李托運，核對護照與電子簽證，準備開啟驚艷的南半球避暑之旅！", map: "https://www.google.com/maps/search/?api=1&query=桃園國際機場第一航廈" },
+          { time: "22:30", type: "car", emoji: "🚀", bg: "#EEF2F6", label: "DEPART", tag: "華航啟航", title: "中華航空 CI 51 班機翱翔起飛", desc: "直飛雪梨！航程約 9 小時 15 分。機上提供兩餐，建議全程多補充水分、好好補眠儲備體力！", map: "" }
+        ]
+      },
+      d1: {
+        mission: "在雪梨機場入境大廳接到人的那一秒，四人來張史詩級大擁抱，並拍下澳洲第一張合照！",
+        items: [
+          { time: "10:45", type: "flight", emoji: "🛬", bg: "#E0F2FE", label: "ARRIVE", tag: "平安降落", title: "順利抵達雪梨國際機場 (SYD)", desc: "著陸南半球！Arthur 將早早在接機大廳守候，給家人最熱烈的擁抱與迎接！", map: "https://www.google.com/maps/search/?api=1&query=Sydney+International+Airport" },
+          { time: "12:30", type: "food", emoji: "🦞", bg: "#FEE2E2", label: "SEAFOOD", tag: "海鮮大餐", title: "新雪梨魚市場 (Sydney Fish Market) 爆吃海鮮", desc: "現開肥美澳洲生蠔、起司大龍蝦、鮮甜海膽與鮑魚，開啟味蕾的極致享受！", map: "https://www.google.com/maps/search/?api=1&query=Sydney+Fish+Market" },
+          { time: "14:30", type: "hotel", emoji: "🏠", bg: "#ECFDF5", label: "BASE", tag: "基地安頓", title: "返回 Granville Share house 放行李與小憩", desc: "長途飛行辛苦了，先洗個舒服熱水澡，在溫馨大基地躺平補足精神。", map: "https://www.google.com/maps/search/?api=1&query=28+The+Avenue+Granville+NSW+2142" },
+          { time: "16:30", type: "shop", emoji: "🛍️", bg: "#FEF3C7", label: "SHOPPING", tag: "公路補給", title: "Westfield Parramatta 購物中心大物資採買", desc: "採買接下來長途公路旅行必備的車上零食、水果、大箱礦泉水與日常防寒物資。", map: "https://www.google.com/maps/search/?api=1&query=Westfield+Parramatta" },
+          { time: "19:00", type: "food", emoji: "🍕", bg: "#FEE2E2", label: "DINNER", tag: "義式慶功", title: "晚餐精選：Parramatta Criniti's 巨型木盤披薩", desc: "吃雪梨最有名的義式餐廳！點一份一公尺長的超浮誇木盤披薩與濃郁義大利麵，舉杯狂歡！", map: "https://www.google.com/maps/search/?api=1&query=Crinitis+Parramatta" }
+        ]
+      },
+      d2: {
+        mission: "在麥覺理夫人椅的海濱，拍下一張將歌劇院與雪梨港灣大橋完美框入的完美家族明信片大片！",
+        items: [
+          { time: "09:00", type: "star", emoji: "⛵", bg: "#FEF3C7", label: "ICON", tag: "地標打卡", title: "雪梨歌劇院 (Opera House) & 環形碼頭漫步", desc: "近距離感受人類建築奇蹟的震撼，在波光粼粼的雪梨港灣散步，吹著冬日清爽的海風。", map: "https://www.google.com/maps/search/?api=1&query=Sydney+Opera+House" },
+          { time: "11:00", type: "park", emoji: "🌳", bg: "#E6F4EA", label: "PARK", tag: "古典朝聖", title: "皇家植物園綠意漫步 & 麥覺理夫人椅子", desc: "沿著海景草坡漫步至經典觀景點，完美拍攝歌劇院與港灣大橋雙地標同框的黃金視角！", map: "https://www.google.com/maps/search/?api=1&query=Mrs+Macquaries+Chair" },
+          { time: "13:00", type: "shop", emoji: "🏛️", bg: "#FEF3C7", label: "COFFEE", tag: "百年古典", title: "QVB 維多利亞女王大廈享用頂級澳式咖啡 Flat White", desc: "步入全球最唯美奢華的古典購物大廈，欣賞拜占庭式玻璃穹頂，優雅地喝杯地道澳式咖啡。", map: "https://www.google.com/maps/search/?api=1&query=Queen+Victoria+Building" },
+          { time: "15:00", type: "beach", emoji: "🌊", bg: "#E0F2FE", label: "BEACH", tag: "網紅朝聖", title: "邦代海灘 (Bondi Beach) 巡禮與冰山海上泳池", desc: "雪梨最傳奇的金色沙灘！朝聖緊鄰著澎湃海浪、巨浪會直接拍打進去的 Icebergs 網紅海上泳池。", map: "https://www.google.com/maps/search/?api=1&query=Bondi+Icebergs+Club" },
+          { time: "16:30", type: "park", emoji: "🏰", bg: "#E6F4EA", label: "CAMPUS", tag: "魔幻校園", title: "雪梨大學 (University of Sydney) 哈利波特主樓", desc: "打卡神還原電影《哈利波特》霍格華茲魔法學校主視覺的 Quadrangle 砂岩古典四合院建築！", map: "https://www.google.com/maps/search/?api=1&query=The+Quadrangle+University+of+Sydney" }
+        ]
+      },
+      d3: {
+        mission: "在 Kiama 噴水洞巨幅海浪衝上數層樓高空的一瞬間，四人同步比讚抓拍成功！",
+        items: [
+          { time: "09:00", type: "star", emoji: "🦘", bg: "#FEF3C7", label: "ZOO", tag: "袋鼠互動", title: "Symbio Wildlife Park 野生動物園近距離體驗", desc: "深入原生態動物園！超近距離親手餵食親切的袋鼠、和軟萌無尾熊拍下經典同框照！", map: "https://www.google.com/maps/search/?api=1&query=Symbio+Wildlife+Park" },
+          { time: "12:30", type: "car", emoji: "🚗", bg: "#EEF2F6", label: "DRIVE", tag: "藍海自駕", title: "Tasman Drive ➔ Gerringong 絕美蔚藍海岸線自駕", desc: "左手邊是無垠的太平洋深海巨浪，右手邊是牛羊成群的連綿翠綠大山坡，開車極致享受。", map: "https://www.google.com/maps/search/?api=1&query=Gerringong+NSW" },
+          { time: "14:30", type: "star", emoji: "💥", bg: "#FEE2E2", label: "WONDER", tag: "上帝奇蹟", title: "Kiama Blowhole 噴水洞與百年白色古老燈塔", desc: "當澎湃海浪衝入巨大的岩石縫隙，會瞬間發出如大砲般的轟鳴，並噴射出高達數層樓的壯麗水柱！", map: "https://www.google.com/maps/search/?api=1&query=Kiama+Blowhole" }
+        ]
+      },
+      d4: {
+        mission: "在黃昏的回音谷觀景台，捕捉三姐妹岩被夕陽餘暉染成玫瑰金紅色的魔幻魔術秀！",
+        items: [
+          { time: "09:00", type: "star", emoji: "🚡", bg: "#FEF3C7", label: "CABLE", tag: "輕鬆玩法", title: "藍山國家公園景觀世界 (Scenic World) 三色纜車", desc: "搭乘全澳洲最陡峭、高達 52 度的森林鐵道紅色小火車直衝谷底，無死角飽覽賈米遜峽谷壯麗風光。", map: "https://www.google.com/maps/search/?api=1&query=Scenic+World+Blue+Mountains" },
+          { time: "12:30", type: "food", tag: "山城小鎮", emoji: "🏡", bg: "#FEE2E2", label: "TOWN", title: "卡通巴 (Katoomba) 百年復古淘金小鎮享用溫馨午餐", desc: "在藍山核心小鎮歇息，點份正宗的澳洲炸魚薯條、或者烘焙工坊的手工牛肉派補給身體熱量。", map: "https://www.google.com/maps/search/?api=1&query=Katoomba+NSW" },
+          { time: "16:30", type: "star", tag: "黃昏魔幻", emoji: "🌅", bg: "#FEF3C7", label: "SUNSET", title: "回音谷 (Echo Point) 捕捉日落時分的璀璨三姐妹岩", desc: "特別守候在黃金觀景點，冬日的晚霞與夕陽會將這三座擎天巨石染成耀眼奪目的金紅色，美到哭！", map: "https://www.google.com/maps/search/?api=1&query=Echo+Point+Lookout+Katoomba" }
+        ]
+      },
+      d5: {
+        mission: "在 Coffs Harbour 巨大「大香蕉」地標前，四個人學香蕉極致彎腰留下搞笑公路逗趣照！",
+        items: [
+          { time: "03:00", type: "car", tag: "熱血狂飆", emoji: "🌌", bg: "#EEF2F6", label: "LONG RUN", title: "凌晨 03:00 引擎發動！跨州破曉大長征一路向北", desc: "由老司機 Arthur 領航開路，全家凌晨出發完美避開雪梨早晨塞車潮。跨州狂飆，車內放滿嗨歌提神！", map: "" },
+          { time: "10:30", type: "star", tag: "地標打卡", emoji: "🍌", bg: "#FEF3C7", label: "BIG BANANA", title: "科夫斯港 (Coffs Harbour) 經典大香蕉巨型地標", desc: "奔馳約 6 小時後順利推進抵達！下車舒展全身筋骨，必吃這裡特製的冰涼香蕉巧克力冰淇淋！", map: "https://www.google.com/maps/search/?api=1&query=The+Big+Banana+Fun+Park" },
+          { time: "14:30", type: "star", tag: "澳洲最東", emoji: "🏄‍♂️", bg: "#FEF3C7", label: "EAST CAPE", title: "拜倫灣 (Byron Bay) 澳洲大陸最東端極美白色燈塔", desc: "登上 Cape Byron 白石燈塔，站在澳洲大陸最東端！冬天有超高機率能看見野生鯨魚與海豚躍出海面！", map: "https://www.google.com/maps/search/?api=1&query=Cape+Byron+Lighthouse" },
+          { time: "18:00", type: "hotel", tag: "進昆士蘭", emoji: "🌃", bg: "#ECFDF5", label: "HOTEL", title: "抵達黃金海岸 (Gold Coast) 衝浪者天堂飯店入住", desc: "成功跨越州界進入陽光昆士蘭！晚上可以漫步熱鬧的濱海商圈，聽著溫暖的南太平洋浪聲放鬆。", map: "https://www.google.com/maps/search/?api=1&query=Surfers+Paradise+Gold+Coast" }
+        ]
+      },
+      d6: {
+        mission: "在庫薩山觀景台，以一整片布里斯本高樓大廈閃爍的百萬霓虹夜景為底，留下天際線全家福！",
+        items: [
+          { time: "09:30", type: "beach", tag: "晨間漫步", emoji: "🏖️", bg: "#E0F2FE", label: "BEACH", title: "黃金海岸粉末沙灘晨散 ➔ 啟程出發前往布里斯本", desc: "清晨在黃金海岸踩水漫步。隨後發動引擎開車約 1 小時，前往昆士蘭首府布里斯本市區。", map: "https://www.google.com/maps/search/?api=1&query=Gold+Coast+Highway" },
+          { time: "11:30", type: "park", tag: "都市奇蹟", emoji: "🌴", bg: "#E6F4EA", label: "PARK", title: "南岸公園 (South Bank) 朝聖市中心「人造熱帶沙灘」", desc: "太神奇！在繁華都市正核心高樓包圍下，澳洲人建造了一整座被熱帶椰子樹與清澈藍天環繞的人工大沙灘！", map: "https://www.google.com/maps/search/?api=1&query=South+Bank+Parklands" },
+          { time: "15:00", type: "star", tag: "百萬夜景", emoji: "🌉", bg: "#FEF3C7", label: "NIGHT VIEW", title: "鋼鐵故事橋 (Story Bridge) 巡禮 & 庫薩山夜景眺望", desc: "打卡傳奇的故事橋。傍晚開車直攻庫薩山頂觀景台，將整個布里斯本河流域與城市夜景盡收眼底。", map: "https://www.google.com/maps/search/?api=1&query=Mount+Coot-tha+Summit+Lookout" }
+        ]
+      },
+      d7: {
+        mission: "在回程的內陸公路休息站，四人背靠著大卡車，拍一張美式西部牛仔風的超酷公路電影海報！",
+        items: [
+          { time: "08:00", type: "car", tag: "王者歸來", emoji: "🏁", bg: "#EEF2F6", label: "RETURN", title: "極限回程大長征：布里斯本 ➔ 10小時狂飆殺回雪梨", desc: "千里走單騎！Arthur 與大哥更替換手開車。體驗最純正、最熱血的澳洲公路卡車司機 Road Trip 文化！", map: "https://www.google.com/maps/search/?api=1&query=Pacific+Highway+NSW" },
+          { time: "19:30", type: "hotel", tag: "凱旋平安", emoji: "🏡", bg: "#ECFDF5", label: "ARRIVE HOME", title: "順利平安返抵雪梨 Granville Share house 溫馨大基地", desc: "史詩級跨州大征途圓滿達成！今晚好好洗個熱水澡，在基地家裡一起煮一鍋熱氣騰騰的火鍋狂歡犒賞自己！", map: "https://www.google.com/maps/search/?api=1&query=28+The+Avenue+Granville+NSW+2142" }
+        ]
+      },
+      d8: {
+        mission: "在雪梨國際機場華航登機閘口前，四人手牽手齊聲大喊「澳洲大成功！」，拍下終極畢業照！",
+        items: [
+          { time: "10:00", type: "food", tag: "慢活早晨", emoji: "🍳", bg: "#FEE2E2", label: "BRUNCH", title: "Granville 睡到自然醒 & 全家一起手作豐盛澳式早午餐", desc: "最後一天絕不趕行程。全家一起喝咖啡、吃外酥內軟的酸種麵包配肥美水波蛋、煙燻鮭魚。", map: "" },
+          { time: "13:00", type: "shop", tag: "最後掃貨", emoji: "🎁", bg: "#FEF3C7", label: "MALL", title: "Woolworths / Coles 連鎖大超市最後瘋狂伴手禮掃貨", desc: "把澳洲國寶 TimTam 巧克力、神奇木瓜膏、萬用蜂膠牙膏、綿羊油與維他命通通塞爆行李箱空隙！", map: "https://www.google.com/maps/search/?api=1&query=Woolworths+Granville" },
+          { time: "18:30", type: "flight", tag: "機場退稅", emoji: "🚗", bg: "#EEF2F6", label: "TAX REFUND", title: "前往雪梨國際機場 ➔ 協助辦理 TRS 手機 App 觀光退稅", desc: "載全家前往機場。Arthur 現場協助大哥與 Steven 透過專屬 App 辦理商品觀光退稅 (10%)，隨後依依不捨道別。", map: "https://www.google.com/maps/search/?api=1&query=Sydney+Airport+Departure" },
+          { time: "22:10", type: "flight", tag: "溫馨返航", emoji: "✈️", bg: "#E0F2FE", label: "HOME", title: "大哥 & Steven 搭乘中華航空 CI 52 班機光榮飛回台北", desc: "帶著滿滿一整身相機記憶卡的高清照片與一輩子無法被抹滅的親情溫馨回憶，夜航飛回溫暖的家！", map: "" }
+        ]
       }
+    };
+
+    // 行李清單資料
+    const baggageItems = [
+      "🪪 護照正本、澳洲電子簽證 (ETA) 核准信雙備份列印本",
+      "🔌 澳洲專屬三腳扁平轉接頭 (帶一條多孔延長線最完美)",
+      "🧥 冬季防風保暖厚外套（澳洲 7 月是正冬，清晨深夜極度寒冷）",
+      "👟 高彈性耐磨運動鞋（大跨州長征健行、山海公路必備）",
+      "💊 個人常備藥品 (感冒藥、胃藥、暈車藥，保留英文說明書佳)",
+      "💳 國際回饋信用卡、準備少量澳幣現金應急",
+      "🧴 太陽墨鏡、高係數防曬乳 (南半球冬季紫外線依舊非常強烈)",
+      "📱 手機長傳輸線、車用手機磁吸支架與大容量行動電源",
+      "🦷 澳洲極度注重環保，旅宿不提供牙刷牙膏，請務必自備"
+    ];
+
+    // 手指英文情境擴充資料庫
+    const transDatabase = [
+      { id: "customs", en: "I am here for a family holiday with my brother.", ch: "我是來和我的哥哥（家人）一起進行家庭度假旅行的。" },
+      { id: "customs", en: "We are staying at my family's house in Granville.", ch: "我們會住在位於 Granville 的家人的住處。" },
+      { id: "customs", en: "I don't have any commercial goods or restricted food items.", ch: "我沒有攜帶任何商業用途的物品或受限制的違禁食品。" },
+      { id: "dine", en: "Can I get this one, this one, and a cup of Flat White, please?", ch: "請問我可以點這個、這個，還有一杯澳式白咖啡嗎？（伸手指菜單）" },
+      { id: "dine", en: "All together, please. We will tap card to pay.", ch: "請幫我們全部一起算，我們會用卡片感應付款。" },
+      { id: "dine", en: "Could we get a container for takeaways / leftovers?", ch: "請問吃不完，可以給我們一個打包外帶的餐盒嗎？" },
+      { id: "drive", en: "Fill it up with Unleaded 91, please.", ch: "請幫我加滿 91 無鉛汽油。（澳洲自駕最常用）" },
+      { id: "drive", en: "Which pump number? Pump number 4, please.", ch: "請問是幾號油槍？幫我結帳 4 號油槍，謝謝。" },
+      { id: "drive", en: "Is there a car wash or a toilet in this service station?", ch: "請問這個公路休息站/加油站裡面有附設洗車機或公共廁所嗎？" }
+    ];
+
+    let currentActiveMemoUser = "👦 Arthur";
+
+    window.onload = function() {
+      switchDay('d0', document.querySelector('.day-pill'));
+      initBaggage();
+      renderExpenses();
+      filterTrans('all', document.querySelector('.ttab'));
+      renderMemos();
+      updateGlobalMissionPoints();
+    };
+
+    function switchSection(secId, tabBtn) {
+      document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+      document.getElementById(secId).classList.add('on');
+      document.querySelectorAll('.nav-tabs .ntab').forEach(t => t.classList.remove('on'));
+      tabBtn.classList.add('on');
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // 行程按天篩選
-    function switchDay(day) {
-      document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+    function handleNavActive(btn) {
+      document.querySelectorAll('.fixed-nav .fnav-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+    }
 
-      document.querySelectorAll('.spot-card').forEach(card => {
-        if (day === 'all' || card.getAttribute('data-day') === day) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+    // 成員角色卡彈窗
+    function openRoleCard(name, desc) {
+      document.getElementById('modal-avatar').innerText = name.split(' ')[0];
+      document.getElementById('modal-name').innerText = name;
+      document.getElementById('modal-desc').innerText = desc;
+      document.getElementById('role-modal').style.display = 'flex';
+    }
+    function closeRoleCard() {
+      document.getElementById('role-modal').style.display = 'none';
+    }
+
+    // 行程加載 2.0 (含任務與姿勢挑戰連動)
+    function switchDay(dayKey, pillBtn) {
+      document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('on'));
+      pillBtn.classList.add('on');
+
+      const data = database[dayKey];
+      document.getElementById('day-mission').innerText = data.mission;
+
+      const container = document.getElementById('timeline-container');
+      container.innerHTML = '';
+
+      data.items.forEach((item, index) => {
+        const mapHtml = item.map ? `<a href="${item.map}" target="_blank" class="map-link"><i class="fa-solid fa-location-arrow"></i> 🗺️ 開啟導航</a>` : '<span style="font-size:11px; color:var(--text3); font-weight:700">🚗 長途公路奔馳中</span>';
+        const missionId = `${dayKey}-item-${index}`;
+        const isDone = localStorage.getItem(missionId) === 'true';
+        const doneClass = isDone ? 'done' : '';
+        const doneText = isDone ? '🎉 已打卡完成 (+10分)' : '🎯 尚未打卡';
+
+        container.innerHTML += `
+          <div class="tl-item">
+            <div class="tl-accent" style="background:${item.bg}"></div>
+            <div class="tl-head">
+              <div class="tl-left">
+                <span class="pill" style="background:var(--text); font-size:10px; padding:2px 8px"><i class="fa-regular fa-clock"></i> ${item.time}</span>
+                <span class="tag" style="margin-left:4px; background:${item.bg}; color:var(--text)">${item.tag}</span>
+                <h3 class="tl-title">${item.title}</h3>
+              </div>
+            </div>
+            <div class="tl-body">
+              <div class="spot-thumb" style="background:${item.bg}">
+                ${item.emoji}
+                <div class="spot-label" style="background:var(--text)">${item.label}</div>
+              </div>
+              <p class="tl-desc">${item.desc}</p>
+            </div>
+            <div class="tl-foot">
+              ${mapHtml}
+              <div class="mission-btn ${doneClass}" onclick="toggleMissionPoints('${missionId}', this)">
+                <span>${doneText}</span>
+              </div>
+            </div>
+          </div>
+        `;
       });
     }
 
-    // 任務積分控制與儀表板聯動
-    function toggleQuest(element, pts) {
-      const isDone = element.classList.toggle('done');
-      const totalQuests = document.querySelectorAll('.quest-item').length;
-      
-      if (isDone) {
-        totalScore += pts;
-        completedQuests++;
+    // 任務積分核心算式
+    function toggleMissionPoints(missionId, btn) {
+      const isDone = btn.classList.contains('done');
+      if (!isDone) {
+        btn.classList.add('done');
+        btn.innerHTML = `<span>🎉 已打卡完成 (+10分)</span>`;
+        localStorage.setItem(missionId, 'true');
       } else {
-        totalScore -= pts;
-        completedQuests--;
+        btn.classList.remove('done');
+        btn.innerHTML = `<span>🎯 尚未打卡</span>`;
+        localStorage.removeItem(missionId);
       }
-      
-      document.getElementById('stat-score').innerText = totalScore;
-      document.getElementById('stat-progress').innerText = Math.round((completedQuests / totalQuests) * 100) + '%';
+      updateGlobalMissionPoints();
     }
 
-    // 智能記帳模組邏輯
-    function handleAddExpense() {
-      const cat = document.getElementById('exp-cat').value;
-      const title = document.getElementById('exp-title').value.trim();
-      const amt = parseFloat(document.getElementById('exp-amt').value);
+    function updateGlobalMissionPoints() {
+      let totalPoints = 0;
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.includes('-item-') && localStorage.getItem(key) === 'true') {
+          totalPoints += 10;
+        }
+      }
+      document.getElementById('stat-points').innerText = totalPoints;
+    }
 
-      if (!title || isNaN(amt) || amt <= 0) {
-        alert('請確實填寫品項名稱與正確金額！');
+    // 初始化行李清單
+    function initBaggage() {
+      const bagContainer = document.getElementById('baggage-container');
+      bagContainer.innerHTML = '';
+      baggageItems.forEach((item, index) => {
+        const checked = localStorage.getItem(`bag-2.0-${index}`) === 'true' ? 'checked' : '';
+        bagContainer.innerHTML += `
+          <label class="check-item">
+            <input type="checkbox" id="bag-cb-${index}" ${checked} onchange="saveBaggage(${index})">
+            <span class="check-text">${item}</span>
+          </label>
+        `;
+      });
+    }
+    function saveBaggage(idx) {
+      const cb = document.getElementById(`bag-cb-${idx}`);
+      localStorage.setItem(`bag-2.0-${idx}`, cb.checked);
+    }
+
+    // 智慧分類記帳
+    let expenseData = JSON.parse(localStorage.getItem('sydney-ledger-2.0')) || [];
+    function addNewCost() {
+      const name = document.getElementById('item-name').value.trim();
+      const cost = parseFloat(document.getElementById('item-cost').value);
+      const cate = document.getElementById('item-cate').value;
+
+      if (!name || isNaN(cost)) {
+        alert("親愛的！別忘了輸入完整花費名稱與正確數字唷！");
+        return;
+      }
+      expenseData.push({ name, cost, cate });
+      localStorage.setItem('sydney-ledger-2.0', JSON.stringify(expenseData));
+      document.getElementById('item-name').value = '';
+      document.getElementById('item-cost').value = '';
+      renderExpenses();
+    }
+    function deleteCost(idx) {
+      expenseData.splice(idx, 1);
+      localStorage.setItem('sydney-ledger-2.0', JSON.stringify(expenseData));
+      renderExpenses();
+    }
+    function renderExpenses() {
+      const list = document.getElementById('ledger-list');
+      const audDisplay = document.getElementById('total-amount-aud');
+      const twdDisplay = document.getElementById('total-amount-twd');
+
+      if (expenseData.length === 0) {
+        list.innerHTML = `<div style="text-align:center; color:var(--text3); padding:24px 0; font-size:13px; font-weight:700">目前公帳本空空如也，趕緊記下第一筆吧！🐨</div>`;
+        audDisplay.innerText = "0.00";
+        twdDisplay.innerText = "0";
         return;
       }
 
-      const container = document.getElementById('expense-container');
-      const twdTotal = Math.round(amt * RATE);
-      const aaPrice = Math.round(twdTotal / 4);
-
-      const div = document.createElement('div');
-      div.className = 'exp-item';
-      div.setAttribute('data-aud', amt);
-      div.innerHTML = `
-        <div class="exp-item-left">
-          <h5>${cat} - ${title}</h5>
-          <p>每人均分約 NT$ ${aaPrice.toLocaleString()}</p>
-        </div>
-        <div class="exp-item-right">
-          <span>A$ ${amt}</span>
-          <button class="btn-del" onclick="deleteExpense(this)"><i class="fa-solid fa-trash-can"></i></button>
-        </div>
-      `;
-      container.appendChild(div);
-
-      // 清空輸入域
-      document.getElementById('exp-title').value = '';
-      document.getElementById('exp-amt').value = '';
+      list.innerHTML = '';
+      let totalAud = 0;
       
-      recalculateExpenses();
-    }
+      const colors = { "🍔 餐飲": "var(--coral)", "🚗 交通": "#0A9396", "🎟️ 門票": "var(--sun)", "🛍️ 購物": "var(--sand)" };
 
-    function deleteExpense(btn) {
-      btn.closest('.exp-item').remove();
-      recalculateExpenses();
-    }
-
-    function recalculateExpenses() {
-      let audSum = 0;
-      document.querySelectorAll('.exp-item').forEach(item => {
-        audSum += parseFloat(item.getAttribute('data-aud'));
+      expenseData.forEach((item, idx) => {
+        totalAud += item.cost;
+        const cColor = colors[item.cate] || 'var(--text3)';
+        list.innerHTML += `
+          <div class="ledger-item">
+            <div>
+              <span class="cate-badge" style="background:${cColor}">${item.cate}</span>
+              <span style="font-weight:900; color:var(--text); font-size:14px">${item.name}</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px">
+              <div style="text-align:right">
+                <div style="font-family:monospace; font-weight:900; color:var(--text); font-size:14px">$ ${item.cost.toFixed(2)}</div>
+                <div style="font-size:10px; color:var(--text3); font-weight:700">約 NT$ ${Math.round(item.cost * TWD_RATE)}</div>
+              </div>
+              <i class="fa-solid fa-circle-minus" style="color:var(--text3); cursor:pointer; font-size:16px" onclick="deleteCost(${idx})"></i>
+            </div>
+          </div>
+        `;
       });
 
-      totalExpensesAUD = audSum;
-      const twdSum = Math.round(totalExpensesAUD * RATE);
-      const aaSum = Math.round(twdSum / 4);
+      audDisplay.innerText = totalAud.toFixed(2);
+      twdDisplay.innerText = Math.round(totalAud * TWD_RATE).toLocaleString();
+    }
 
-      // 更新儀表板數據
-      document.getElementById('stat-exp').innerText = totalExpensesAUD.toFixed(1);
-      document.getElementById('stat-aa').innerText = aaSum.toLocaleString();
+    // 一鍵複製 LINE 格式文字功能
+    function copyLedgerText() {
+      if(expenseData.length === 0) {
+        alert("帳本內還沒有任何明細唷！");
+        return;
+      }
+      let text = "🇦🇺 2026 澳洲公路之旅家族公帳對帳明細：\n------------------------\n";
+      let total = 0;
+      expenseData.forEach((item, idx) => {
+        text += `${idx+1}. [${item.cate}] ${item.name} -> $${item.cost.toFixed(2)} AUD\n`;
+        total += item.cost;
+      });
+      text += `------------------------\n總支出計：$${total.toFixed(2)} AUD (約合新台幣 NT$ ${Math.round(total * TWD_RATE).toLocaleString()} 元)`;
       
-      // 更新記帳板內的小字提示
-      document.getElementById('exp-total-badge').innerText = `總計: A$ ${totalExpensesAUD.toFixed(1)} / NT$ ${twdSum.toLocaleString()}`;
-    }
-
-    // 留言板模擬
-    function postWall() {
-      const author = document.getElementById('wall-user').value;
-      const msg = document.getElementById('wall-input').value.trim();
-      if (!msg) return;
-
-      const container = document.getElementById('wall-container');
-      const now = new Date();
-      const timeStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-
-      const div = document.createElement('div');
-      div.className = 'wall-item';
-      div.innerHTML = `
-        <div class="wall-item-head"><span class="wall-author">${author}</span><span>${timeStr}</span></div>
-        <div class="wall-msg">${msg}</div>
-      `;
-      container.appendChild(div);
-      document.getElementById('wall-input').value = '';
-      container.scrollTop = container.scrollHeight;
-    }
-
-    // 手指英文點擊複製
-    function copyEng(row) {
-      const text = row.querySelector('.eng-en').innerText.trim();
       navigator.clipboard.writeText(text).then(() => {
-        const icon = row.querySelector('i');
-        icon.className = "fa-solid fa-check";
-        icon.style.color = "var(--green)";
-        setTimeout(() => {
-          icon.className = "fa-regular fa-copy";
-          icon.style.color = "";
-        }, 1200);
+        alert("🎉 複製成功！趕快貼到家族 LINE 群組對帳吧！");
+      }).catch(() => {
+        alert("複製失敗，請手動選取複製");
       });
     }
 
-    // 成員角色視窗彈出
-    function showMember(name, title, desc) {
-      document.getElementById('m-name').innerText = name;
-      document.getElementById('m-title').innerText = title;
-      document.getElementById('m-desc').innerHTML = desc;
-      
-      const avatars = {'阿明':'🦊','小美':'🐰','大雄':'🦁','隊長':'🐨'};
-      const colors = {'阿明':'#E9C46A','小美':'#83C5BE','大雄':'#F4A261','隊長':'#E76F51'};
-      
-      document.getElementById('m-avatar').innerText = avatars[name] || '👤';
-      document.getElementById('modal-head-bg').style.backgroundColor = colors[name] || 'var(--ocean)';
-      document.getElementById('memberModal').classList.add('on');
+    // 手指英文過濾
+    function filterTrans(type, btn) {
+      document.querySelectorAll('.trans-tabs .ttab').forEach(t => t.classList.remove('on'));
+      btn.classList.add('on');
+
+      const container = document.getElementById('trans-container');
+      container.innerHTML = '';
+
+      const filtered = transDatabase.filter(item => type === 'all' || item.id === type);
+      filtered.forEach(item => {
+        container.innerHTML += `
+          <div class="trans-card">
+            <div class="trans-en">"${item.en}"</div>
+            <div class="trans-ch"><i class="fa-solid fa-angle-right" style="color:var(--sand); font-size:10px"></i> ${item.ch}</div>
+          </div>
+        `;
+      });
     }
-    function closeModal() { // 兼容舊命名
-      closeMember();
+
+    // 留言板機制
+    let memoData = JSON.parse(localStorage.getItem('sydney-memos-2.0')) || [
+      { user: "👦 Arthur", text: "歡迎來到澳洲！這趟長征公路旅行絕對會是我們全家一輩子最熱血的回憶！", time: "系統預設" }
+    ];
+    function selectMemoUser(user, btn) {
+      document.querySelectorAll('.memo-selector .memo-user-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentActiveMemoUser = user;
     }
-    function closeMember() {
-      document.getElementById('memberModal').classList.remove('on');
+    function addMemoMessage() {
+      const txtInput = document.getElementById('memo-input');
+      const text = txtInput.value.trim();
+      if (!text) return;
+
+      const now = new Date();
+      const timeStr = `${now.getMonth()+1}/${now.getDate()} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+      
+      memoData.unshift({ user: currentActiveMemoUser, text, time: timeStr });
+      localStorage.setItem('sydney-memos-2.0', JSON.stringify(memoData));
+      txtInput.value = '';
+      renderMemos();
+    }
+    function renderMemos() {
+      const container = document.getElementById('memo-container');
+      container.innerHTML = '';
+      memoData.forEach(item => {
+        container.innerHTML += `
+          <div class="memo-item">
+            <div class="memo-meta">
+              <span style="color:var(--ocean-dark)">${item.user}</span>
+              <span>${item.time}</span>
+            </div>
+            <div class="memo-text">${item.text}</div>
+          </div>
+        `;
+      });
     }
   </script>
 </body>

@@ -310,4 +310,326 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
   <div class="mlist" id="msg-list"></div>
   <div style="display:flex; gap:0.3rem">
     <select id="msg-who" style="background:#08121f; color:#fff; border:1px solid var(--border); border-radius:6px; font-size:0.75rem">
-      <option value="arth
+      <option value="arthur">Arthur</option><option value="karen">Karen</option><option value="steven">Steven</option><option value="dage">江總</option>
+    </select>
+    <input type="text" id="msg-inp" placeholder="輸入備忘細節..." style="flex:1; background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:6px; padding:0.3rem; color:#fff; font-size:0.8rem">
+    <button class="btn-add" onclick="sendMsg()" style="padding:0.3rem 0.6rem">送出</button>
+  </div>
+</div>
+
+<div class="modal-ov" id="mem-modal" onclick="closeMem(event)">
+  <div class="modal-sh">
+    <button class="modal-x" onclick="document.getElementById('mem-modal').classList.remove('open')">✕</button>
+    <div id="mem-cont"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const AUD_TWD = 21.5;
+const members = ['arthur','karen','steven','dage'];
+const mNames = { arthur:'Arthur', karen:'Karen', steven:'Steven', dage:'江總' };
+const mEmojis = { arthur:'🧑‍💻', karen:'👩', steven:'👦', dage:'👨' };
+
+// 行程數據庫 (已加上真實景點意境高畫質圖網址與修正時間)
+const itinData = [
+  { day: 1, date: '2/7', label: '抵達雪梨', loc: 'Sydney', stops: [
+    { id: 's1', name: '機場會合通關 (11:00 接江總＆Steven)', desc: 'Arthur & Karen 已抵達，11:00 準時接機江總與 Steven，清點行李、確認入境，開啟公路之旅！', img: 'https://images.unsplash.com/photo-1542296332-2e4473fac563?w=500&q=80', next: '新魚市場補給 🐟' },
+    { id: 's2', name: 'Sydney Fish Market 新魚市場', desc: '澳洲必吃海鮮大餐！狂嗑鮮甜生蠔與大龍蝦補充滿滿體力。', img: 'https://images.unsplash.com/photo-1553618551-fba689030290?w=500&q=80', next: 'Granville 基地放行李 🏠' },
+    { id: 's3', name: 'Granville 基地放行李安頓', desc: '返回寬敞公寓舒適落腳，稍作歇息放行李。', img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&q=80', next: 'DFO Outlet 採購 🛍️' },
+    { id: 's4', name: 'DFO Homebush 戰利品採購', desc: 'UGG、Coach 各大品牌折扣大掃貨，第一天就買好買滿！', img: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=500&q=80', next: '晚餐義大利菜 🍕' }
+  ]},
+  { day: 2, date: '3/7', label: '市區精華', loc: 'Sydney', stops: [
+    { id: 's5', name: '雪梨歌劇院經典外拍', desc: '近距離打卡世界級經典地標，拍下最完美的家族大合照。', img: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=500&q=80', next: 'QVB 皇家購物拱廊 🏛️' },
+    { id: 's6', name: 'QVB 皇家購物長廊', desc: '漫步最美百年古蹟商場，欣賞極致奢華的維多利亞風格建築。', img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&q=80', next: 'Bondi Beach 海灘 🏖️' },
+    { id: 's7', name: 'Bondi Beach 邦代海灘海岸線', desc: '走訪絕美白色沙灘與網美無邊際泳池海岸線。', img: 'https://images.unsplash.com/photo-1524338198850-8a2ff63a103f?w=500&q=80', next: '明天準備前往藍山 ⛰️' }
+  ]},
+  { day: 3, date: '4/7', label: '海岸南下', loc: 'Kiama', stops: [
+    { id: 's8', name: 'Kiama Blowhole 巨型噴水洞', desc: '感受世界最大天然噴水孔大自然浪花咆哮震撼奇景。', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80', next: '明天勇闖藍山大峽谷 ⛰️' }
+  ]},
+  { day: 4, date: '5/7', label: '藍山探險', loc: 'Blue Mountains', stops: [
+    { id: 's9', name: '景觀世界 Scenic World 纜車', desc: '挑戰全澳洲最陡斜特快森林鐵道，穿梭在熱帶雨林大峽谷。', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=80', next: '回音谷黃昏三姐妹岩 ⛰️' },
+    { id: 's10', name: 'Echo Point 三姐妹岩黃昏夕陽', desc: '捕捉金黃暮光灑在斷崖上的世界級絕景大作。', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&q=80', next: '今晚凌晨準備大長征 🍌' }
+  ]},
+  { day: 5, date: '6/7', label: '香蕉小鎮', loc: 'Coffs Harbour', stops: [
+    { id: 's11', name: 'Big Banana Fun Park 巨型香蕉', desc: '打卡澳洲代表性的巨型水果公路地標，趣味十足！', img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&q=80', next: '明天前往拜倫灣最東端 🏰' }
+  ]},
+  { day: 6, date: '7/7', label: '最東燈塔', loc: 'Byron Bay', stops: [
+    { id: 's12', name: 'Cape Byron 燈塔極東太平洋', desc: '在澳洲極東海岸線燈塔，遠眺無邊無際的深藍太平洋。', img: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=500&q=80', next: '下午前進衝浪者天堂 🏄' }
+  ]},
+  { day: 7, date: '8/7', label: '黃金海岸', loc: 'Gold Coast', stops: [
+    { id: 's13', name: 'Lone Pine 龍柏無尾熊保護區', desc: '解鎖抱無尾熊與親手餵袋鼠行程！滿足 Steven 與江總的期待。', img: 'https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=500&q=80', next: '布里斯本市區漫步 🌉' }
+  ]},
+  { day: 8, date: '9/7', label: '布里斯本', loc: 'Brisbane', stops: [
+    { id: 's14', name: 'Chemist Warehouse 藥妝大補貨', desc: '澳洲保健品、綿羊油、伴手禮最後大補給，滿載而歸。', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&q=80', next: '開往機場，準備回台灣 ✈️' }
+  ]}
+];
+
+const packingData = {
+  "重要證件": ["護照正本 (效期6個月以上)", "台灣身份證/駕照備用", "電子簽證 ETA 確認件列印", "海外高額刷卡回饋信用卡", "國際駕照正本 + 台灣駕照正本"],
+  "電子數位設備": ["行動電源與各類慢充線材", "澳洲專用萬國轉接插頭", "車用手機架 (自駕極其重要)", "車用雙孔點菸器快充頭"],
+  "衣物與日常用品": ["防風防水保暖外套 (夜間防寒)", "舒適耐磨步行運動鞋", "防曬乳/太陽眼鏡/遮陽帽", "個人私密常用藥品/感冒藥"]
+};
+
+const englishData = [
+  { q: "點餐時想要分開付", e: "Can we split the bill, please?", t: "請問我們可以分開結帳嗎？" },
+  { q: "需要打包外帶", e: "Could I get a doggy bag? / To go, please.", t: "麻煩幫我打包，謝謝。" },
+  { q: "詢問有沒有推薦菜色", e: "What do you recommend here?", t: "你們這裡有推薦什麼招牌菜嗎？" },
+  { q: "尋問加油站人工服務", e: "Hi, I need to pay for pump number number.", t: "你好，我要結帳X號油槍。" }
+];
+
+const tasks = [
+  { id: 't1', name: '捕捉到野生袋鼠身影', icon: '🦘', pts: 20, pkey: '🦘' },
+  { id: 't2', name: '親口嚐鮮澳洲生蠔', icon: '🦪', pts: 15, pkey: '🦪' },
+  { id: 't3', name: '解鎖三姐妹岩黃昏大合照', icon: '⛰️', pts: 20, pkey: '⛰️' },
+  { id: 't4', name: '親腳踏上 Bondi Beach 沙灘', icon: '🏖️', pts: 10, pkey: '🏖️' },
+  { id: 't6', name: '親手抱到超萌無尾熊', icon: '🐨', pts: 30, pkey: '🐨' },
+  { id: 't7', name: '親眼目睹 Kiama 噴水洞發威', icon: '💨', pts: 15, pkey: '💨' }
+];
+
+function getTitle(pt) {
+  if (pt >= 500) return { txt: '👑 Australia Legend', col: '#FFD60A' };
+  if (pt >= 250) return { txt: '🥇 Road Trip Master', col: '#F4A261' };
+  if (pt >= 100) return { txt: '🥈 Adventurer', col: '#52B788' };
+  return { txt: '🥉 Explorer', col: '#90E0EF' };
+}
+
+let scores = JSON.parse(localStorage.getItem('syd-scores') || '{"arthur":50,"karen":30,"steven":10,"dage":10}'); 
+let tstate = JSON.parse(localStorage.getItem('syd-tasks') || '{}');
+let expenses = JSON.parse(localStorage.getItem('syd-exps') || '[]');
+let msgs = JSON.parse(localStorage.getItem('syd-msgs') || '[]');
+let checkedStops = JSON.parse(localStorage.getItem('syd-stops') || '{}');
+let checkedPack = JSON.parse(localStorage.getItem('syd-pack') || '{}');
+
+let currentDayIdx = 0;
+let selectedPayer = 'arthur';
+let selectedConsumers = ['arthur','karen','steven','dage'];
+
+function saveAll() {
+  localStorage.setItem('syd-scores', JSON.stringify(scores));
+  localStorage.setItem('syd-tasks', JSON.stringify(tstate));
+  localStorage.setItem('syd-exps', JSON.stringify(expenses));
+  localStorage.setItem('syd-msgs', JSON.stringify(msgs));
+  localStorage.setItem('syd-stops', JSON.stringify(checkedStops));
+  localStorage.setItem('syd-pack', JSON.stringify(checkedPack));
+}
+
+function showSec(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nav .nb').forEach(b => b.classList.remove('on'));
+  document.getElementById('s-' + id).classList.add('on');
+  btn.classList.add('on');
+  if (id === 'itin') renderItin();
+  if (id === 'exp') renderExpUI();
+  if (id === 'scores') renderScores();
+  if (id === 'pack') renderPack();
+  if (id === 'eng') renderEng();
+}
+
+function updateDashboard() {
+  let lastDoneStop = null; let nextStop = null;
+  for (let day of itinData) {
+    for (let stop of day.stops) {
+      if (checkedStops[stop.id]) lastDoneStop = stop;
+      else if (!nextStop) nextStop = stop;
+    }
+  }
+  const today = new Date(); const tripEnd = new Date('2026-07-09');
+  const diffDays = Math.ceil((tripEnd - today) / (1000 * 60 * 60 * 24));
+  document.getElementById('db-countdown').textContent = diffDays > 0 ? diffDays + " Days Left" : "歸賦 🎉";
+
+  const currentLoc = lastDoneStop ? itinData.find(d => d.stops.some(s => s.id === lastDoneStop.id)).loc : 'Sydney';
+  document.getElementById('db-loc').textContent = currentLoc;
+  document.getElementById('db-next').textContent = nextStop ? nextStop.name.substring(0,12)+'...' : '旅程圓滿落幕！';
+
+  const nodes = { 'Sydney':'rn-syd', 'Blue Mountains':'rn-blue', 'Kiama':'rn-kiama', 'Coffs Harbour':'rn-coffs', 'Byron Bay':'rn-byron', 'Gold Coast':'rn-gc' };
+  let passed = true;
+  for (let [locName, elementId] of Object.entries(nodes)) {
+    const el = document.getElementById(elementId); if (!el) continue;
+    el.classList.remove('active', 'passed');
+    if (locName === currentLoc) { el.classList.add('active'); passed = false; }
+    else if (passed) el.classList.add('passed');
+  }
+  renderPhotoWall();
+}
+
+function renderPhotoWall() {
+  const wall = document.getElementById('photo-wall');
+  wall.innerHTML = tasks.map(t => {
+    let isUnlocked = tstate[t.id] ? true : false;
+    return `<div class="pitem ${isUnlocked ? 'active' : ''}"><div class="pitem-ico">${t.icon}</div><div class="pitem-lbl">${t.name.substring(0,2)}</div></div>`;
+  }).join('');
+}
+
+function renderPack() {
+  let total = 0; let checked = 0; let html = "";
+  for (let [cat, items] of Object.entries(packingData)) {
+    html += `<div class="cll">${cat}</div><div class="clg">`;
+    items.forEach(item => {
+      total++; const isDone = checkedPack[item] ? true : false; if (isDone) checked++;
+      html += `
+        <div class="ci ${isDone?'done':''}" onclick="togglePack('${item}')">
+          <div class="cbox">${isDone?'✓':''}</div>
+          <div class="ctxt">${item}</div>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+  document.getElementById('pack-list').innerHTML = html;
+  const pct = total ? Math.round((checked / total) * 100) : 0;
+  document.getElementById('pack-progress').textContent = `準備進度：${checked} / ${total} (${pct}%)`;
+}
+function togglePack(item) { checkedPack[item] = !checkedPack[item]; saveAll(); renderPack(); }
+
+function renderEng() {
+  document.getElementById('eng-list').innerHTML = englishData.map(e => `
+    <div class="card">
+      <div style="font-size:0.75rem; color:#90E0EF; margin-bottom:2px">💡 ${e.q}</div>
+      <div style="font-size:1rem; font-weight:bold; color:var(--sand)">"${e.e}"</div>
+      <div style="font-size:0.8rem; color:rgba(255,255,255,.6); margin-top:4px">中文：${e.t}</div>
+    </div>`).join('');
+}
+
+// 修正後的行程渲染 (卡片式包含精美圖片)
+function renderItin() {
+  const tabs = document.getElementById('day-tabs');
+  tabs.innerHTML = itinData.map((d, idx) => `
+    <button class="dbtn ${idx === currentDayIdx ? 'on' : ''}" onclick="currentDayIdx=${idx}; renderItin();">
+      Day ${d.day}<br><span style="font-size:0.6rem">${d.date}</span>
+    </button>`).join('');
+  const dayData = itinData[currentDayIdx];
+  document.getElementById('db-day').textContent = `Day ${dayData.day}`;
+  const totalStops = dayData.stops.length; const doneStops = dayData.stops.filter(s => checkedStops[s.id]).length;
+  const pct = totalStops ? Math.round((doneStops / totalStops) * 100) : 0;
+  document.getElementById('day-progress-bar').textContent = `今日進度：${doneStops} / ${totalStops} 完成 (${pct}%)`;
+
+  document.getElementById('itin-content').innerHTML = dayData.stops.map(s => `
+    <div class="it-item ${checkedStops[s.id] ? 'done' : ''}" onclick="toggleStop('${s.id}')">
+      <img src="${s.img}" class="it-img" alt="${s.name}" loading="lazy">
+      <div class="it-body">
+        <div class="it-cb">${checkedStops[s.id] ? '✓' : ''}</div>
+        <div class="it-content">
+          <div class="it-title">${s.name}</div>
+          <div class="it-desc">${s.desc}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function toggleStop(id) { checkedStops[id] = !checkedStops[id]; saveAll(); renderItin(); updateDashboard(); }
+
+function initExpSelectors() {
+  document.getElementById('payer-grp').innerHTML = members.map(m => `<div class="who-box ${m === selectedPayer ? 'selected' : ''}" onclick="setParam('payer','${m}')">${mEmojis[m]} ${mNames[m]}</div>`).join('');
+  document.getElementById('consumers-grp').innerHTML = members.map(m => `<div class="who-box ${selectedConsumers.includes(m) ? 'selected' : ''}" onclick="setParam('consumer','${m}')">${mEmojis[m]} ${mNames[m]}</div>`).join('');
+}
+function setParam(type, who) {
+  if (type === 'payer') selectedPayer = who;
+  else { if (selectedConsumers.includes(who)) { if (selectedConsumers.length > 1) selectedConsumers = selectedConsumers.filter(c => c !== who); } else selectedConsumers.push(who); }
+  initExpSelectors();
+}
+
+function addExp() {
+  const amt = parseFloat(document.getElementById('e-amt').value); const desc = document.getElementById('e-desc').value.trim();
+  if (!amt || !desc) { alert('請填妥金額與項目說明！'); return; }
+  expenses.push({ amt, desc, cat: document.getElementById('e-cat').value, payer: selectedPayer, consumers: [...selectedConsumers] });
+  scores[selectedPayer] += 5; saveAll(); renderExpUI();
+  document.getElementById('e-amt').value = ''; document.getElementById('e-desc').value = '';
+  toast('帳目記錄成功！');
+}
+function delExp(idx) { expenses.splice(idx, 1); saveAll(); renderExpUI(); }
+
+function renderExpUI() {
+  initExpSelectors(); const totalAUD = expenses.reduce((sum, e) => sum + e.amt, 0);
+  document.getElementById('tot-aud').textContent = `$${totalAUD.toFixed(2)}`;
+  document.getElementById('tot-twd').textContent = `NT$ ${Math.round(totalAUD * AUD_TWD).toLocaleString()}`;
+
+  let balances = { arthur: 0, karen: 0, steven: 0, dage: 0 };
+  expenses.forEach(e => { balances[e.payer] += e.amt; const share = e.amt / e.consumers.length; e.consumers.forEach(c => balances[c] -= share); });
+  let debtHTML = '';
+  for (let [person, bal] of Object.entries(balances)) {
+    if (bal > 0) debtHTML += `<div style="color:#52B788">💰 <strong>${mNames[person]}</strong> 應收回：<strong>AUD $${bal.toFixed(2)}</strong></div>`;
+    else if (bal < 0) debtHTML += `<div style="color:#FF8B8B">💸 <strong>${mNames[person]}</strong> 應補繳：<strong>AUD $${Math.abs(bal).toFixed(2)}</strong></div>`;
+  }
+  document.getElementById('debt-list').innerHTML = debtHTML || '<div style="color:rgba(255,255,255,.4)">帳目平衡</div>';
+
+  const el = document.getElementById('e-list');
+  if (!expenses.length) { el.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,.3);padding:1rem">暫無帳目</div>`; return; }
+  el.innerHTML = expenses.map((e, idx) => `
+    <div class="erow">
+      <span style="flex:1"><strong>[${e.cat}] ${e.desc}</strong><br><span style="font-size:0.65rem; color:rgba(255,255,255,.4)">由 ${mNames[e.payer]} 墊付</span></span>
+      <div style="text-align:right"><div style="color:#FFD60A; font-weight:bold">$${e.amt.toFixed(2)}</div></div>
+      <button onclick="delExp(${idx})" style="background:none; border:none; color:#FF6B6B; margin-left:8px; cursor:pointer">✕</button>
+    </div>`).reverse().join('');
+}
+function copyToLine() {
+  let text = "📊 澳洲最新對帳單\n"; expenses.forEach((e,i) => text += `${i+1}. ${e.desc}: AUD $${e.amt} (${mNames[e.payer]}墊)\n`);
+  navigator.clipboard.writeText(text); toast('複製成功！');
+}
+
+function renderScores() {
+  const sorted = [...members].sort((a, b) => scores[b] - scores[a]);
+  const badges = ['🥇', '🥈', '🥉', '4️⃣'];
+  document.getElementById('lb').innerHTML = sorted.map((m, i) => {
+    const titleObj = getTitle(scores[m]);
+    return `
+      <div class="lbrow">
+        <span style="font-size:1.1rem; font-weight:bold; min-width:24px">${badges[i]}</span>
+        <div class="mav" style="margin:0; width:34px; height:34px; font-size:1rem">${mEmojis[m]}</div>
+        <div style="flex:1; margin-left:5px"><div class="lbname">${mNames[m]}</div><div class="lbtitle" style="background:${titleObj.col}22; color:${titleObj.col}">${titleObj.txt}</div></div>
+        <div class="lbpts">${scores[m]} pt</div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('tgrid').innerHTML = tasks.map(t => `
+    <div class="tcrd ${tstate[t.id] ? 'done' : ''}" onclick="claimTask('${t.id}', ${t.pts})">
+      <div style="font-size:1.2rem">${t.icon}</div><div style="font-weight:bold; margin:2px 0">${t.name}</div><div style="color:#FFD60A">+${t.pts} pt</div>
+      ${tstate[t.id] ? `<div style="color:#52B788; font-size:0.65rem; margin-top:4px">✓ ${mNames[tstate[t.id]]}</div>` : `
+        <select id="sel-${t.id}" onclick="event.stopPropagation()" style="width:100%; font-size:0.65rem; margin-top:4px; background:#08121f; color:#fff; border:1px solid var(--border)">
+          ${members.map(m=>`<option value="${m}">${mNames[m]}</option>`).join('')}
+        </select>`}
+    </div>`).join('');
+}
+function claimTask(id, pts) { if (tstate[id]) return; const who = document.getElementById('sel-' + id).value; tstate[id] = who; scores[who] += pts; saveAll(); renderScores(); updateDashboard(); }
+
+function openMember(id) {
+  const name = mNames[id]; const emoji = mEmojis[id]; const pts = scores[id];
+  const paidSum = expenses.filter(e => e.payer === id).reduce((sum,e)=>sum+e.amt, 0);
+  const taskCount = Object.values(tstate).filter(v => v === id).length;
+  
+  let desc = "";
+  if(id === 'arthur') desc = "主要帶大家去旅遊的靈魂核心";
+  else if(id === 'karen') desc = "協助幫忙各項後勤與美食長";
+  else if(id === 'steven') desc = "第一次來觀光的新星大冒險家";
+  else if(id === 'dage') desc = "第一次來觀光的元老級重量嘉賓";
+
+  document.getElementById('mem-cont').innerHTML = `
+    <div style="text-align:center; padding:1rem 0">
+      <div style="font-size:3rem">${emoji}</div>
+      <div style="font-size:1.4rem; font-weight:900; margin-top:5px">${name}</div>
+      <div style="color:rgba(255,255,255,.6); font-size:0.75rem; margin-bottom:5px">特質：${desc}</div>
+      <div style="color:var(--sand); font-weight:bold; font-size:1.1rem; margin:5px 0">${pts} pt</div>
+      <div style="font-size:0.75rem; color:rgba(255,255,255,.4); margin-bottom:1rem">${getTitle(pts).txt}</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; text-align:left">
+        <div style="background:rgba(255,255,255,.04); padding:0.6rem; border-radius:8px"><span style="font-size:0.65rem; color:rgba(255,255,255,.4)">🎯 解鎖任務</span><div style="font-size:1.1rem; font-weight:bold">${taskCount} 項</div></div>
+        <div style="background:rgba(255,255,255,.04); padding:0.6rem; border-radius:8px"><span style="font-size:0.65rem; color:rgba(255,255,255,.4)">💰 代墊金</span><div style="font-size:1.1rem; font-weight:bold; color:#52B788">$${paidSum.toFixed(1)} AUD</div></div>
+      </div>
+    </div>`;
+  document.getElementById('mem-modal').classList.add('open');
+}
+function closeMem(e){ if(e.target.id === 'mem-modal') document.getElementById('mem-modal').classList.remove('open'); }
+
+function sendMsg() {
+  const who = document.getElementById('msg-who').value; const txt = document.getElementById('msg-inp').value.trim(); if(!txt) return;
+  msgs.push({ who, txt }); saveAll(); document.getElementById('msg-inp').value = ''; renderMsgs();
+}
+function renderMsgs() {
+  const el = document.getElementById('msg-list'); if(!msgs.length) { el.innerHTML = `<div style="color:rgba(255,255,255,.3); font-size:0.75rem; text-align:center; padding:1rem">暫無留言</div>`; return; }
+  el.innerHTML = msgs.map(m => `<div class="mbub"><div class="mtxt"><strong>${mNames[m.who]}</strong>: ${m.txt}</div></div>`).join('');
+}
+function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
+
+updateDashboard();
+renderMsgs();
+</script>
+</body>
+</html>

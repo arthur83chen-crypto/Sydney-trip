@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>澳洲自駕大冒險 V3 豪華版</title>
+<title>澳洲自駕大冒險 V3 修正版</title>
 <style>
 :root {
   --bg: #000000;
-  --card-bg: rgba(28, 28, 30, 0.7);
+  --card-bg: rgba(28, 28, 30, 0.8);
   --card-border: rgba(255, 255, 255, 0.1);
   --text-main: #ffffff;
   --text-sub: #8e8e93;
@@ -19,41 +19,39 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font); -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); color: var(--text-main); min-height: 100vh; padding-bottom: 90px; overflow-x: hidden; }
+body { background: var(--bg); color: var(--text-main); min-height: 100vh; padding-bottom: 100px; overflow-x: hidden; }
 
 /* iPhone Dynamic Island (動態島) */
 .di-container { display: flex; justify-content: center; width: 100%; position: fixed; top: 11px; z-index: 10000; pointer-events: none; }
 .dynamic-island {
-  background: #000000; width: 110px; height: 30px; border-radius: 20px;
-  display: flex; align-items: center; justify-content: center; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  pointer-events: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.5); overflow: hidden; padding: 0 10px;
+  background: #000000; width: 120px; height: 30px; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.6); overflow: hidden; padding: 0 12px;
 }
 .dynamic-island.expanded { width: 320px; height: 65px; border-radius: 25px; background: #111; }
-.di-content { display: flex; align-items: center; justify-content: center; width: 100%; color: #fff; font-size: 0.75rem; white-space: nowrap; opacity: 0; transition: opacity 0.3s; }
-.di-content.show { opacity: 1; }
+.di-content { display: flex; align-items: center; justify-content: center; width: 100%; color: #fff; font-size: 0.75rem; white-space: nowrap; opacity: 1; transition: opacity 0.2s; }
 .di-dot { width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; margin-right: 6px; display: inline-block; }
 
 /* Hero Photo Carousel Banner */
-.hero-carousel { position: relative; width: 100%; height: 260px; overflow: hidden; background: #111; }
+.hero-carousel { position: relative; width: 100%; height: 250px; overflow: hidden; background: #111; }
 .carousel-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
 .carousel-slide { min-width: 100%; height: 100%; position: relative; }
 .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
-.carousel-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 1.2rem; }
-.hero-title { font-size: 1.6rem; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.carousel-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 1.2rem; }
+.hero-title { font-size: 1.5rem; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 .hero-subtitle { font-size: 0.85rem; color: var(--text-sub); margin-top: 2px; }
 .carousel-dots { position: absolute; bottom: 12px; right: 15px; display: flex; gap: 5px; }
 .c-dot { width: 6px; height: 6px; background: rgba(255,255,255,0.4); border-radius: 50%; transition: all 0.3s; }
 .c-dot.active { background: #fff; width: 14px; border-radius: 3px; }
 
 /* Dashboard Quick Info */
-.db-row { display: flex; gap: 8px; padding: 10px 15px; overflow-x: auto; scrollbar-width: none; }
-.db-row::-webkit-scrollbar { display: none; }
-.db-widget { background: var(--card-bg); border: 1px solid var(--card-border); backdrop-filter: blur(20px); border-radius: 14px; padding: 10px; min-width: 105px; flex: 1; text-align: center; }
+.db-row { display: flex; gap: 8px; padding: 10px 15px; }
+.db-widget { background: var(--card-bg); border: 1px solid var(--card-border); backdrop-filter: blur(20px); border-radius: 14px; padding: 10px; flex: 1; text-align: center; }
 .db-w-lbl { font-size: 0.65rem; color: var(--text-sub); text-transform: uppercase; margin-bottom: 3px; }
 .db-w-val { font-size: 0.85rem; font-weight: 700; color: #fff; }
 
 /* Progress Flow Line */
-.pflow-box { margin: 5px 15px 15px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; backdrop-filter: blur(20px); }
+.pflow-box { margin: 5px 15px 15px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; }
 .pflow-title { font-size: 0.75rem; color: var(--text-sub); font-weight: bold; margin-bottom: 10px; display: flex; justify-content: space-between; }
 .pflow-line { display: flex; justify-content: space-between; position: relative; }
 .pflow-line::before { content: ''; position: absolute; top: 10px; left: 15px; right: 15px; height: 2px; background: rgba(255,255,255,0.1); z-index: 1; }
@@ -65,33 +63,33 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
 .pflow-node.active .pflow-txt { color: var(--accent-orange); font-weight: bold; }
 
 /* Bottom Tab Bar (iOS Style) */
-.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 83px; background: rgba(18, 18, 18, 0.85); backdrop-filter: blur(30px); border-top: 0.5px solid rgba(255,255,255,0.15); z-index: 9999; padding-bottom: env(safe-area-inset-bottom); }
+.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 83px; background: rgba(18, 18, 18, 0.9); backdrop-filter: blur(30px); border-top: 0.5px solid rgba(255,255,255,0.15); z-index: 9999; padding-bottom: env(safe-area-inset-bottom); }
 .tab-inner { display: flex; justify-content: space-around; max-width: 600px; margin: 0 auto; height: 100%; }
-.tab-btn { background: none; border: none; color: #8e8e93; font-size: 0.6rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; flex: 1; transition: color 0.2s; }
+.tab-btn { background: none; border: none; color: #8e8e93; font-size: 0.65rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; flex: 1; transition: color 0.2s; }
 .tab-btn.active { color: var(--accent-blue); }
 .tab-icon { font-size: 1.35rem; }
 
 /* App Content Sections */
 .app-sec { display: none; padding: 10px 15px 40px; }
 .app-sec.active { display: block; }
-.sec-header { font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
+.sec-header { font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
 
-/* Itinerary Cards with Collapse */
-.day-scroll { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; scrollbar-width: none; }
+/* Itinerary Cards */
+.day-scroll { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; scrollbar-width: none; padding-bottom: 4px; }
 .day-scroll::-webkit-scrollbar { display: none; }
-.day-tab { background: #1c1c1e; border: none; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; white-space: nowrap; }
+.day-tab { background: #1c1c1e; border: none; color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 0.78rem; cursor: pointer; white-space: nowrap; }
 .day-tab.active { background: var(--accent-blue); font-weight: bold; }
 
-.spot-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; margin-bottom: 12px; overflow: hidden; transition: all 0.3s; }
+.spot-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; margin-bottom: 12px; overflow: hidden; }
 .spot-card.completed { border-color: rgba(52, 199, 89, 0.3); background: rgba(52, 199, 89, 0.03); }
-.spot-img-wrap { width: 100%; height: 150px; position: relative; cursor: pointer; }
+.spot-img-wrap { width: 100%; height: 140px; position: relative; cursor: pointer; }
 .spot-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
 .spot-tag { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 10px; font-size: 0.65rem; backdrop-filter: blur(5px); }
 .spot-info { padding: 12px; }
-.spot-top { display: flex; align-items: flex-start; gap: 10px; justify-content: space-between; }
-.spot-cb { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; cursor: pointer; flex-shrink: 0; }
+.spot-top { display: flex; align-items: center; gap: 10px; justify-content: space-between; }
+.spot-cb { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; cursor: pointer; flex-shrink: 0; background: transparent; }
 .spot-card.completed .spot-cb { background: var(--accent-green); border-color: var(--accent-green); color: #fff; }
-.spot-title { font-size: 1rem; font-weight: 700; flex: 1; }
+.spot-title { font-size: 0.95rem; font-weight: 700; flex: 1; text-align: left; }
 .spot-card.completed .spot-title { text-decoration: line-through; color: var(--text-sub); }
 .spot-details { margin-top: 8px; font-size: 0.8rem; color: var(--text-sub); line-height: 1.45; display: none; }
 .spot-details.open { display: block; }
@@ -103,11 +101,11 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
 .exp-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
 .exp-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px; text-align: center; }
 .exp-box h4 { font-size: 0.65rem; color: var(--text-sub); text-transform: uppercase; margin-bottom: 4px; }
-.exp-box div { font-size: 1.2rem; font-weight: 800; }
+.exp-box div { font-size: 1.15rem; font-weight: 800; }
 .form-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 14px; margin-bottom: 15px; }
 .form-row { display: flex; gap: 8px; margin-bottom: 10px; }
 .form-row input, .form-row select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; padding: 10px; font-size: 0.85rem; outline: none; flex: 1; }
-.selector-lbl { font-size: 0.72rem; color: var(--text-sub); margin: 6px 0 4px; }
+.selector-lbl { font-size: 0.72rem; color: var(--text-sub); margin: 6px 0 4px; text-align: left; }
 .member-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .chip { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 15px; font-size: 0.78rem; cursor: pointer; transition: all 0.2s; }
 .chip.selected { background: var(--accent-blue); border-color: var(--accent-blue); }
@@ -117,24 +115,24 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
 
 /* Leaderboard Rank */
 .rank-card { display: flex; align-items: center; gap: 12px; background: var(--card-bg); border: 1px solid var(--card-border); padding: 12px 16px; border-radius: 16px; margin-bottom: 8px; }
-.rank-num { font-size: 1.2rem; font-weight: 900; width: 25px; text-align: center; }
-.rank-avatar { width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
-.rank-info { flex: 1; }
-.rank-name { font-weight: 700; font-size: 0.95rem; }
+.rank-num { font-size: 1.1rem; font-weight: 900; width: 20px; }
+.rank-avatar { width: 36px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+.rank-info { flex: 1; text-align: left; }
+.rank-name { font-weight: 700; font-size: 0.9rem; }
 .rank-title { font-size: 0.65rem; color: var(--accent-orange); margin-top: 1px; }
-.rank-pts { font-size: 1.1rem; font-weight: 800; color: #ffd60a; }
+.rank-pts { font-size: 1rem; font-weight: 800; color: #ffd60a; }
 
 /* Task List Elements */
 .task-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.task-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
+.task-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px; text-align: center; cursor: pointer; }
 .task-item.done { border-color: rgba(52, 199, 89, 0.4); background: rgba(52, 199, 89, 0.08); }
-.task-icon { font-size: 1.5rem; margin-bottom: 4px; }
+.task-icon { font-size: 1.3rem; margin-bottom: 4px; }
 .task-name { font-size: 0.8rem; font-weight: bold; margin-bottom: 4px; }
 .task-pts { font-size: 0.72rem; color: #ffd60a; }
 .task-assignee { font-size: 0.65rem; color: var(--accent-green); margin-top: 4px; font-weight: bold; }
 
 /* Packing Checklist Group */
-.pack-group-title { font-size: 0.85rem; color: var(--text-sub); font-weight: bold; margin: 15px 0 6px; }
+.pack-group-title { font-size: 0.85rem; color: var(--text-sub); font-weight: bold; margin: 15px 0 6px; text-align: left; }
 .pack-item { display: flex; align-items: center; gap: 10px; background: var(--card-bg); border: 1px solid var(--card-border); padding: 12px; border-radius: 12px; margin-bottom: 6px; font-size: 0.85rem; cursor: pointer; }
 .pack-item.checked { opacity: 0.5; }
 .pack-item.checked .pack-txt { text-decoration: line-through; color: var(--text-sub); }
@@ -142,16 +140,16 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
 .pack-item.checked .pack-checkbox { background: var(--accent-blue); border-color: var(--accent-blue); color: #fff; }
 
 /* English Phrase Cards */
-.phrase-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px; margin-bottom: 8px; }
-.phrase-eng { font-size: 1.05rem; font-weight: bold; color: var(--accent-orange); }
+.phrase-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px; margin-bottom: 8px; text-align: left; }
+.phrase-eng { font-size: 1rem; font-weight: bold; color: var(--accent-orange); }
 .phrase-zht { font-size: 0.85rem; margin-top: 4px; }
 .phrase-ctx { font-size: 0.72rem; color: var(--text-sub); margin-top: 2px; }
 
 /* SOS & Emergency Box */
 .sos-banner { background: linear-gradient(135deg, rgba(255,59,48,0.25) 0%, rgba(150,10,10,0.3) 100%); border: 1.5px solid var(--accent-red); border-radius: 16px; padding: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.sos-big-num { font-size: 2.2rem; font-weight: 900; color: #ff6b6b; }
+.sos-big-num { font-size: 2rem; font-weight: 900; color: #ff6b6b; }
 .btn-sos-call { background: var(--accent-red); color: #fff; padding: 8px 16px; border-radius: 10px; font-weight: bold; text-decoration: none; font-size: 0.8rem; }
-.hosp-card { background: rgba(0, 122, 255, 0.08); border: 1px solid rgba(0, 122, 255, 0.2); border-radius: 14px; padding: 14px; margin-bottom: 10px; font-size: 0.82rem; }
+.hosp-card { background: rgba(0, 122, 255, 0.08); border: 1px solid rgba(0, 122, 255, 0.2); border-radius: 14px; padding: 14px; margin-bottom: 10px; font-size: 0.82rem; text-align: left; }
 .hosp-name { font-weight: bold; color: #90e0ef; font-size: 0.95rem; margin-bottom: 4px; }
 .hosp-links { display: flex; gap: 8px; margin-top: 10px; }
 
@@ -159,7 +157,7 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
 .pwall-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 15px; }
 .pwall-cell { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.25; transition: opacity 0.3s; }
 .pwall-cell.active { opacity: 1; border-color: var(--accent-orange); background: rgba(255,149,0,0.06); }
-.pwall-ico { font-size: 1.3rem; }
+.pwall-ico { font-size: 1.2rem; }
 .pwall-lbl { font-size: 0.55rem; color: var(--text-sub); }
 </style>
 </head>
@@ -168,7 +166,7 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
 <div class="di-container">
   <div class="dynamic-island" id="island" onclick="toggleIsland()">
     <div class="di-content" id="di-content">
-      <span class="di-dot"></span><span id="di-txt">公路導航系統就緒</span>
+      <span class="di-dot"></span><span id="di-txt">導航系統就緒</span>
     </div>
   </div>
 </div>
@@ -202,7 +200,7 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
 
 <div class="db-row">
   <div class="db-widget"><div class="db-w-lbl">📍 當前位置</div><div class="db-w-val" id="db-loc">Sydney</div></div>
-  <div class="db-widget"><div class="db-w-lbl">⏳ 旅程倒數</div><div class="db-w-val" id="db-countdown">7 Days</div></div>
+  <div class="db-widget"><div class="db-w-lbl">⏳ 旅程天數</div><div class="db-w-val">8 Days</div></div>
   <div class="db-widget"><div class="db-w-lbl">💰 總開支(AUD)</div><div class="db-w-val" id="db-exp">$0.00</div></div>
 </div>
 
@@ -217,17 +215,6 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
     <div class="pflow-node" id="pf-bris"><div class="pflow-dot"></div><div class="pflow-txt">布里斯本</div></div>
   </div>
 </div>
-
-<nav class="tab-bar">
-  <div class="tab-inner">
-    <button class="tab-btn active" onclick="switchSection('itin', this)"><span class="tab-icon">🗺️</span>行程打卡</button>
-    <button class="tab-btn" onclick="switchSection('exp', this)"><span class="tab-icon">💰</span>智慧記帳</button>
-    <button class="tab-btn" onclick="switchSection('score', this)"><span class="tab-icon">🏆</span>探險榜</button>
-    <button class="tab-btn" onclick="switchSection('pack', this)"><span class="tab-icon">🧳</span>行李清單</button>
-    <button class="tab-btn" onclick="switchSection('eng', this)"><span class="tab-icon">🗣️</span>生存英文</button>
-    <button class="tab-btn" onclick="switchSection('sos', this)"><span class="tab-icon">⚙️</span>應急工具</button>
-  </div>
-</nav>
 
 <div id="sec-itin" class="app-sec active">
   <div class="sec-header">每日探險航線</div>
@@ -245,7 +232,7 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
   <div class="form-card">
     <div class="form-row">
       <input type="number" id="exp-amt" placeholder="消費金額 (AUD)">
-      <input type="text" id="exp-desc" placeholder="項目說明(如:晚餐、門票)">
+      <input type="text" id="exp-desc" placeholder="項目說明(如:晚餐)">
     </div>
     <div class="form-row">
       <select id="exp-cat">
@@ -264,7 +251,7 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
   </div>
 
   <div class="form-card" style="background:rgba(0,122,255,0.05)">
-    <div class="selector-lbl" style="color:var(--accent-blue); font-weight:bold;">🔄 當前家族帳目清算（自動多向債務抵消）</div>
+    <div class="selector-lbl" style="color:var(--accent-blue); font-weight:bold;">🔄 當前家族帳目清算（債務自動抵消）</div>
     <div id="settlement-results" style="font-size:0.85rem; line-height:1.6; margin-top:5px;">暫無清算數據</div>
   </div>
 
@@ -284,7 +271,7 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
 </div>
 
 <div id="sec-pack" class="app-sec">
-  <div class="sec-header">出發前防呆行李核對</div>
+  <div class="sec-header">出發前行李核對</div>
   <div id="pack-container"></div>
 </div>
 
@@ -307,78 +294,84 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
     <div class="hosp-name">🚑 離基地最近急診：Auburn Hospital</div>
     <div style="color:var(--text-sub); font-size:0.75rem">地址: Corner Norval St & Church St, Auburn NSW 2144</div>
     <div class="hosp-links">
-      <a class="btn-action nav-btn" href="https://maps.google.com/?q=Auburn+Hospital" target="_blank">📍 地圖導航</a>
+      <a class="btn-action nav-btn" href="https://maps.google.com/?q=Auburn+Hospital+NSW" target="_blank">📍 地圖導航</a>
       <a class="btn-action" href="tel:+61297679000" style="color:var(--accent-green)">📞 撥打急診</a>
     </div>
   </div>
 </div>
 
+<nav class="tab-bar">
+  <div class="tab-inner">
+    <button class="tab-btn active" id="btn-tab-itin" onclick="switchSection('itin')"><span class="tab-icon">🗺️</span>行程打卡</button>
+    <button class="tab-btn" id="btn-tab-exp" onclick="switchSection('exp')"><span class="tab-icon">💰</span>智慧記帳</button>
+    <button class="tab-btn" id="btn-tab-score" onclick="switchSection('score')"><span class="tab-icon">🏆</span>探險榜</button>
+    <button class="tab-btn" id="btn-tab-pack" onclick="switchSection('pack')"><span class="tab-icon">🧳</span>行李清單</button>
+    <button class="tab-btn" id="btn-tab-eng" onclick="switchSection('eng')"><span class="tab-icon">🗣️</span>生存英文</button>
+    <button class="tab-btn" id="btn-tab-sos" onclick="switchSection('sos')"><span class="tab-icon">⚙️</span>應急工具</button>
+  </div>
+</nav>
+
 <script>
-const EX_RATE = 21.5; // AUD to TWD
+const EX_RATE = 21.5; 
 const members = ['arthur', 'karen', 'steven', 'dage'];
 const memberNames = { arthur: 'Arthur', karen: 'Karen', steven: 'Steven', dage: '江總' };
 const memberEmojis = { arthur: '🧑‍💻', karen: '👩', steven: '👦', dage: '👨' };
 
-// 完整景點數據庫 (Day 1 至 Day 8)
 const itineraryData = [
   { day: 1, date: '2/7', title: '抵達雪梨與採購補給', loc: 'Sydney', spots: [
-    { id: 'spot_1', name: '機場全體集合通關 (11:00 接機)', desc: '11:00 迎接江總與 Steven 班機抵達！清點行李，開啟全家族澳洲大冒險。', img: 'https://images.unsplash.com/photo-1542296332-2e4473fac563?w=500&q=80', map: 'Sydney+Airport' },
-    { id: 'spot_2', name: 'Sydney Fish Market 魚市場', desc: '澳洲知名海鮮大爆發！大啖鮮甜肥美生蠔、現烤大龍蝦。', img: 'https://images.unsplash.com/photo-1553618551-fba689030290?w=500&q=80', map: 'Sydney+Fish+Market' },
-    { id: 'spot_3', name: 'Granville 公寓基地安頓', desc: '抵達精心挑選的寬敞落腳處，放置大件行李稍微歇息。', img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&q=80', map: 'Granville+NSW' },
-    { id: 'spot_4', name: 'DFO Homebush 戰利品大採購', desc: 'UGG 雪靴、各大品牌折扣村首日大掃貨，買齊公路保暖裝備。', img: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=500&q=80', map: 'DFO+Homebush' }
+    { id: 'spot_1', name: '機場全體集合通關 (11:00 接機)', desc: '迎接班機抵達！清點行李，開啟全家族澳洲大冒險。', img: 'https://images.unsplash.com/photo-1542296332-2e4473fac563?w=500&q=80', map: 'Sydney+Airport' },
+    { id: 'spot_2', name: 'Sydney Fish Market 魚市場', desc: '大啖鮮甜肥美生蠔、現烤大龍蝦。', img: 'https://images.unsplash.com/photo-1553618551-fba689030290?w=500&q=80', map: 'Sydney+Fish+Market' },
+    { id: 'spot_3', name: 'Granville 公寓基地安頓', desc: '抵達落腳處放置大件行李稍微歇息。', img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&q=80', map: 'Granville+NSW' },
+    { id: 'spot_4', name: 'DFO Homebush 戰利品大採購', desc: 'UGG 雪靴、各大品牌折扣村大採購。', img: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=500&q=80', map: 'DFO+Homebush' }
   ]},
   { day: 2, date: '3/7', title: '雪梨市區著名地標一日遊', loc: 'Sydney', spots: [
-    { id: 'spot_5', name: '雪梨歌劇院與港灣大橋外拍', desc: '零死角捕捉世界頂級地標！拍攝家族最美合影。', img: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=500&q=80', map: 'Sydney+Opera+House' },
-    { id: 'spot_6', name: 'QVB 皇家維多利亞女王大廈', desc: '漫步百年精緻古蹟商場，品味經典維多利亞宮廷風建築細節。', img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&q=80', map: 'Queen+Victoria+Building' },
-    { id: 'spot_7', name: 'Bondi Beach 邦代海灘巡航', desc: '踩上純淨白沙灘，朝聖網美最愛的無邊際海濱泳池 Icebergs。', img: 'https://images.unsplash.com/photo-1524338198850-8a2ff63a103f?w=500&q=80', map: 'Bondi+Beach' }
+    { id: 'spot_5', name: '雪梨歌劇院與港灣大橋外拍', desc: '零死角捕捉世界頂級地標！拍攝家族合影。', img: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=500&q=80', map: 'Sydney+Opera+House' },
+    { id: 'spot_6', name: 'QVB 皇家維多利亞女王大廈', desc: '漫步百年精緻古蹟商場。', img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&q=80', map: 'Queen+Victoria+Building' },
+    { id: 'spot_7', name: 'Bondi Beach 邦代海灘巡航', desc: '朝聖網美最愛的無邊際海濱泳池 Icebergs。', img: 'https://images.unsplash.com/photo-1524338198850-8a2ff63a103f?w=500&q=80', map: 'Bondi+Beach' }
   ]},
   { day: 3, date: '4/7', title: '海岸線南下縱走', loc: 'Kiama', spots: [
-    { id: 'spot_8', name: 'Kiama Blowhole 噴水洞', desc: '直擊世界級天然噴水孔，強烈驚濤巨浪沖天引發的震撼自然鳴響。', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80', map: 'Kiama+Blowhole' }
+    { id: 'spot_8', name: 'Kiama Blowhole 噴水洞', desc: '直擊世界級天然噴水孔震撼自然鳴響。', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80', map: 'Kiama+Blowhole' }
   ]},
-  { day: 4, date: '5/7', title: '勇闖世界自然遺產大藍山', loc: 'Blue Mountains', spots: [
-    { id: 'spot_9', name: 'Scenic World 景觀世界三大纜車', desc: '挑戰全澳最陡斜 52 度特快森林鐵道，凌空飛越熱帶雨林峽谷。', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=80', map: 'Scenic+World' },
-    { id: 'spot_10', name: 'Echo Point 黃昏眺望三姐妹岩', desc: '金黃暮光揮灑在巨幅落差斷崖上，見證不可思議的地質史詩。', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&q=80', map: 'Echo+Point+Three+Sisters' }
+  { day: 4, date: '5/7', title: '世界自然遺產大藍山', loc: 'Blue Mountains', spots: [
+    { id: 'spot_9', name: 'Scenic World 三大纜車', desc: '挑戰全澳最陡斜 52 度特快森林鐵道。', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=80', map: 'Scenic+World' },
+    { id: 'spot_10', name: 'Echo Point 眺望三姐妹岩', desc: '見證不可思議的地質史詩。', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&q=80', map: 'Echo+Point+Three+Sisters' }
   ]},
   { day: 5, date: '6/7', title: '大香蕉公路地標長征', loc: 'Coffs Harbour', spots: [
-    { id: 'spot_11', name: 'Big Banana Fun Park 特色打卡', desc: '公路旅行必備！捕獲澳洲最具歷史意義的長型巨碩巨型水果地標。', img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&q=80', map: 'The+Big+Banana+Fun+Park' }
+    { id: 'spot_11', name: 'Big Banana Fun Park 特色打卡', desc: '捕獲澳洲最具歷史意義的巨型水果地標。', img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&q=80', map: 'The+Big+Banana+Fun+Park' }
   ]},
   { day: 6, date: '7/7', title: '太平洋極東點巡航', loc: 'Byron Bay', spots: [
-    { id: 'spot_12', name: 'Cape Byron 拜倫灣極東白色燈塔', desc: '站在澳洲本土陸地最東端，俯瞰震撼壯闊、碧藍透徹的太平洋波濤。', img: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=500&q=80', map: 'Cape+Byron+Lighthouse' }
+    { id: 'spot_12', name: 'Cape Byron 白色燈塔', desc: '站在澳洲本土陸地最東端，俯瞰壯闊太平洋。', img: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=500&q=80', map: 'Cape+Byron+Lighthouse' }
   ]},
   { day: 7, date: '8/7', title: '澳洲萌物無尾熊親密接觸', loc: 'Gold Coast', spots: [
-    { id: 'spot_13', name: 'Lone Pine 龍柏無尾熊保護區', desc: '終極解鎖！親手擁抱毛茸茸無尾熊，在草地上親自手餵成群袋鼠。', img: 'https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=500&q=80', map: 'Lone+Pine+Koala+Sanctuary' }
+    { id: 'spot_13', name: 'Lone Pine 龍柏無尾熊保護區', desc: '親手擁抱無尾熊，親自手餵成群袋鼠。', img: 'https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=500&q=80', map: 'Lone+Pine+Koala+Sanctuary' }
   ]},
   { day: 8, date: '9/7', title: '布里斯班購物與歸賦', loc: 'Brisbane', spots: [
-    { id: 'spot_14', name: 'Chemist Warehouse 伴手禮總採購', desc: '瘋狂補貨澳洲頂級維他命、綿羊油、蜂膠牙膏。隨後開往機場準備返台。', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&q=80', map: 'Chemist+Warehouse+Brisbane' }
+    { id: 'spot_14', name: 'Chemist Warehouse 總採購', desc: '瘋狂補貨維他命、綿羊油，隨後開往機場準備返台。', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&q=80', map: 'Chemist+Warehouse+Brisbane' }
   ]}
 ];
 
-// 行李數據庫
 const packingData = {
-  "📁 核心證件檔案": ["護照正本 (效期6個月以上)", "電子簽證 ETA 核發憑證列印件", "台灣駕照正本 + 國際駕照正本", "海外高回饋刷卡信用卡"],
-  "🔌 數位車載設備": ["車用手機支架 (自駕必備防迷路)", "點菸器轉 USB 雙孔快充頭", "行動電源與耐磨充電線材", "澳洲專用三腳萬國轉接頭"],
-  "🧥 穿著與常備藥": ["防風防水保暖機能外套 (夜間極冷)", "高緩震防滑運動步行鞋", "個人特殊常用慢性藥/常備感冒藥", "防曬乳/遮陽帽/太陽眼鏡"]
+  "📁 核心證件檔案": ["護照正本 (效期6個月以上)", "電子簽證 ETA 核發憑證", "台灣駕照正本 + 國際駕照正本", "海外高回饋信用卡"],
+  "🔌 數位車載設備": ["車用手機支架 (自駕必備)", "點菸器轉 USB 快充頭", "行動電源與充電線材", "澳洲專用三腳萬國轉接頭"],
+  "🧥 穿著與常備藥": ["防風防水保暖外套 (夜間冷)", "防滑運動步行鞋", "個人常備感冒藥/慢性藥", "防曬乳/太陽眼鏡"]
 };
 
-// 生存英語數據庫
 const englishData = [
   { q: "結帳需要跟店員要求「分開付/拆帳」", e: "Can we split the bill, please?", c: "請問我們可以分開結帳嗎？" },
   { q: "在餐廳吃不完，想要「打包外帶」", e: "Could I get a doggy bag? / To go, please.", c: "麻煩幫我打包，謝謝。" },
-  { q: "不知道點什麼，請店員「推薦招牌菜」", e: "What do you recommend here?", c: "你們這有推薦什麼厲害的特色菜嗎？" },
-  { q: "自駕在加油站加完油，走進去超商人工結帳", e: "Hi, I need to pay for pump number [數字].", c: "你好，我要結帳X號油槍的油錢。" }
+  { q: "不知道點什麼，請店員「推薦招牌菜」", e: "What do you recommend here?", c: "你們這有推薦什麼特色菜嗎？" },
+  { q: "自駕在加油站加完油，人工結帳", e: "Hi, I need to pay for pump number [X].", c: "你好，我要結帳X號油槍的油錢。" }
 ];
 
-// 即時挑戰任務
 const taskData = [
-  { id: 't_1', name: '目睹野生袋鼠蹦跳蹦跳', icon: '🦘', pts: 25 },
-  { id: 't_2', name: '勇敢生吞一顆澳洲特級生蠔', icon: '🦪', pts: 15 },
+  { id: 't_1', name: '目睹野生袋鼠蹦跳', icon: '🦘', pts: 25 },
+  { id: 't_2', name: '生吞一顆澳洲特級生蠔', icon: '🦪', pts: 15 },
   { id: 't_3', name: '家族全員與三姐妹岩完美同框', icon: '⛰️', pts: 30 },
   { id: 't_4', name: '光腳丫踩上 Bondi Beach 浪花', icon: '🏖️', pts: 20 },
   { id: 't_5', name: '成功合體抱到超萌無尾熊', icon: '🐨', pts: 35 },
   { id: 't_6', name: '直擊 Kiama 噴水洞朝天噴發', icon: '💨', pts: 20 }
 ];
 
-// 從 LocalStorage 載入或初始化變數
 let currentDayIdx = 0;
 let selectedPayer = 'arthur';
 let selectedConsumers = [...members];
@@ -387,7 +380,7 @@ let db_spots = JSON.parse(localStorage.getItem('v3_spots') || '{}');
 let db_expenses = JSON.parse(localStorage.getItem('v3_expenses') || '[]');
 let db_tasks = JSON.parse(localStorage.getItem('v3_tasks') || '{}');
 let db_pack = JSON.parse(localStorage.getItem('v3_pack') || '{}');
-let db_scores = JSON.parse(localStorage.getItem('v3_scores') || '{"arthur":60,"karen":40,"steven::20,"dage":20}');
+let db_scores = JSON.parse(localStorage.getItem('v3_scores') || '{"arthur":60,"karen":40,"steven":20,"dage":20}');
 
 function saveState() {
   localStorage.setItem('v3_spots', JSON.stringify(db_spots));
@@ -401,37 +394,46 @@ function saveState() {
 function triggerIsland(msg, isExpanded = false) {
   const island = document.getElementById('island');
   const txt = document.getElementById('di-txt');
-  const cnt = document.getElementById('di-content');
   
-  cnt.classList.remove('show');
-  setTimeout(() => {
-    txt.textContent = msg;
-    if (isExpanded) {
-      island.classList.add('expanded');
-    } else {
-      island.classList.remove('expanded');
-    }
-    cnt.add = cnt.classList.add('show');
-  }, 200);
-
+  txt.textContent = msg;
   if (isExpanded) {
+    island.classList.add('expanded');
     setTimeout(() => { island.classList.remove('expanded'); }, 4000);
+  } else {
+    island.classList.remove('expanded');
   }
 }
 function toggleIsland() {
   document.getElementById('island').classList.toggle('expanded');
 }
 
-// 核心頁面切換
-function switchSection(secId, btnElement) {
-  document.querySelectorAll('.app-sec').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+// 核心頁面切換 (完全修復：全手動對應 ID、移除動態拼湊 Bug)
+function switchSection(secId) {
+  // 1. 隱藏所有區塊
+  document.getElementById('sec-itin').style.display = 'none';
+  document.getElementById('sec-exp').style.display = 'none';
+  document.getElementById('sec-score').style.display = 'none';
+  document.getElementById('sec-pack').style.display = 'none';
+  document.getElementById('sec-eng').style.display = 'none';
+  document.getElementById('sec-sos').style.display = 'none';
   
-  document.getElementById('sec-' + secId).classList.add('active');
-  btnElement.classList.add('active');
+  // 2. 顯示目標區塊
+  document.getElementById('sec-' + secId).style.display = 'block';
+  
+  // 3. 移除所有導航鈕的 active
+  document.getElementById('btn-tab-itin').classList.remove('active');
+  document.getElementById('btn-tab-exp').classList.remove('active');
+  document.getElementById('btn-tab-score').classList.remove('active');
+  document.getElementById('btn-tab-pack').classList.remove('active');
+  document.getElementById('btn-tab-eng').classList.remove('active');
+  document.getElementById('btn-tab-sos').classList.remove('active');
+  
+  // 4. 為點擊的按鈕加上 active
+  document.getElementById('btn-tab-' + secId).classList.add('active');
   
   window.scrollTo({ top: 0, behavior: 'smooth' });
   
+  // 5. 觸發各別渲染
   if(secId === 'itin') renderItinerary();
   if(secId === 'exp') renderExpenseSystem();
   if(secId === 'score') renderScoresAndTasks();
@@ -477,14 +479,14 @@ function renderItinerary() {
         </div>
         <div class="spot-info">
           <div class="spot-top">
-            <div class="spot-cb" onclick="toggleSpotDone('${s.id}')">${isCompleted ? '✓' : ''}</div>
-            <div class="spot-title">${s.name}</div>
+            <div class="spot-cb" onclick="toggleSpotDone('${s.id}'); event.stopPropagation();">${isCompleted ? '✓' : ''}</div>
+            <div class="spot-title" onclick="toggleDetails('${s.id}')">${s.name}</div>
           </div>
           <div class="spot-details" id="details_${s.id}">
             <p style="margin: 6px 0; font-size:0.78rem; color:#d1d1d6;">${s.desc}</p>
             <div class="spot-actions">
               <a class="btn-action nav-btn" href="https://maps.google.com/?q=${s.map}" target="_blank">🗺️ 導航直達景點</a>
-              <button class="btn-action" onclick="triggerIsland('📍 下一站提示：${s.name}')">📸 航線預覽</button>
+              <button class="btn-action" onclick="triggerIsland('📍 目前選定景點：${s.name}')">📸 景點註記</button>
             </div>
           </div>
         </div>
@@ -501,7 +503,7 @@ function toggleSpotDone(id) {
   if(db_spots[id]) triggerIsland("🎉 成功解鎖一個景點進度！", true);
 }
 
-// 2. 智慧記帳系統與多向債務抵消演算法 (網頁端完全核心運作)
+// 2. 智慧記帳系統
 function renderExpenseChips() {
   document.getElementById('payer-chips').innerHTML = members.map(m => `
     <div class="chip ${m === selectedPayer ? 'selected' : ''}" onclick="selectPayer('${m}')">
@@ -537,7 +539,7 @@ function submitExpense() {
     amt: amt, desc: desc, cat: cat, payer: selectedPayer, consumers: [...selectedConsumers], date: new Date().toLocaleDateString()
   });
   
-  db_scores[selectedPayer] += 5; // 記帳獲得榮譽積分
+  db_scores[selectedPayer] += 5; 
   saveState();
   
   amtInput.value = ''; descInput.value = '';
@@ -559,7 +561,6 @@ function renderExpenseSystem() {
   document.getElementById('summary-aud').textContent = `$${totalAUD.toFixed(2)}`;
   document.getElementById('summary-twd').textContent = `NT$ ${Math.round(totalAUD * EX_RATE).toLocaleString()}`;
   
-  // 多向債務清算核心演算法 (Graph Simplification)
   let balances = { arthur: 0, karen: 0, steven: 0, dage: 0 };
   db_expenses.forEach(e => {
     balances[e.payer] += e.amt;
@@ -577,7 +578,6 @@ function renderExpenseSystem() {
   }
   document.getElementById('settlement-results').innerHTML = debtHTML || '<div style="color:var(--text-sub)">目前各項目分帳皆完美平衡！</div>';
 
-  // 歷史明細
   const hist = document.getElementById('history-list');
   if(!db_expenses.length) { hist.innerHTML = '<div style="color:var(--text-sub);text-align:center;padding:10px;">暫無明細</div>'; return; }
   
@@ -589,27 +589,25 @@ function renderExpenseSystem() {
       </div>
       <div style="text-align:right; display:flex; align-items:center; gap:8px;">
         <span style="font-weight:bold; color:#ffd60a;">$${e.amt.toFixed(1)}</span>
-        <span style="color:var(--accent-red); cursor:pointer;" onclick="deleteExpense(${idx})">✕</span>
+        <span style="color:var(--accent-red); cursor:pointer; font-weight:bold; padding:4px 8px;" onclick="deleteExpense(${idx})">✕</span>
       </div>
     </div>`).reverse().join('');
 }
 
 // 3. 排行榜與現場任務成就模組
 function getPlayerTitle(pt) {
-  if (pt >= 200) return '👑 澳洲大富翁公路傳奇';
-  if (pt >= 120) return '🥇 專業自駕首席領航員';
-  if (pt >= 60) return '🥈 資深全能冒險家';
+  if (pt >= 150) return '👑 澳洲大富翁公路傳奇';
+  if (pt >= 100) return '🥇 專業自駕首席領航員';
+  if (pt >= 50) return '🥈 資深全能冒險家';
   return '🥉 隨隊觀光實習生';
 }
 
 function renderScoresAndTasks() {
-  // 渲染圖鑑牆 (Photo Wall)
   document.getElementById('photo-wall').innerHTML = taskData.map(t => {
     const isDone = db_tasks[t.id] ? true : false;
     return `<div class="pwall-cell ${isDone?'active':''}"><div class="pwall-ico">${t.icon}</div><div class="pwall-lbl">${t.name.substring(0,3)}</div></div>`;
   }).join('');
 
-  // 排行榜排序
   const sorted = [...members].sort((a,b) => db_scores[b] - db_scores[a]);
   document.getElementById('leaderboard-list').innerHTML = sorted.map((m, idx) => `
     <div class="rank-card">
@@ -622,7 +620,6 @@ function renderScoresAndTasks() {
       <div class="rank-pts">${db_scores[m]} pt</div>
     </div>`).join('');
 
-  // 任務卡片
   document.getElementById('task-grid').innerHTML = taskData.map(t => {
     const isDone = db_tasks[t.id];
     return `
@@ -631,7 +628,7 @@ function renderScoresAndTasks() {
         <div class="task-name">${t.name}</div>
         <div class="task-pts">+${t.pts} pt</div>
         ${isDone ? `<div class="task-assignee">✓ ${memberNames[isDone]}</div>` : `
-          <select id="sel_${t.id}" onclick="event.stopPropagation()" style="font-size:0.65rem; margin-top:4px; background:#2c2c2e; color:#fff; border:none; border-radius:4px;">
+          <select id="sel_${t.id}" onclick="event.stopPropagation()" style="font-size:0.65rem; margin-top:4px; background:#2c2c2e; color:#fff; border:none; border-radius:4px; padding:2px;">
             ${members.map(m=>`<option value="${m}">${memberNames[m]}</option>`).join('')}
           </select>
         `}
@@ -649,7 +646,7 @@ function claimTask(id, pts) {
   triggerIsland(`🏆 ${memberNames[winner]} 解鎖成就 ＋${pts}分！`, true);
 }
 
-// 4. 行李清單模組
+// 4. 行記清單模組
 function renderPackList() {
   let html = '';
   for (let [groupName, items] of Object.entries(packingData)) {
@@ -681,12 +678,12 @@ function renderEnglishPhrases() {
     </div>`).join('');
 }
 
-// 全局儀表板刷新數據
+// 全局儀表板刷新
 function updateGlobalDashboard() {
   const totalAUD = db_expenses.reduce((sum, e) => sum + e.amt, 0);
   document.getElementById('db-exp').textContent = `$${totalAUD.toFixed(1)}`;
   
-  let currentLoc = '雪梨';
+  let currentLoc = 'Sydney';
   let totalSpots = 0; let doneSpots = 0;
   itineraryData.forEach(day => {
     day.spots.forEach(s => {
@@ -696,7 +693,7 @@ function updateGlobalDashboard() {
   });
   
   document.getElementById('db-loc').textContent = currentLoc;
-  const progressPct = Math.round((doneSpots / totalSpots) * 100);
+  const progressPct = totalSpots > 0 ? Math.round((doneSpots / totalSpots) * 100) : 0;
   document.getElementById('pflow-pct').textContent = `${progressPct}%`;
 
   const mapNodes = { 'Sydney':'pf-syd', 'Blue Mountains':'pf-blue', 'Kiama':'pf-kiama', 'Coffs Harbour':'pf-coffs', 'Byron Bay':'pf-byron', 'Brisbane':'pf-bris' };
@@ -716,7 +713,7 @@ window.onload = function() {
   initCarousel();
   renderItinerary();
   updateGlobalDashboard();
-  setTimeout(() => { triggerIsland("🚀 歡迎使用雪梨自駕 V3 豪華系統", false); }, 1000);
+  triggerIsland("🚀 歡迎使用雪梨自駕 V3 系統", false);
 };
 </script>
 </body>

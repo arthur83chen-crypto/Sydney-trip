@@ -5,115 +5,136 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>2026 澳洲雪梨自駕全攻略｜沿海公路與壯麗藍山大冒險</title>
 <style>
-:root{--ocean:#0077B6;--ocean-l:#CAF0F8;--ocean-d:#023E8A;--sand:#F4A261;--sunset:#E76F51;--green:#2D6A4F;--green-l:#52B788;--purple:#7B2FBE;--night:#03045E;--bg:#08121f;--card:#ffffff0d;--border:#ffffff14;--font:'Segoe UI','PingFang TC','Microsoft JhengHei',sans-serif}
+:root{--ocean:#0077B6;--ocean-l:#CAF0F8;--ocean-d:#023E8A;--sand:#F4A261;--sunset:#E76F51;--green:#2D6A4F;--green-l:#52B788;--purple:#7B2FBE;--night:#03045E;--bg:#050c14;--card:#ffffff0f;--border:#ffffff1a;--font:'Segoe UI','PingFang TC','Microsoft JhengHei',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;padding-bottom:70px;overflow-x:hidden}
+body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;padding-bottom:80px;overflow-x:hidden}
 
-/* HERO & DASHBOARD */
-.hero{background:linear-gradient(155deg,#03045E 0%,#023E8A 45%,#0077B6 75%,#00B4D8 100%);padding:2rem 1.2rem 3.5rem;text-align:center;position:relative;overflow:hidden}
-.hero-title{font-size:1.6rem;font-weight:900;text-shadow:0 2px 20px rgba(0,0,0,.45);margin-bottom:.4rem;line-height:1.3}
-.hero-sub{font-size:.8rem;color:#90E0EF;margin-bottom:1rem;letter-spacing:1px}
+/* IG STORY / HERO BANNER */
+.hero-story{position:relative;width:100%;height:420px;background-size:cover;background-position:center;transition:background-image 0.5s ease-in-out;display:flex;flex-direction:column;justify-content:between;padding:1.2rem}
+.hero-story::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom, rgba(5,12,20,0.6) 0%, rgba(5,12,20,0.2) 40%, rgba(5,12,20,0.95) 100%);z-index:1}
+.hero-overlay-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-between;height:100%}
+.hero-tag{background:var(--sunset);color:#fff;font-size:0.65rem;font-weight:bold;padding:3px 8px;border-radius:20px;align-self:flex-start;text-transform:uppercase;letter-spacing:1px}
+.hero-main-info{margin-top:auto}
+.hero-day-title{font-size:2.2rem;font-weight:900;text-shadow:0 3px 15px rgba(0,0,0,0.8);line-height:1.1}
+.hero-day-sub{font-size:1.1rem;color:var(--sand);font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,0.8);margin-top:2px}
 
-/* REAL-USE DASHBOARD */
-.db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:0 auto 1rem;max-width:460px}
-.db-card{background:rgba(255,255,255,.12);backdrop-filter:blur(5px);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:.5rem .3rem;text-align:center}
-.db-lbl{font-size:.65rem;color:#CAF0F8;opacity:.8;text-transform:uppercase;margin-bottom:2px}
-.db-val{font-size:.88rem;font-weight:800;color:#fff}
+/* WEATHER GRID */
+.wx-grid{display:flex;gap:0.4rem;overflow-x:auto;padding:0.2rem 1rem;margin-top:-1.2rem;position:relative;z-index:10;max-width:480px;margin-left:auto;margin-right:auto}
+.wx-card{background:rgba(13,27,42,0.85);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:12px;padding:0.5rem;min-width:100px;text-align:center;flex:1}
+.wx-city{font-size:0.65rem;color:rgba(255,255,255,0.6);font-weight:bold}
+.wx-temp{font-size:1rem;font-weight:800;color:#fff;margin-top:2px;display:flex;align-items:center;justify-content:center;gap:3px}
 
-/* ROUTE PROGRESS BAR */
-.route-wrap{background:rgba(0,0,0,.2);border-radius:12px;padding:.6rem .5rem;margin:0 auto;max-width:460px;border:1px solid var(--border)}
-.route-title{font-size:.7rem;color:#90E0EF;text-align:left;margin-bottom:6px;font-weight:700}
-.route-line{display:flex;justify-content:space-between;align-items:center;position:relative;padding:0 .2rem}
+/* ROUTE PROGRESS BAR (GOOGLE MAPS STYLE) */
+.route-section{padding:1rem;max-width:480px;margin:0 auto}
+.route-wrap{background:rgba(255,255,255,0.03);border-radius:16px;padding:0.8rem;border:1px solid var(--border)}
+.route-title{font-size:0.75rem;color:#90E0EF;text-align:left;margin-bottom:10px;font-weight:700;letter-spacing:0.5px}
+.route-line{display:flex;justify-content:space-between;align-items:center;position:relative}
+.route-line::before{content:'';position:absolute;left:5%;right:5%;top:10px;height:2px;background:rgba(255,255,255,0.1);z-index:1}
 .route-node{flex:1;text-align:center;position:relative;z-index:2}
-.route-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);margin:0 auto 4px;transition:all .3s}
-.route-node.active .route-dot{background:var(--sand);box-shadow:0 0 8px var(--sand);transform:scale(1.2)}
-.route-node.passed .route-dot{background:#52B788}
-.route-name{font-size:.58rem;color:rgba(255,255,255,.4);white-space:nowrap}
-.route-node.active .route-name{color:var(--sand);font-weight:700}
-.route-node.passed .route-name{color:rgba(255,255,255,.7)}
+.route-dot{width:12px;height:12px;border-radius:50%;background:#334155;border:2px solid var(--bg);margin:0 auto 4px;transition:all .3s}
+.route-node.active .route-dot{background:var(--sand);box-shadow:0 0 10px var(--sand);transform:scale(1.3)}
+.route-node.passed .route-dot{background:var(--green-l)}
+.route-name{font-size:0.6rem;color:rgba(255,255,255,0.4);font-weight:500}
+.route-node.active .route-name{color:var(--sand);font-weight:800}
+.route-node.passed .route-name{color:rgba(255,255,255,0.7)}
 
-/* PHOTO WALL */
-.pwall{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem;margin:1rem 0}
-.pwall {display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem;margin:1rem 0}
-.pitem{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:.5rem .2rem;text-align:center;opacity:.25;transition:all .3s}
-.pitem.active{opacity:1;background:rgba(244,162,97,.1);border-color:rgba(244,162,97,.4)}
-.pitem-ico{font-size:1.2rem;margin-bottom:2px}
-.pitem-lbl{font-size:.55rem;color:rgba(255,255,255,.6)}
+/* SMART DASHBOARD MINIS */
+.db-mini-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;margin:0.8rem 0}
+.db-mini-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:0.5rem;text-align:center}
+.db-mini-lbl{font-size:0.58rem;color:rgba(255,255,255,0.4);margin-bottom:2px}
+.db-mini-val{font-size:0.78rem;font-weight:700}
+
+/* PHOTO WALL / GAME COLLECTION */
+.pwall{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin:0.8rem 0}
+.pitem{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px;padding:0.6rem 0.3rem;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.pitem.active{background:rgba(244,162,97,0.08);border-color:rgba(244,162,97,0.4);box-shadow:0 4px 12px rgba(244,162,97,0.1)}
+.pitem-ico{font-size:1.6rem;margin-bottom:4px;filter:grayscale(100%);opacity:0.3;transition:all 0.3s}
+.pitem.active .pitem-ico{filter:grayscale(0%);opacity:1;transform:scale(1.1)}
+.pitem-lbl{font-size:0.65rem;color:rgba(255,255,255,0.4);font-weight:bold}
+.pitem.active .pitem-lbl{color:#fff}
+.pitem-buyer{font-size:0.5rem;color:var(--sand);margin-top:2px;display:none}
+.pitem.active .pitem-buyer{display:block}
 
 /* APP STICKY BOTTOM NAV */
-.nav{position:fixed;bottom:0;left:0;right:0;z-index:999;background:#0b192c;border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(0,0,0,.5);padding-bottom:env(safe-area-inset-bottom)}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:999;background:#09111a;border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(0,0,0,0.6);padding-bottom:env(safe-area-inset-bottom)}
 .nav-inner{display:flex;justify-content:space-around;max-width:600px;margin:0 auto}
-.nb{background:none;border:none;color:rgba(255,255,255,.45);font-family:var(--font);font-size:.65rem;padding:.5rem .2rem;cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .2s}
-.nb.on{color:#00B4D8;font-weight:700}
+.nb{background:none;border:none;color:rgba(255,255,255,0.4);font-family:var(--font);font-size:0.65rem;padding:0.6rem 0.2rem;cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .2s}
+.nb.on{color:#00B4D8;font-weight:800}
 .nb .ni{font-size:1.2rem}
 
 /* SECTIONS & GENERAL CSS */
-.sec{display:none;padding:1.2rem 1rem 4rem}
+.sec{display:none;padding:1rem 1rem 5rem;max-width:480px;margin:0 auto}
 .sec.on{display:block}
-.stitle{font-size:1.15rem;font-weight:800;margin-bottom:1rem;display:flex;align-items:center;gap:.45rem}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1rem;margin-bottom:.85rem}
-.card-t{font-size:.95rem;font-weight:700;margin-bottom:.45rem}
+.stitle{font-size:1.2rem;font-weight:800;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;border-left:4px solid var(--ocean);padding-left:0.5rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1rem;margin-bottom:0.85rem}
+.card-t{font-size:0.95rem;font-weight:700;margin-bottom:0.45rem}
 
-/* ITINERARY ITEMS BOX WITH IMAGES */
-.it-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:16px;margin-bottom:.85rem;overflow:hidden;cursor:pointer;transition:border-color 0.2s}
-.it-item.done{border-color:rgba(82,183,136,.25);background:rgba(45,106,79,.04)}
-.it-img{width:100%;height:140px;object-fit:cover;background:#112233}
-.it-body{padding:.85rem;display:flex;gap:.6rem;align-items:flex-start}
-.it-cb{width:20px;height:20px;border-radius:6px;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;margin-top:2px}
-.it-item.done .it-cb{background:#2D6A4F;border-color:#52B788;color:#fff}
-.it-content{flex:1}
-.it-item.done .it-title{text-decoration:line-through;color:rgba(255,255,255,.4)}
-.it-title{font-size:.95rem;font-weight:700;margin-bottom:4px}
-.it-desc{font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.4}
+/* MAP STYLE ITINERARY CARDS (APPLE MAPS STYLE) */
+.it-item{background:#111a24;border:1px solid var(--border);border-radius:20px;margin-bottom:1.2rem;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.3)}
+.it-img-wrap{position:relative;width:100%;height:180px;overflow:hidden}
+.it-img{width:100%;height:100%;object-fit:cover}
+.it-time-tag{position:absolute;left:10px;top:10px;background:rgba(5,12,20,0.75);backdrop-filter:blur(4px);padding:4px 10px;border-radius:8px;font-size:0.7rem;font-weight:bold;color:var(--sand)}
+.it-body{padding:1rem}
+.it-header{display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;margin-bottom:0.4rem}
+.it-title{font-size:1.1rem;font-weight:800;color:#fff}
+.it-stay{font-size:0.65rem;color:var(--green-l);background:rgba(82,183,136,0.15);padding:2px 6px;border-radius:4px;font-weight:bold}
+.it-desc{font-size:0.8rem;color:rgba(255,255,255,0.6);line-height:1.45;margin-bottom:0.8rem}
+.it-actions{display:flex;gap:0.5rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.8rem}
+.btn-nav-map{flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;font-size:0.75rem;font-weight:600;padding:0.5rem;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:4px}
+.btn-nav-map.apple{background:rgba(0,119,182,0.15);border-color:rgba(0,180,216,0.3);color:#90E0EF}
+.btn-check-stop{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:0.5rem 0.8rem;color:rgba(255,255,255,0.4);font-size:0.75rem;cursor:pointer;display:flex;align-items:center;gap:4px}
+.it-item.done{border-color:rgba(82,183,136,0.3)}
+.it-item.done .btn-check-stop{background:var(--green);border-color:var(--green-l);color:#fff}
+.it-item.done .it-title{text-decoration:line-through;color:rgba(255,255,255,0.4)}
 
 /* TASK CARDS */
-.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
-.tcrd{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:.8rem;text-align:center;cursor:pointer}
-.tcrd.done{border-color:rgba(82,183,136,.4);background:rgba(45,106,79,.1)}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+.tcrd{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:0.8rem;text-align:center;cursor:pointer}
+.tcrd.done{border-color:rgba(82,183,136,0.4);background:rgba(45,106,79,0.1)}
 
 /* OTHERS */
-.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem}
 .mcrd{border-radius:16px;padding:1rem;text-align:center;cursor:pointer}
 .mcrd.a{background:linear-gradient(135deg,#0077B6,#023E8A);border:1px solid #00B4D8}
 .mcrd.k{background:linear-gradient(135deg,#E76F51,#9B2335);border:1px solid #F4A261}
 .mcrd.s{background:linear-gradient(135deg,#2D6A4F,#1B4332);border:1px solid #52B788}
 .mcrd.d{background:linear-gradient(135deg,#7B2FBE,#3A0CA3);border:1px solid #9D4EDD}
-.mav{width:46px;height:46px;border-radius:50%;margin:0 auto .4rem;display:flex;align-items:center;justify-content:center;font-size:1.3rem;background:rgba(255,255,255,.15)}
-.dscroll{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.25rem;margin-bottom:1rem}
-.dbtn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.55);font-size:.7rem;padding:.4rem .6rem;cursor:pointer;white-space:nowrap;text-align:center;min-width:60px}
+.mav{width:46px;height:46px;border-radius:50%;margin:0 auto 0.4rem;display:flex;align-items:center;justify-content:center;font-size:1.3rem;background:rgba(255,255,255,0.15)}
+.dscroll{display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:0.25rem;margin-bottom:1rem}
+.dbtn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:rgba(255,255,255,0.5);font-size:0.7rem;padding:0.5rem 0.7rem;cursor:pointer;white-space:nowrap;text-align:center;min-width:65px}
 .dbtn.on{background:#0077B6;border-color:#00B4D8;color:#fff;font-weight:800}
 .clg{margin-bottom:1.2rem}
-.cll{font-size:.72rem;color:#90E0EF;margin-bottom:.4rem;font-weight:700}
-.ci{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);margin-bottom:.3rem;font-size:.82rem;cursor:pointer}
-.cbox{width:18px;height:18px;border-radius:5px;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.7rem}
+.cll{font-size:0.72rem;color:#90E0EF;margin-bottom:0.4rem;font-weight:700}
+.ci{display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.8rem;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);margin-bottom:0.3rem;font-size:0.82rem;cursor:pointer}
+.cbox{width:18px;height:18px;border-radius:5px;border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.7rem}
 .ci.done .cbox{background:#2D6A4F;border-color:#52B788;color:#fff}
-.ci.done .ctxt{text-decoration:line-through;color:rgba(255,255,255,.3)}
-.who-box-grp{display:flex;gap:.3rem;flex-wrap:wrap;margin:.3rem 0}
-.who-box{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:.25rem .5rem;font-size:.75rem;cursor:pointer}
+.ci.done .ctxt{text-decoration:line-through;color:rgba(255,255,255,0.3)}
+.who-box-grp{display:flex;gap:0.3rem;flex-wrap:wrap;margin:0.3rem 0}
+.who-box{background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:0.25rem 0.5rem;font-size:0.75rem;cursor:pointer}
 .who-box.selected{background:var(--ocean);border-color:#00B4D8}
-.einp{display:flex;gap:.4rem;margin-bottom:.5rem;flex-wrap:wrap}
-.einp input, .einp select{background:rgba(255,255,255,.07);border:1px solid var(--border);border-radius:8px;color:#fff;font-size:#fff;font-size:.8rem;padding:.45rem .6rem;outline:none}
-.elist{max-height:260px;overflow-y:auto;margin-top:.5rem}
-.erow{display:flex;align-items:center;gap:.5rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.78rem}
-.btn-add, .btn-line{background:#0077B6;border:none;border-radius:8px;color:#fff;font-size:.78rem;font-weight:700;padding:.45rem .8rem;cursor:pointer}
-.btn-line{background:rgba(7,180,76,.2)}
-.lbrow{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:12px;margin-bottom:.45rem;background:rgba(255,255,255,.04);border:1px solid var(--border)}
-.lbname{font-weight:700;font-size:.9rem}
-.lbtitle{font-size:.65rem;padding:2px 6px;border-radius:4px;margin-top:2px;display:inline-block}
+.einp{display:flex;gap:0.4rem;margin-bottom:0.5rem;flex-wrap:wrap}
+.einp input, .einp select{background:rgba(255,255,255,0.07);border:1px solid var(--border);border-radius:8px;color:#fff;font-size:0.8rem;padding:0.45rem 0.6rem;outline:none}
+.elist{max-height:260px;overflow-y:auto;margin-top:0.5rem}
+.erow{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:0.78rem}
+.btn-add, .btn-line{background:#0077B6;border:none;border-radius:8px;color:#fff;font-size:0.78rem;font-weight:700;padding:0.45rem 0.8rem;cursor:pointer}
+.btn-line{background:rgba(7,180,76,0.2)}
+.lbrow{display:flex;align-items:center;gap:0.7rem;padding:0.6rem 0.8rem;border-radius:12px;margin-bottom:0.45rem;background:rgba(255,255,255,0.04);border:1px solid var(--border)}
+.lbname{font-weight:700;font-size:0.9rem}
+.lbtitle{font-size:0.65rem;padding:2px 6px;border-radius:4px;margin-top:2px;display:inline-block}
 .lbpts{font-size:1.1rem;font-weight:900;color:#FFD60A}
-.mlist{max-height:280px;overflow-y:auto;margin-bottom:.5rem}
-.mbub{display:flex;gap:.5rem;margin-bottom:.6rem}
-.mtxt{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;padding:.5rem .7rem;font-size:.8rem}
-.sos-bar{display:flex;justify-content:space-between;background:linear-gradient(135deg,rgba(200,20,20,.2),rgba(120,10,10,.3));border:1.5px solid rgba(255,80,80,.4);border-radius:14px;padding:.8rem 1rem;margin-bottom:.8rem}
+.mlist{max-height:280px;overflow-y:auto;margin-bottom:0.5rem}
+.mbub{display:flex;gap:0.5rem;margin-bottom:0.6rem}
+.mtxt{background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:10px;padding:0.5rem 0.7rem;font-size:0.8rem}
+.sos-bar{display:flex;justify-content:space-between;background:linear-gradient(135deg,rgba(200,20,20,0.2),rgba(120,10,10,0.3));border:1.5px solid rgba(255,80,80,0.4);border-radius:14px;padding:0.8rem 1rem;margin-bottom:0.8rem}
 .sos-num{font-size:2rem;font-weight:900;color:#FF6B6B}
-.btn-sos{background:#c81414;border-radius:8px;color:#fff;font-size:.75rem;font-weight:700;padding:.4rem .7rem;text-decoration:none}
-.hosp-crd{background:rgba(0,119,182,.1);border:1px solid rgba(0,180,216,.2);border-radius:12px;padding:.8rem;margin-bottom:.5rem;font-size:.8rem}
-.bnav, .btn-call{background:rgba(0,119,182,.2);border:1px solid rgba(0,180,216,.3);border-radius:6px;color:#90E0EF;font-size:.7rem;padding:.25rem .5rem;text-decoration:none;display:inline-flex;align-items:center;gap:3px}
+.btn-sos{background:#c81414;border-radius:8px;color:#fff;font-size:0.75rem;font-weight:700;padding:0.4rem 0.7rem;text-decoration:none}
+.hosp-crd{background:rgba(0,119,182,0.1);border:1px solid rgba(0,180,216,0.2);border-radius:12px;padding:0.8rem;margin-bottom:0.5rem;font-size:0.8rem}
+.bnav, .btn-call{background:rgba(0,119,182,0.2);border:1px solid rgba(0,180,216,0.3);border-radius:6px;color:#90E0EF;font-size:0.7rem;padding:0.25rem 0.5rem;text-decoration:none;display:inline-flex;align-items:center;gap:3px}
 .btn-call{background:#2D6A4F;border-color:#52B788;color:#fff}
-#toast{position:fixed;bottom:4.5rem;left:50%;transform:translateX(-50%) translateY(1rem);background:rgba(45,106,79,.95);border:1px solid #52B788;border-radius:50px;padding:.5rem 1.2rem;font-size:.8rem;font-weight:700;z-index:9999;opacity:0;transition:all .2s}
+#toast{position:fixed;bottom:4.5rem;left:50%;transform:translateX(-50%) translateY(1rem);background:rgba(45,106,79,0.95);border:1px solid #52B788;border-radius:50px;padding:0.5rem 1.2rem;font-size:0.8rem;font-weight:700;z-index:9999;opacity:0;transition:all .2s}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:flex-end;justify-content:center}
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:flex-end;justify-content:center}
 .modal-ov.open{display:flex}
 .modal-sh{background:#0d1e38;border-radius:16px 16px 0 0;padding:1.2rem;width:100%;max-width:500px}
 .modal-x{float:right;background:none;border:none;color:#fff;font-size:1.1rem}
@@ -121,20 +142,29 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-title">🇦🇺 2026 澳洲雪梨自駕全攻略<br><span style="font-size:1.1rem; color:var(--sand)">沿海公路與壯麗藍山大冒險</span></div>
-  <div class="hero-sub">Arthur · Karen · Steven · 大哥</div>
-  
-  <div class="db-grid">
-    <div class="db-card"><div class="db-lbl">📍 目前位置</div><div class="db-val" id="db-loc">Sydney</div></div>
-    <div class="db-card"><div class="db-lbl">📅 今天行程</div><div class="db-val" id="db-day">Day 1</div></div>
-    <div class="db-card"><div class="db-lbl">☀️ 天氣預報</div><div class="db-val">16°C</div></div>
-    <div class="db-card" style="grid-column: span 2"><div class="db-lbl">🚗 下一站景點</div><div class="db-val" id="db-next" style="color:var(--sand)">魚市場午餐 🐟</div></div>
-    <div class="db-card"><div class="db-lbl">⏳ 旅程倒數</div><div class="db-val" id="db-countdown">-- Days</div></div>
+<!-- IG STORY / HERO BANNER AREA -->
+<div class="hero-story" id="hero-banner">
+  <div class="hero-overlay-content">
+    <div class="hero-tag" id="hero-tag-text">7月澳洲冬令自駕 · 推進中</div>
+    
+    <div class="hero-main-info">
+      <div class="hero-day-title" id="hero-day-display">DAY 1</div>
+      <div class="hero-day-sub" id="hero-title-display">雪梨機場會合與海鮮盛宴</div>
+    </div>
   </div>
+</div>
 
+<!-- MULTI-CITY WEATHER MONITOR -->
+<div class="wx-grid">
+  <div class="wx-card"><div class="wx-city">雪梨市區</div><div class="wx-temp">☀️ 16°C</div></div>
+  <div class="wx-card" style="border-color:rgba(0,180,216,0.3)"><div class="wx-city">藍山景區</div><div class="wx-temp">❄️ 9°C</div></div>
+  <div class="wx-card"><div class="wx-city">黃金海岸</div><div class="wx-temp">🌤️ 22°C</div></div>
+</div>
+
+<!-- GOOGLE MAPS STYLE PROGRESS -->
+<div class="route-section">
   <div class="route-wrap">
-    <div class="route-title">🗺️ 雪梨至布里斯本推進線</div>
+    <div class="route-title">🗺️ 全自駕大縱走推進線 (7/2 - 7/9)</div>
     <div class="route-line">
       <div class="route-node passed" id="rn-syd"><div class="route-dot"></div><div class="route-name">雪梨</div></div>
       <div class="route-node" id="rn-kiama"><div class="route-dot"></div><div class="route-name">噴水洞</div></div>
@@ -143,115 +173,83 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
       <div class="route-node" id="rn-byron"><div class="route-dot"></div><div class="route-name">拜倫灣</div></div>
       <div class="route-node" id="rn-gc"><div class="route-dot"></div><div class="route-name">黃金海岸</div></div>
     </div>
+    
+    <div class="db-mini-row">
+      <div class="db-mini-card"><div class="db-mini-lbl">⏳ 旅程返台倒數</div><div class="db-mini-val" id="db-countdown">-- 天</div></div>
+      <div class="db-mini-card"><div class="db-mini-lbl">🚗 預估總車程</div><div class="db-mini-val" style="color:var(--sand)">約 11 hr</div></div>
+      <div class="db-mini-card"><div class="db-mini-lbl">📍 當前定位城</div><div class="db-mini-val" id="db-loc">Sydney</div></div>
+    </div>
   </div>
 </div>
 
 <nav class="nav">
   <div class="nav-inner">
-    <button class="nb on" onclick="showSec('info',this)"><span class="ni">✈️</span>航班</button>
+    <button class="nb on" onclick="showSec('itin',this)"><span class="ni">🗺️</span>行程</button>
+    <button class="nb" onclick="showSec('info',this)"><span class="ni">✈️</span>航班</button>
     <button class="nb" onclick="showSec('pack',this)"><span class="ni">🧳</span>行李</button>
-    <button class="nb" onclick="showSec('itin',this)"><span class="ni">🗺️</span>行程</button>
     <button class="nb" onclick="showSec('exp',this)"><span class="ni">💰</span>記帳</button>
-    <button class="nb" onclick="showSec('scores',this)"><span class="ni">🏆</span>積分</button>
-    <button class="nb" onclick="showSec('members',this)"><span class="ni">👥</span>成員</button>
-    <button class="nb" onclick="showSec('eng',this)"><span class="ni">🗣️</span>英文</button>
+    <button class="nb" onclick="showSec('scores',this)"><span class="ni">🏆</span>圖鑑</button>
+    <button class="nb" onclick="showSec('members',this)"><span class="ni">👥</span>戰力</button>
     <button class="nb" onclick="showSec('more',this)"><span class="ni">⚙️</span>工具</button>
   </div>
 </nav>
 
-<div id="s-info" class="sec on">
-  <div class="stitle">✈️ 航班與解鎖圖鑑</div>
-  <div class="card-t">📸 探險解鎖圖鑑</div>
-  <div class="pwall" id="photo-wall"></div>
+<!-- SECTIONS: ITINERARY (DEFAULT) -->
+<div id="s-itin" class="sec on">
+  <div class="stitle">📸 每日 Instagram 雜誌風行程</div>
+  <div class="dscroll" id="day-tabs"></div>
+  <div id="day-progress-bar" style="font-size:0.75rem; color:var(--sand); text-align:right; margin-bottom:0.8rem">0% Completed</div>
+  <div id="itin-content"></div>
+</div>
 
-  <div class="ticket-container" style="display: flex; flex-direction: column; gap: 1rem; max-width: 460px; margin: 0 auto;">
-    <div class="air-ticket" style="background: linear-gradient(135deg, #1e3a8a, #0d1b2a); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.35);">
+<div id="s-info" class="sec">
+  <div class="stitle">✈️ 航班乘機資訊</div>
+  <div class="ticket-container" style="display: flex; flex-direction: column; gap: 1rem;">
+    <div class="air-ticket" style="background: linear-gradient(135deg, #1e3a8a, #0d1b2a); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; overflow: hidden;">
       <div style="background: rgba(255,255,255,0.08); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.2);">
-        <span style="font-size: 0.7rem; color: #90E0EF; font-weight: bold; letter-spacing: 1px;">DEPARTURE · 去程航班（僅限 大哥 & Steven）</span>
+        <span style="font-size: 0.7rem; color: #90E0EF; font-weight: bold;">DEPARTURE · 去程航班（大哥 & Steven）</span>
         <span style="font-size: 0.75rem; font-weight: 800; color: #fff; background: #0077B6; padding: 2px 8px; border-radius: 20px;">CI 51</span>
       </div>
       <div style="padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
-        <div style="text-align: left;">
-          <div style="font-size: 1.4rem; font-weight: 900; color: #fff;">TPE</div>
-          <div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">台北桃園</div>
-          <div style="font-size: 0.8rem; font-weight: bold; color: var(--sand); margin-top: 4px;">7/1 (三) 22:30</div>
-        </div>
-        <div style="flex: 1; text-align: center; padding: 0 1rem; color: rgba(255,255,255,0.3);">
-          <span style="font-size: 1rem;">✈️</span>
-          <div style="border-top: 1px dashed rgba(255,255,255,0.3); width: 100%; margin-top: -5px;"></div>
-          <div style="font-size: 0.6rem; color: #90E0EF; margin-top: 3px;">直飛 Approx 9h</div>
-        </div>
-        <div style="text-align: right;">
-          <div style="font-size: 1.4rem; font-weight: 900; color: #fff;">SYD</div>
-          <div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">雪梨國際</div>
-          <div style="font-size: 0.8rem; font-weight: bold; color: #52B788; margin-top: 4px;">7/2 (四) 10:45</div>
-        </div>
+        <div><div style="font-size: 1.4rem; font-weight: 900;">TPE</div><div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">台北桃園</div><div style="font-size: 0.8rem; font-weight: bold; color: var(--sand); margin-top: 4px;">7/1 22:30</div></div>
+        <div style="flex: 1; text-align: center; color: rgba(255,255,255,0.2);"><span style="font-size: 1rem;">✈️</span><div style="border-top: 1px dashed rgba(255,255,255,0.3); margin-top: -5px;"></div></div>
+        <div style="text-align: right;"><div style="font-size: 1.4rem; font-weight: 900;">SYD</div><div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">雪梨國際</div><div style="font-size: 0.8rem; font-weight: bold; color: #52B788; margin-top: 4px;">7/2 10:45</div></div>
       </div>
     </div>
-
-    <div class="air-ticket" style="background: linear-gradient(135deg, #2d1b4e, #0d1b2a); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.35);">
+    <div class="air-ticket" style="background: linear-gradient(135deg, #2d1b4e, #0d1b2a); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; overflow: hidden;">
       <div style="background: rgba(255,255,255,0.08); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.2);">
-        <span style="font-size: 0.7rem; color: #D6BBFB; font-weight: bold; letter-spacing: 1px;">RETURN · 回程航班（全員）</span>
+        <span style="font-size: 0.7rem; color: #D6BBFB; font-weight: bold;">RETURN · 回程航班（全員機票）</span>
         <span style="font-size: 0.75rem; font-weight: 800; color: #fff; background: #7B2FBE; padding: 2px 8px; border-radius: 20px;">CI 52</span>
       </div>
       <div style="padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
-        <div style="text-align: left;">
-          <div style="font-size: 1.4rem; font-weight: 900; color: #fff;">SYD</div>
-          <div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">雪梨國際</div>
-          <div style="font-size: 0.8rem; font-weight: bold; color: var(--sand); margin-top: 4px;">7/9 (四) 22:10</div>
-        </div>
-        <div style="flex: 1; text-align: center; padding: 0 1rem; color: rgba(255,255,255,0.3);">
-          <span style="font-size: 1rem; display: inline-block; transform: scaleX(-1);">✈️</span>
-          <div style="border-top: 1px dashed rgba(255,255,255,0.3); width: 100%; margin-top: -5px;"></div>
-          <div style="font-size: 0.6rem; color: #D6BBFB; margin-top: 3px;">直飛 晚班機</div>
-        </div>
-        <div style="text-align: right;">
-          <div style="font-size: 1.4rem; font-weight: 900; color: #fff;">TPE</div>
-          <div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">台北桃園</div>
-          <div style="font-size: 0.8rem; font-weight: bold; color: #52B788; margin-top: 4px;">7/10 (五) 05:40</div>
-        </div>
+        <div><div style="font-size: 1.4rem; font-weight: 900;">SYD</div><div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">雪梨國際</div><div style="font-size: 0.8rem; font-weight: bold; color: var(--sand); margin-top: 4px;">7/9 22:10</div></div>
+        <div style="flex: 1; text-align: center; color: rgba(255,255,255,0.2);"><span style="font-size: 1rem; display: inline-block; transform: scaleX(-1);">✈️</span><div style="border-top: 1px dashed rgba(255,255,255,0.3); margin-top: -5px;"></div></div>
+        <div style="text-align: right;"><div style="font-size: 1.4rem; font-weight: 900;">TPE</div><div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">台北桃園</div><div style="font-size: 0.8rem; font-weight: bold; color: #52B788; margin-top: 4px;">7/10 05:40</div></div>
       </div>
     </div>
   </div>
 </div>
 
 <div id="s-pack" class="sec">
-  <div class="stitle">🧳 出發前行李清單</div>
+  <div class="stitle">🧳 行李打包備忘</div>
   <div id="pack-progress" style="font-size:0.75rem; color:var(--green-l); text-align:right; margin-bottom:0.5rem">0%</div>
   <div id="pack-list"></div>
-</div>
-
-<div id="s-itin" class="sec">
-  <div class="stitle">🗺️ 每日行程打卡</div>
-  <div class="dscroll" id="day-tabs"></div>
-  <div id="day-progress-bar" style="font-size:0.75rem; color:var(--sand); text-align:right; margin-bottom:0.5rem">0% Completed</div>
-  <div id="itin-content"></div>
 </div>
 
 <div id="s-exp" class="sec">
   <div class="stitle">💰 旅遊智慧記帳本</div>
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:1rem">
-    <div style="background:rgba(255,255,255,.05); padding:0.6rem; border-radius:10px; text-align:center">
-      <span style="font-size:0.65rem; color:rgba(255,255,255,.4)">總支出 (AUD)</span>
-      <div id="tot-aud" style="font-size:1.2rem; font-weight:900; color:#FFD60A">$0.00</div>
-    </div>
-    <div style="background:rgba(255,255,255,.05); padding:0.6rem; border-radius:10px; text-align:center">
-      <span style="font-size:0.65rem; color:rgba(255,255,255,.4)">總支出 (TWD)</span>
-      <div id="tot-twd" style="font-size:1.2rem; font-weight:900; color:#52B788">NT$ 0</div>
-    </div>
+    <div style="background:rgba(255,255,255,.05); padding:0.6rem; border-radius:10px; text-align:center"><span style="font-size:0.65rem; color:rgba(255,255,255,.4)">總支出 (AUD)</span><div id="tot-aud" style="font-size:1.2rem; font-weight:900; color:#FFD60A">$0.00</div></div>
+    <div style="background:rgba(255,255,255,.05); padding:0.6rem; border-radius:10px; text-align:center"><span style="font-size:0.65rem; color:rgba(255,255,255,.4)">總支出 (TWD)</span><div id="tot-twd" style="font-size:1.2rem; font-weight:900; color:#52B788">NT$ 0</div></div>
   </div>
-
   <div class="einp">
     <input type="number" id="e-amt" placeholder="金額 AUD" style="width:90px">
     <input type="text" id="e-desc" placeholder="消費專案內容說明..." style="flex:1">
   </div>
-  
   <div style="font-size:0.72rem; color:#90E0EF; margin-top:0.3rem">👤 誰代墊款項（單選）：</div>
   <div class="who-box-grp" id="payer-grp"></div>
-
   <div style="font-size:0.72rem; color:#90E0EF; margin-top:0.3rem">👥 誰一起分攤（可多選）：</div>
   <div class="who-box-grp" id="consumers-grp"></div>
-
   <div class="einp" style="margin-top:0.5rem">
     <select id="e-cat" style="width:110px">
       <option value="餐飲">🍽️ 餐飲</option><option value="交通">🚗 交通</option>
@@ -260,37 +258,34 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
     </select>
     <button class="btn-add" onclick="addExp()" style="flex:1">＋ 記錄跨國帳目</button>
   </div>
-
   <div class="card" style="margin-top:0.8rem; background:rgba(0,180,216,.08); border-color:rgba(0,180,216,.2)">
-    <div class="card-t" style="font-size:0.8rem; color:#90E0EF">🔄 家族內部當前清算（誰該給誰錢）</div>
+    <div class="card-t" style="font-size:0.8rem; color:#90E0EF">🔄 家族內部當前清算明細</div>
     <div id="debt-list" style="font-size:0.8rem; line-height:1.5"></div>
   </div>
-
   <div id="e-list" class="elist"></div>
   <button class="btn-line" onclick="copyToLine()" style="width:100%; margin-top:0.5rem">📋 複製完整結算明細至 LINE</button>
 </div>
 
 <div id="s-scores" class="sec">
-  <div class="stitle">🏆 家族公路探險榮譽榜</div>
-  <div id="lb"></div>
+  <div class="stitle">🎮 冒險公路景點圖鑑成就</div>
+  
+  <div class="card-t" style="color:var(--sand)">🏆 點擊下方解鎖冒險成就：</div>
+  <div class="pwall" id="photo-wall"></div>
 
-  <div class="stitle mt1" style="font-size:0.95rem; margin-top:1rem">🎯 現場即時解鎖任務</div>
-  <div class="tgrid" id="tgrid"></div>
+  <div class="card" style="margin-top:1rem; background:rgba(255,255,255,0.02)">
+    <div class="card-t">🥇 家族公路探險積分榜</div>
+    <div id="lb"></div>
+  </div>
 </div>
 
 <div id="s-members" class="sec">
   <div class="stitle">👥 冒險隊員戰力面板</div>
   <div class="mgrid">
-    <div class="mcrd a" onclick="openMember('arthur')"><div class="mav">🧑‍💻</div><div class="mname">Arthur</div><div style="font-size:0.65rem;opacity:0.7">主要導航長 / 帶隊官</div></div>
-    <div class="mcrd k" onclick="openMember('karen')"><div class="mav">👩</div><div class="mname">Karen</div><div style="font-size:0.65rem;opacity:0.7">專業美食與照片後勤官</div></div>
-    <div class="mcrd s" onclick="openMember('steven')"><div class="mav">👦</div><div class="mname">Steven</div><div style="font-size:0.65rem;opacity:0.7">首席野生動物觀察員</div></div>
-    <div class="mcrd d" onclick="openMember('dage')"><div class="mav">👨</div><div class="mname">大哥</div><div style="font-size:0.65rem;opacity:0.7">核心老司機司機長</div></div>
+    <div class="mcrd a" onclick="openMember('arthur')"><div class="mav">🧑‍💻</div><div class="mname">Arthur</div><div style="font-size:0.65rem;opacity:0.7">首席導航長</div></div>
+    <div class="mcrd k" onclick="openMember('karen')"><div class="mav">👩</div><div class="mname">Karen</div><div style="font-size:0.65rem;opacity:0.7">美食後勤官</div></div>
+    <div class="mcrd s" onclick="openMember('steven')"><div class="mav">👦</div><div class="mname">Steven</div><div style="font-size:0.65rem;opacity:0.7">動物觀察員</div></div>
+    <div class="mcrd d" onclick="openMember('dage')"><div class="mav">👨</div><div class="mname">大哥</div><div style="font-size:0.65rem;opacity:0.7">核心老司機</div></div>
   </div>
-</div>
-
-<div id="s-eng" class="sec">
-  <div class="stitle">🗣️ 澳洲即用生存英文句庫</div>
-  <div id="eng-list"></div>
 </div>
 
 <div id="s-more" class="sec">
@@ -299,34 +294,30 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
     <div><div style="font-size:0.7rem; color:#FFA3A3">澳洲唯一緊急求救專線</div><div class="sos-num">000</div></div>
     <a class="btn-sos" href="tel:000" style="align-self:center">📞 撥打 000</a>
   </div>
-
   <div class="hosp-crd" style="border-color:#E76F51">
     <div style="font-weight:bold; color:#FF8B8B">🚑 最近急診：Auburn Hospital</div>
     <div style="font-size:0.7rem; color:rgba(255,255,255,.5); margin-bottom:5px">Corner Norval St & Church St, Auburn</div>
-    <a class="bnav" href="https://www.google.com/maps/search/?api=1&query=Auburn+Hospital" target="_blank">📍一鍵地圖導航直達醫院</a>
+    <a class="bnav" href="https://www.google.com/maps/search/?api=1&query=Auburn+Hospital" target="_blank">📍地圖導航直達醫院</a>
     <a class="btn-call" href="tel:+61297679000">📞 直撥急診</a>
   </div>
-
-  <div class="card" style="background:rgba(255,255,255,.05); border-color:var(--border)">
+  <div class="card">
     <div class="card-t" style="font-size:0.85rem; color:#90E0EF">🏠 Granville 大本營資訊</div>
     <div style="font-size:0.8rem; line-height:1.6">
-      <span style="color:rgba(255,255,255,.6)">地址：</span>28 The Avenue, Granville NSW 2142<br>
-      <span style="color:rgba(255,255,255,.6)">申報/入境聯絡人：</span>彭旭 (Peng-Xu Chen), 0478 818 498<br>
-      <span style="color:var(--sunset); font-weight:bold;">⚠️ 澳洲海關嚴禁攜帶任何新鮮肉類、蛋類、蔬菜水果。木製品或超過 AUD 10,000 的現金均必須誠實申報。</span>
+      地址：28 The Avenue, Granville NSW 2142<br>
+      聯絡人：彭旭 (Peng-Xu Chen), 0478 818 498<br>
+      <span style="color:var(--sunset); font-weight:bold;">⚠️ 海關嚴禁攜帶肉蛋類、蔬果。木製品、超過一萬澳幣現金需誠實申報。</span>
     </div>
   </div>
-
-  <div class="card-t" style="margin-top:1rem">💬 隨身備忘留言</div>
+  <div class="card-t">💬 隨身備忘留言</div>
   <div class="mlist" id="msg-list"></div>
   <div style="display:flex; gap:0.3rem">
-    <select id="msg-who" style="background:#08121f; color:#fff; border:1px solid var(--border); border-radius:6px; font-size:0.75rem">
-      <option value="arthur">Arthur</option><option value="karen">Karen</option><option value="steven">Steven</option><option value="dage">大哥</option>
-    </select>
-    <input type="text" id="msg-inp" placeholder="輸入備忘細節..." style="flex:1; background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:6px; padding:0.3rem; color:#fff; font-size:0.8rem">
+    <select id="msg-who" style="background:#08121f; color:#fff; border:1px solid var(--border); border-radius:6px;"><option value="arthur">Arthur</option><option value="karen">Karen</option><option value="steven">Steven</option><option value="dage">大哥</option></select>
+    <input type="text" id="msg-inp" placeholder="輸入備忘細節..." style="flex:1; background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:6px; padding:0.3rem; color:#fff;">
     <button class="btn-add" onclick="sendMsg()" style="padding:0.3rem 0.6rem">送出</button>
   </div>
 </div>
 
+<!-- MEMBER MODAL -->
 <div class="modal-ov" id="mem-modal" onclick="closeMem(event)">
   <div class="modal-sh">
     <button class="modal-x" onclick="document.getElementById('mem-modal').classList.remove('open')">✕</button>
@@ -342,93 +333,79 @@ const members = ['arthur','karen','steven','dage'];
 const mNames = { arthur:'Arthur', karen:'Karen', steven:'Steven', dage:'大哥' };
 const mEmojis = { arthur:'🧑‍💻', karen:'👩', steven:'👦', dage:'👨' };
 
-// 行程數據庫 (已完整替換最新最狂2026山海冒險行程)
+// 完整核心資料庫 (搭配全新 IG 滿版背景圖與導航經緯度)
 const itinData = [
-  { day: 1, date: '7/2', label: '雪梨抵達', loc: 'Sydney', stops: [
-    { id: 's1', name: '雪梨機場接機會合 (10:45)', desc: '10:45 班機準時抵達雪梨，與 Arthur 和 Karen 順利會合，開啟2026雪梨山海大長征。', img: 'https://images.unsplash.com/photo-1542296332-2e4473fac563?w=500&q=80', next: '全新雪梨魚市場 🐟' },
-    { id: 's2', name: '全新翻新雪梨新魚市場', desc: '朝聖全新完工的雪梨魚市場，爽嗑尚青生蠔、新鮮龍蝦海鮮大餐！', img: 'https://images.unsplash.com/photo-1553618551-fba689030290?w=500&q=80', next: 'Granville 基地放行李 🏠' },
-    { id: 's3', name: 'Granville 大本營進駐休息', desc: '先回 Granville 溫馨大公寓卸下沉重行李，休息並整備隨身自駕裝備。', img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&q=80', next: '血拼採購戰 🛍️' },
-    { id: 's4', name: 'DFO Homebush 或 Westfield 採購', desc: 'UGG、Coach、各大澳洲服飾與補給品大採購，第一天就買齊必備戰利品。', img: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=500&q=80', next: '明天探索雪梨市區精華 🏙️' }
+  { day: 1, date: '7/2', label: 'Day 1', loc: 'Sydney', title: '雪梨會合與海鮮大餐', heroImg: 'https://images.unsplash.com/photo-1553618551-fba689030290?w=800&q=80', tag: '今日重點：美味龍蝦生蠔盛宴', stops: [
+    { id: 's1', name: '雪梨機場接機會合', time: '10:45', stay: '停留 1.5 hr', q: 'Sydney+Airport', desc: '10:45 班機準時降落，與 Arthur & Karen 出口會合！', img: 'https://images.unsplash.com/photo-1542296332-2e4473fac563?w=500&q=80' },
+    { id: 's2', name: '全新完工雪梨新魚市場', time: '12:30', stay: '美味奢華午餐 2 hr', q: 'Sydney+Fish+Market', desc: '朝聖全新完工的雪梨魚市場，爽嗑海鮮龍蝦與尚青生蠔大餐！', img: 'https://images.unsplash.com/photo-1553618551-fba689030290?w=500&q=80' },
+    { id: 's3', name: 'Granville 大本營進駐休息', time: '15:00', stay: '放行李整備 1.5 hr', q: '28+The+Avenue+Granville', desc: '回 Granville 溫馨大公寓卸下行李，稍作休息並整備自駕裝備。', img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&q=80' }
   ]},
-  { day: 2, date: '7/3', label: '雪梨精華', loc: 'Sydney', stops: [
-    { id: 's5', name: '雪梨歌劇院外拍 & 皇家植物園', desc: '漫步歌劇院外圍、在麥覺理夫人石椅遠眺雙地標大合照，並在植物園綠地野餐。', img: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=500&q=80', next: 'QVB 與聖瑪麗大教堂 🏛️' },
-    { id: 's6', name: 'QVB 拱廊與聖瑪麗大教堂', desc: '朝聖百年奢華維多利亞風格 QVB 購物拱廊，隨後參觀宏偉的哥德式聖瑪麗大教堂。', img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&q=80', next: '邦代海灘 🏖️' },
-    { id: 's7', name: 'Bondi Beach 邦代海灘與雪梨大學', desc: '踏上熱門網美邦代海灘沙灘，傍晚造訪具備魔幻哈利波特氛圍的雪梨大學主樓。', img: 'https://images.unsplash.com/photo-1524338198850-8a2ff63a103f?w=500&q=80', next: '明天沿海公路南下 🦘' }
+  { day: 2, date: '7/3', label: 'Day 2', loc: 'Sydney', title: '雪梨精華雙地標打卡', heroImg: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=800&q=80', tag: '今日重點：網美哈利波特樓與海灘', stops: [
+    { id: 's5', name: '雪梨歌劇院外拍 & 植物園', time: '09:30', stay: '漫步外拍 2 hr', q: 'Sydney+Opera+House', desc: '漫步歌劇院外圍、在麥覺理夫人石椅遠眺雙地標大合照。', img: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=500&q=80' },
+    { id: 's6', name: 'QVB 百年拱廊與大教堂', time: '13:00', stay: '奢華穿梭 1.5 hr', q: 'Queen+Victoria+Building', desc: '朝盛古典維多利亞風格 QVB 購物拱廊與哥德式大教堂。', img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&q=80' },
+    { id: 's7', name: 'Bondi Beach 邦代海灘', time: '15:30', stay: '踏浪觀海 2 hr', q: 'Bondi+Beach', desc: '踏上熱門網美沙灘，感受雪梨最著名的南半球陽光沙灘海岸線。', img: 'https://images.unsplash.com/photo-1524338198850-8a2ff63a103f?w=500&q=80' }
   ]},
-  { day: 3, date: '7/4', label: '海岸公路', loc: 'Kiama', stops: [
-    { id: 's8', name: 'Mogo Wildlife Park 野生動物園', desc: 'Steven 的專屬第一波大行程！近距離接觸袋鼠、跟無尾熊超萌同框。', img: 'https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=500&q=80', next: 'Kiama 噴水洞 🌊' },
-    { id: 's9', name: 'Kiama Blowhole 巨型噴水洞', desc: '沿著太斯曼海岸公路南下，看世界最大天然噴水洞隨海浪衝擊噴出壯觀水柱！', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80', next: '明天前進壯麗藍山大峽谷 ⛰️' }
+  { day: 3, date: '7/4', label: 'Day 3', loc: 'Kiama', title: '海岸公路與巨型噴水洞', heroImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80', tag: '今日重點：野生動物零距離接觸', stops: [
+    { id: 's8', name: 'Mogo Wildlife Park 動物園', time: '09:30', stay: 'Steven 必看 2.5 hr', q: 'Mogo+Wildlife+Park', desc: 'Steven 的專屬大行程！近距離接觸袋鼠、跟無尾熊超萌同框。', img: 'https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=500&q=80' },
+    { id: 's9', name: 'Kiama Blowhole 巨型噴水洞', time: '14:00', stay: '自然絕景 1.5 hr', q: 'Kiama+Blowhole', desc: '看世界最大天然噴水洞隨海浪衝擊噴出壯觀水柱！', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80' }
   ]},
-  { day: 4, date: '7/5', label: '藍山探險', loc: 'Blue Mountains', stops: [
-    { id: 's10', name: '藍山景觀世界 Scenic World 纜車', desc: '清晨出發避開人潮，挑戰全澳最陡快車森林鐵道，搭三種高空纜車俯瞰壯觀峽谷。', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=80', next: '羅拉小鎮漫步 🏡' },
-    { id: 's11', name: 'Leura 羅拉小鎮漫步與夕陽三姐妹岩', desc: '在充滿英式鄉村風的主街悠閒午餐，傍晚在 Echo Point 捕捉金黃暮光下的三姐妹岩絕景。', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&q=80', next: '明晨 3:00 北上超級大狂征 🍌' }
+  { day: 4, date: '7/5', label: 'Day 4', loc: 'Blue Mountains', title: '壯麗藍山國家公園大冒險', heroImg: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80', tag: '今日重點：高空纜車與黃昏三姐妹', stops: [
+    { id: 's10', name: '藍山景觀世界 Scenic World', time: '09:00', stay: '搭乘纜車 3 hr', q: 'Scenic+World+Blue+Mountains', desc: '避開人潮，挑戰全澳最陡快車森林鐵道，搭乘三種高空纜車。', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=80' },
+    { id: 's11', name: 'Leura 羅拉小鎮與三姐妹岩', time: '14:00', stay: '浪漫晚霞 2.5 hr', q: 'Echo+Point+Three+Sisters', desc: '在充滿英式風情主街下午茶，傍晚在 Echo Point 拍夕陽晚霞。', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&q=80' }
   ]},
-  { day: 5, date: '7/6', label: '香蕉小鎮', loc: 'Coffs Harbour', stops: [
-    { id: 's12', name: '凌晨長途急征 ＆ 抵達大香蕉地標', desc: '03:00 凌晨開拔北上大狂征（車上補眠），直達 Coffs Harbour 打卡經典 Big Banana 巨型水果大香蕉。', img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&q=80', next: '碼頭與沙灘漫步 🌊' },
-    { id: 's13', name: 'Jetty 碼頭區與 Park Beach 散步', desc: '在極具風味的碼頭海邊享用午餐，在清澈的 Park Beach 沙灘悠閒散步，入住 Coffs Harbour。', img: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=500&q=80', next: '明天朝聖澳洲極東點 🏰' }
+  { day: 5, date: '7/6', label: 'Day 5', loc: 'Coffs Harbour', title: '晨光大狂征與香蕉大地標', heroImg: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=800&q=80', tag: '今日重點：超狂 03:00 凌晨開拔北上', stops: [
+    { id: 's12', name: '打卡 Big Banana 巨型香蕉', time: '11:00', stay: '趣味拍照 1 hr', q: 'The+Big+Banana+Fun+Park', desc: '長途急征後，直達 Coffs Harbour 打卡經典澳洲巨型水果地標。', img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=800&q=80' },
+    { id: 's13', name: 'Jetty 碼頭區與 Park Beach', time: '14:00', stay: '海濱慢活 2 hr', q: 'Coffs+Harbour+Jetty', desc: '在極具風味的碼頭海邊享用美食，清澈沙灘悠閒漫步。', img: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=500&q=80' }
   ]},
-  { day: 6, date: '7/7', label: '最東燈塔', loc: 'Byron Bay', stops: [
-    { id: 's14', name: 'Cape Byron 拜倫灣燈塔看極東日出', desc: '清晨衝拜倫灣白色燈塔，迎接澳洲本土第一道絕美曙光！沿途注意海豚與海鯨。', img: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=500&q=80', next: '嬉皮風格文青小鎮 🏄' },
-    { id: 's15', name: 'Byron Bay 小鎮與黃金海岸衝浪者天堂', desc: '感受小鎮獨特的嬉皮度假氛圍，下午驅車1小時挺進黃金海岸，夜遊衝浪者天堂 Surfers Paradise。', img: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=500&q=80', next: '明天龍柏無尾熊特攻 🐨' }
+  { day: 6, date: '7/7', label: 'Day 6', loc: 'Byron Bay', title: '極東白色燈塔日出絕景', heroImg: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800&q=80', tag: '今日重點：迎接澳洲本土第一道曙光', stops: [
+    { id: 's14', name: 'Cape Byron 拜倫灣燈塔日出', time: '06:00', stay: '絕美曙光 2 hr', q: 'Cape+Byron+Lighthouse', desc: '清晨衝極東點白色燈塔看日出！沿途注意尋找海豚與鯨魚身影。', img: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800&q=80' },
+    { id: 's15', name: '黃金海岸衝浪者天堂夜遊', time: '16:00', stay: '夜生活璀璨 3 hr', q: 'Surfers+Paradise', desc: '下午驅車挺進昆士蘭黃金海岸，夜遊熱鬧繽紛的 Surfers Paradise。', img: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=500&q=80' }
   ]},
-  { day: 7, date: '7/8', label: '黃金海岸', loc: 'Gold Coast', stops: [
-    { id: 's16', name: 'Lone Pine 龍柏無尾熊保護區', desc: 'Steven 終極圓夢點！在世界最大無尾熊園區，體驗合法親手抱無尾熊、大群袋鼠餵食。', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&q=80', next: '布里斯本市區精華 🌉' },
-    { id: 's17', name: '布里斯本市區 South Bank 人工沙灘', desc: '走訪 South Bank 南岸公園城市人工沙灘，傍晚打卡 Story Bridge 故事橋，隨後踏上夜車回雪梨大長征。', img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=500&q=80', next: '最後回程採購 🛍️' }
+  { day: 7, date: '7/8', label: 'Day 7', loc: 'Gold Coast', title: '龍柏無尾熊與布里斯本市區', heroImg: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80', tag: '今日重點：Steven 親手抱無尾熊圓夢', stops: [
+    { id: 's16', name: 'Lone Pine 龍柏無尾熊保護區', time: '09:00', stay: 'Steven 終極圓夢 3hr', q: 'Lone+Pine+Koala+Sanctuary', desc: '體驗合法親手抱無尾熊、大群袋鼠餵食。', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&q=80' },
+    { id: 's17', name: '布里斯本 South Bank 人工沙灘', time: '14:00', stay: '城市沙灘 2 hr', q: 'South+Bank+Parklands', desc: '走訪市中心人工沙灘與故事橋，隨後踏上夜車回雪梨大長征。', img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=500&q=80' }
   ]},
-  { day: 8, date: '7/9', label: '布里斯本', loc: 'Sydney', stops: [
-    { id: 's18', name: 'Chemist Warehouse 終極伴手禮採購', desc: '回到雪梨做最後總掃貨：維他命、綿羊油、澳洲零食、伴手禮全部塞滿行李箱！', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&q=80', next: '前往雪梨機場返回台灣 ✈️' },
-    { id: 's19', name: '抵達雪梨機場準備回台 (17:00)', desc: '17:00 前抵達雪梨國際機場辦理退稅、託運，搭乘 22:10 中華航空 CI 52 完美歸賦！', img: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&q=80', next: '旅程圓滿成功 🎉' }
+  { day: 8, date: '7/9', label: 'Day 8', loc: 'Sydney', title: '藥妝店終極掃貨與機場歸賦', heroImg: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80', tag: '今日重點：綿羊油與伴手禮滿載而歸', stops: [
+    { id: 's18', name: 'Chemist Warehouse 伴手禮大採購', time: '10:30', stay: '瘋狂血拼 2 hr', q: 'Chemist+Warehouse+Sydney', desc: '做最後總掃貨：維他命、綿羊油、澳洲零食全部塞滿行李箱！', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80' },
+    { id: 's19', name: '抵達雪梨機場準備回台', time: '17:00', stay: '託運退稅 5 hr', q: 'Sydney+International+Airport', desc: '17:00 機場辦理退稅、託運，搭乘 22:10 華航 CI 52 完美回台！', img: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&q=80' }
   ]}
 ];
 
 const packingData = {
   "重要證件": ["護照正本 (效期6個月以上)", "電子簽證 ETA 確認件列印", "國際駕照正本 + 台灣駕照正本", "海外高額刷卡回饋信用卡"],
-  "電子數位設備": ["行動電源與各類慢充線材", "澳洲專用萬國轉接插頭 (三腳扁型)", "車用手機架 (自駕極其重要)", "車用雙孔點菸器快充頭"],
-  "衣物與日常用品": ["防風防水保暖外套 (7月澳洲寒冬夜間必備)", "舒適耐磨步行運動鞋", "防曬乳/太陽眼鏡/遮陽帽", "個人私密常用藥品/感冒藥"]
+  "電子數位設備": ["行動電源與各類慢充線材", "澳洲專用萬國轉接插頭 (三腳扁型)", "車用手機架 (自駕導航必備)", "車用雙孔點菸器快充頭"],
+  "衣物與日常用品": ["防風防水保暖外套 (7月澳洲寒冬夜間必備)", "舒適耐磨步行運動鞋", "防曬乳/太陽空間/遮陽帽", "個人私密常用藥品/感冒藥"]
 };
 
-const englishData = [
-  { q: "點餐時想要分開付", e: "Can we split the bill, please?", t: "請問我們可以分開結帳嗎？" },
-  { q: "需要打包外帶", e: "Could I get a doggy bag? / To go, please.", t: "麻煩幫我打包，謝謝。" },
-  { q: "詢問有沒有推薦菜色", e: "What do you recommend here?", t: "你們這裡有推薦什麼招牌菜嗎？" },
-  { q: "尋問加油站人工服務", e: "Hi, I need to pay for pump number [X].", t: "你好，我要結帳 X 號油槍。" }
-];
-
+// 升級版圖鑑資料結構
 const tasks = [
-  { id: 't1', name: '捕捉到野生袋鼠身影', icon: '🦘', pts: 20 },
-  { id: 't2', name: '親口嚐鮮雪梨新市場生蠔', icon: '🦪', pts: 15 },
-  { id: 't3', name: '解鎖三姐妹岩黃昏大合照', icon: '⛰️', pts: 20 },
-  { id: 't4', name: '親腳踏上 Bondi Beach 沙灘', icon: '🏖️', pts: 10 },
-  { id: 't5', name: '親手抱到超萌無尾熊', icon: '🐨', pts: 30 },
-  { id: 't6', name: '解鎖拜倫灣澳洲極東點日出', icon: '🌅', pts: 25 },
-  { id: 't7', name: '親眼目睹 Kiama 噴水洞發威', icon: '💨', pts: 15 }
+  { id: 't1', name: '野生袋鼠蹤影', icon: '🦘', pts: 20 },
+  { id: 't2', name: '新市場龍蝦生蠔', icon: '🦪', pts: 15 },
+  { id: 't3', name: '三姐妹岩夕陽', icon: '⛰️', pts: 20 },
+  { id: 't4', name: '澳洲極東點日出', icon: '🌅', pts: 25 },
+  { id: 't5', name: '合法擁抱無尾熊', icon: '🐨', pts: 30 },
+  { id: 't6', name: '打卡大香蕉地標', icon: '🍌', pts: 15 },
+  { id: 't7', name: '踏上網美邦代海灘', icon: '🏖️', pts: 10 }
 ];
 
-function getTitle(pt) {
-  if (pt >= 500) return { txt: '👑 Australia Legend', col: '#FFD60A' };
-  if (pt >= 250) return { txt: '🥇 Road Trip Master', col: '#F4A261' };
-  if (pt >= 100) return { txt: '🥈 Adventurer', col: '#52B788' };
-  return { txt: '🥉 Explorer', col: '#90E0EF' };
-}
-
-let scores = JSON.parse(localStorage.getItem('syd-scores') || '{"arthur":50,"karen":30,"steven":10,"dage":10}'); 
-let tstate = JSON.parse(localStorage.getItem('syd-tasks') || '{}');
-let expenses = JSON.parse(localStorage.getItem('syd-exps') || '[]');
-let msgs = JSON.parse(localStorage.getItem('syd-msgs') || '[]');
-let checkedStops = JSON.parse(localStorage.getItem('syd-stops') || '{}');
-let checkedPack = JSON.parse(localStorage.getItem('syd-pack') || '{}');
+let scores = JSON.parse(localStorage.getItem('syd-scores-v2') || '{"arthur":60,"karen":40,"steven":20,"dage":20}'); 
+let tstate = JSON.parse(localStorage.getItem('syd-tasks-v2') || '{}');
+let expenses = JSON.parse(localStorage.getItem('syd-exps-v2') || '[]');
+let msgs = JSON.parse(localStorage.getItem('syd-msgs-v2') || '[]');
+let checkedStops = JSON.parse(localStorage.getItem('syd-stops-v2') || '{}');
+let checkedPack = JSON.parse(localStorage.getItem('syd-pack-v2') || '{}');
 
 let currentDayIdx = 0;
 let selectedPayer = 'arthur';
 let selectedConsumers = ['arthur','karen','steven','dage'];
 
 function saveAll() {
-  localStorage.setItem('syd-scores', JSON.stringify(scores));
-  localStorage.setItem('syd-tasks', JSON.stringify(tstate));
-  localStorage.setItem('syd-exps', JSON.stringify(expenses));
-  localStorage.setItem('syd-msgs', JSON.stringify(msgs));
-  localStorage.setItem('syd-stops', JSON.stringify(checkedStops));
-  localStorage.setItem('syd-pack', JSON.stringify(checkedPack));
+  localStorage.setItem('syd-scores-v2', JSON.stringify(scores));
+  localStorage.setItem('syd-tasks-v2', JSON.stringify(tstate));
+  localStorage.setItem('syd-exps-v2', JSON.stringify(expenses));
+  localStorage.setItem('syd-msgs-v2', JSON.stringify(msgs));
+  localStorage.setItem('syd-stops-v2', JSON.stringify(checkedStops));
+  localStorage.setItem('syd-pack-v2', JSON.stringify(checkedPack));
 }
 
 function showSec(id, btn) {
@@ -440,24 +417,29 @@ function showSec(id, btn) {
   if (id === 'exp') renderExpUI();
   if (id === 'scores') renderScores();
   if (id === 'pack') renderPack();
-  if (id === 'eng') renderEng();
+}
+
+function updateHeroBanner(dayData) {
+  const banner = document.getElementById('hero-banner');
+  banner.style.backgroundImage = `url('${dayData.heroImg}')`;
+  document.getElementById('hero-day-display').textContent = dayData.label;
+  document.getElementById('hero-title-display').textContent = dayData.title;
+  document.getElementById('hero-tag-text').textContent = dayData.tag;
 }
 
 function updateDashboard() {
-  let lastDoneStop = null; let nextStop = null;
+  let lastDoneStop = null;
   for (let day of itinData) {
     for (let stop of day.stops) {
       if (checkedStops[stop.id]) lastDoneStop = stop;
-      else if (!nextStop) nextStop = stop;
     }
   }
   const today = new Date(); const tripEnd = new Date('2026-07-09');
   const diffDays = Math.ceil((tripEnd - today) / (1000 * 60 * 60 * 24));
-  document.getElementById('db-countdown').textContent = diffDays > 0 ? diffDays + " Days Left" : "歸賦 🎉";
+  document.getElementById('db-countdown').textContent = diffDays > 0 ? diffDays + " 天後出發" : "探險歸賦 🎉";
 
   const currentLoc = lastDoneStop ? itinData.find(d => d.stops.some(s => s.id === lastDoneStop.id)).loc : 'Sydney';
   document.getElementById('db-loc').textContent = currentLoc;
-  document.getElementById('db-next').textContent = nextStop ? nextStop.name.substring(0,12)+'...' : '旅程圓滿落幕！';
 
   const nodes = { 'Sydney':'rn-syd', 'Kiama':'rn-kiama', 'Blue Mountains':'rn-blue', 'Coffs Harbour':'rn-coffs', 'Byron Bay':'rn-byron', 'Gold Coast':'rn-gc' };
   let passed = true;
@@ -467,17 +449,125 @@ function updateDashboard() {
     if (locName === currentLoc) { el.classList.add('active'); passed = false; }
     else if (passed) el.classList.add('passed');
   }
-  renderPhotoWall();
 }
 
-function renderPhotoWall() {
-  const wall = document.getElementById('photo-wall');
-  wall.innerHTML = tasks.map(t => {
-    let isUnlocked = tstate[t.id] ? true : false;
-    return `<div class="pitem ${isUnlocked ? 'active' : ''}"><div class="pitem-ico">${t.icon}</div><div class="pitem-lbl">${t.name.substring(0,2)}</div></div>`;
+function renderItin() {
+  const tabs = document.getElementById('day-tabs');
+  tabs.innerHTML = itinData.map((d, idx) => `
+    <button class="dbtn ${idx === currentDayIdx ? 'on' : ''}" onclick="currentDayIdx=${idx}; renderItin();">
+      ${d.label}<br><span style="font-size:0.6rem">${d.date}</span>
+    </button>`).join('');
+    
+  const dayData = itinData[currentDayIdx];
+  updateHeroBanner(dayData);
+
+  const totalStops = dayData.stops.length; const doneStops = dayData.stops.filter(s => checkedStops[s.id]).length;
+  const pct = totalStops ? Math.round((doneStops / totalStops) * 100) : 0;
+  document.getElementById('day-progress-bar').textContent = `今日推進率：${doneStops} / ${totalStops} 已解鎖 (${pct}%)`;
+
+  // Apple Maps 風格的高畫質行程卡片設計
+  document.getElementById('itin-content').innerHTML = dayData.stops.map(s => {
+    const isDone = checkedStops[s.id] ? true : false;
+    return `
+    <div class="it-item ${isDone ? 'done' : ''}">
+      <div class="it-img-wrap">
+        <img src="${s.img}" class="it-img" alt="${s.name}" loading="lazy">
+        <div class="it-time-tag">⏰ ${s.time}</div>
+      </div>
+      <div class="it-body">
+        <div class="it-header">
+          <div class="it-title">${s.name}</div>
+          <div class="it-stay">${s.stay}</div>
+        </div>
+        <div class="it-desc">${s.desc}</div>
+        <div class="it-actions">
+          <a class="btn-nav-map" href="https://maps.google.com/?q=${s.q}" target="_blank">🗺️ Google 地圖</a>
+          <a class="btn-nav-map apple" href="https://maps.apple.com/?q=${s.q}" target="_blank">🍎 Apple 地圖</a>
+          <button class="btn-check-stop" onclick="toggleStop('${s.id}')">
+            ${isDone ? '✓ 已打卡' : '⭕ 未打卡'}
+          </button>
+        </div>
+      </div>
+    </div>`;
   }).join('');
 }
 
+function toggleStop(id) {
+  checkedStops[id] = !checkedStops[id];
+  saveAll();
+  renderItin();
+  updateDashboard();
+}
+
+// 升級版：遊戲解鎖成就牆
+function renderScores() {
+  // 圖鑑成就牆 (依據未解鎖/已解鎖動態顯示細節與解鎖者)
+  document.getElementById('photo-wall').innerHTML = tasks.map(t => {
+    let unl = tstate[t.id] ? true : false;
+    let buyerName = tstate[t.id] ? mNames[tstate[t.id]] : '????';
+    return `
+      <div class="pitem ${unl ? 'active' : ''}" onclick="clickTask('${t.id}')">
+        <div class="pitem-ico">${t.icon}</div>
+        <div class="pitem-lbl">${unl ? t.name.substring(0,4) : '未解鎖'}</div>
+        <div class="pitem-buyer">🏆 ${buyerName}</div>
+      </div>`;
+  }).join('');
+
+  // 榮譽積分排行
+  let sorted = Object.keys(scores).map(k => ({ id:k, pts:scores[k] })).sort((x,y)=>y.pts-x.pts);
+  document.getElementById('lb').innerHTML = sorted.map((s, idx) => {
+    let tTitle = s.pts >= 120 ? '🥇 澳洲老司機' : (s.pts >= 80 ? '🥈 瘋狂冒險家' : '🥉 菜鳥探險員');
+    return `
+      <div class="lbrow" style="padding: 0.5rem 0.8rem; margin-bottom: 0.3rem">
+        <div style="font-size:0.9rem; font-weight:900; width:20px; color:rgba(255,255,255,0.3)">#${idx+1}</div>
+        <div class="mav" style="margin:0; width:32px; height:32px; font-size:1rem">${mEmojis[s.id]}</div>
+        <div style="flex:1; margin-left: 0.5rem">
+          <span class="lbname" style="font-size:0.85rem">${mNames[s.id]}</span>
+          <span style="font-size:0.6rem; color:var(--sand); margin-left:6px">${tTitle}</span>
+        </div>
+        <div style="font-weight:900; color:#FFD60A; font-size:0.9rem">${s.pts} <span style="font-size:0.55rem; color:rgba(255,255,255,0.4)">EXP</span></div>
+      </div>`;
+  }).join('');
+}
+
+function clickTask(tid) {
+  let t = tasks.find(x => x.id === tid);
+  if (!tstate[tid]) {
+    // 未解鎖狀態 -> 彈出視窗指定是哪位家族成員搞定的
+    let html = `
+      <div style="text-align:center; margin-bottom:1rem">
+        <div style="font-size:2.5rem">${t.icon}</div>
+        <div style="font-weight:900; margin-top:0.3rem">誰完成了「${t.name}」？</div>
+        <div style="font-size:0.7rem; color:rgba(255,255,255,0.5); margin-top:2px">解鎖將為該成員增加 +${t.pts} 經驗值</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem">
+        ${members.map(m => `<button class="btn-add" style="width:100%; text-align:left; padding:0.6rem" onclick="unlockTask('${tid}','${m}')">${mEmojis[m]} ${mNames[m]} 完成解鎖！</button>`).join('')}
+      </div>
+    `;
+    document.getElementById('mem-cont').innerHTML = html;
+    document.getElementById('mem-modal').classList.add('open');
+  } else {
+    // 已解鎖狀態 -> 再次點擊可取消重置
+    if(confirm(`是否要重置「${t.name}」的成就解鎖狀態？`)) {
+      let oldUser = tstate[tid];
+      scores[oldUser] = Math.max(0, scores[oldUser] - t.pts);
+      delete tstate[tid];
+      saveAll(); renderScores(); showToast('重置成功 🔄');
+    }
+  }
+}
+
+function unlockTask(tid, memberId) {
+  let t = tasks.find(x => x.id === tid);
+  tstate[tid] = memberId;
+  scores[memberId] += t.pts;
+  saveAll();
+  document.getElementById('mem-modal').classList.remove('open');
+  renderScores();
+  showToast(`🎉 恭喜 ${mNames[memberId]} 成功解鎖圖鑑，斬獲 ${t.pts} EXP！`);
+}
+
+// 行李清單
 function renderPack() {
   let total = 0; let checked = 0; let html = "";
   for (let [cat, items] of Object.entries(packingData)) {
@@ -494,57 +584,11 @@ function renderPack() {
   }
   document.getElementById('pack-list').innerHTML = html;
   const pct = total ? Math.round((checked / total) * 100) : 0;
-  document.getElementById('pack-progress').textContent = `準備進度：${checked} / ${total} (${pct}%)`;
+  document.getElementById('pack-progress').textContent = `打包進度：${checked} / ${total} (${pct}%)`;
 }
 function togglePack(item) { checkedPack[item] = !checkedPack[item]; saveAll(); renderPack(); }
 
-function renderEng() {
-  document.getElementById('eng-list').innerHTML = englishData.map(e => `
-    <div class="card">
-      <div style="font-size:0.75rem; color:#90E0EF; margin-bottom:2px">💡 ${e.q}</div>
-      <div style="font-size:1rem; font-weight:bold; color:var(--sand)">"${e.e}"</div>
-      <div style="font-size:0.8rem; color:rgba(255,255,255,.6); margin-top:4px">中文：${e.t}</div>
-    </div>`).join('');
-}
-
-function renderItin() {
-  const tabs = document.getElementById('day-tabs');
-  tabs.innerHTML = itinData.map((d, idx) => `
-    <button class="dbtn ${idx === currentDayIdx ? 'on' : ''}" onclick="currentDayIdx=${idx}; renderItin();">
-      Day ${d.day}<br><span style="font-size:0.6rem">${d.date}</span>
-    </button>`).join('');
-  const dayData = itinData[currentDayIdx];
-  document.getElementById('db-day').textContent = `Day ${dayData.day}`;
-  const totalStops = dayData.stops.length; const doneStops = dayData.stops.filter(s => checkedStops[s.id]).length;
-  const pct = totalStops ? Math.round((doneStops / totalStops) * 100) : 0;
-  document.getElementById('day-progress-bar').textContent = `今日進度：${doneStops} / ${totalStops} 完成 (${pct}%)`;
-
-  document.getElementById('itin-content').innerHTML = dayData.stops.map(s => `
-    <div class="it-item ${checkedStops[s.id] ? 'done' : ''}" onclick="toggleStop('${s.id}')">
-      <img src="${s.img}" class="it-img" alt="${s.name}" loading="lazy">
-      <div class="it-body">
-        <div class="it-cb">${checkedStops[s.id] ? '✓' : ''}</div>
-        <div class="it-content">
-          <div class="it-title">${s.name}</div>
-          <div class="it-desc">${s.desc}</div>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-function toggleStop(id) {
-  checkedStops[id] = !checkedStops[id];
-  saveAll();
-  renderItin();
-  updateDashboard();
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
-}
-
-// 記帳演算法核心邏輯
+// 記帳本邏輯
 function renderExpUI() {
   document.getElementById('payer-grp').innerHTML = members.map(m => `
     <div class="who-box ${selectedPayer===m?'selected':''}" onclick="selectedPayer='${m}';renderExpUI()">${mEmojis[m]} ${mNames[m]}</div>
@@ -553,8 +597,7 @@ function renderExpUI() {
     <div class="who-box ${selectedConsumers.includes(m)?'selected':''}" onclick="toggleConsumer('${m}')">${mEmojis[m]} ${mNames[m]}</div>
   `).join('');
 
-  let tAud = 0;
-  expenses.forEach(e => tAud += parseFloat(e.amt));
+  let tAud = 0; expenses.forEach(e => tAud += parseFloat(e.amt));
   document.getElementById('tot-aud').textContent = `$${tAud.toFixed(2)}`;
   document.getElementById('tot-twd').textContent = `NT$ ${Math.round(tAud * AUD_TWD).toLocaleString()}`;
 
@@ -563,159 +606,89 @@ function renderExpUI() {
       <span style="font-weight:bold; color:var(--sand); width:55px">$${parseFloat(e.amt).toFixed(1)}</span>
       <span style="color:rgba(255,255,255,.4); width:35px">[${e.cat}]</span>
       <span style="flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">${e.desc}</span>
-      <span style="font-size:0.7rem; color:#90E0EF">${mNames[e.payer]}墊 ➔ ${e.cons.map(c=>mNames[c].substring(0,2)).join(',')}</span>
+      <span style="font-size:0.7rem; color:#90E0EF">${mNames[e.payer]}墊</span>
       <button onclick="delExp(${idx})" style="background:none; border:none; color:#FF6B6B; padding:0 .3rem; cursor:pointer">✕</button>
-    </div>
-  `).join('');
-
+    </div>`).join('');
   calcDebts();
 }
-
 function toggleConsumer(m) {
   if (selectedConsumers.includes(m)) selectedConsumers = selectedConsumers.filter(c => c!==m);
   else selectedConsumers.push(m);
   renderExpUI();
 }
-
 function addExp() {
-  const amt = document.getElementById('e-amt').value;
-  const desc = document.getElementById('e-desc').value;
-  const cat = document.getElementById('e-cat').value;
-  if (!amt || !desc || selectedConsumers.length === 0) { showToast('⚠️ 請輸入正確金額、消費說明並選擇分攤成員！'); return; }
+  const amt = document.getElementById('e-amt').value; const desc = document.getElementById('e-desc').value; const cat = document.getElementById('e-cat').value;
+  if (!amt || !desc || selectedConsumers.length === 0) { showToast('⚠️ 請完整填寫金額與項目！'); return; }
   expenses.unshift({ amt: parseFloat(amt), desc, payer: selectedPayer, cons: [...selectedConsumers], cat });
-  saveAll();
-  document.getElementById('e-amt').value = ''; document.getElementById('e-desc').value = '';
-  renderExpUI();
-  showToast('💰 成功記錄一筆海外開銷！');
+  saveAll(); document.getElementById('e-amt').value = ''; document.getElementById('e-desc').value = '';
+  renderExpUI(); showToast('💰 成功記帳！');
 }
-
-function delExp(idx) {
-  expenses.splice(idx, 1); saveAll(); renderExpUI();
-}
-
+function delExp(idx) { expenses.splice(idx, 1); saveAll(); renderExpUI(); }
 function calcDebts() {
   let bal = { arthur:0, karen:0, steven:0, dage:0 };
   expenses.forEach(e => {
-    let a = parseFloat(e.amt);
-    bal[e.payer] += a;
-    let share = a / e.cons.length;
-    e.cons.forEach(c => bal[c] -= share);
+    let a = parseFloat(e.amt); bal[e.payer] += a;
+    let share = a / e.cons.length; e.cons.forEach(c => bal[c] -= share);
   });
-
-  let dList = [];
-  let arr = Object.keys(bal).map(k => ({ id: k, b: bal[k] }));
-  
-  // 簡單的債務清算撮合
+  let dList = []; let arr = Object.keys(bal).map(k => ({ id: k, b: bal[k] }));
   let loop = 0;
   while(loop < 40) {
-    arr.sort((x,y) => x.b - y.b);
-    let debtor = arr[0]; let creditor = arr[arr.length-1];
+    arr.sort((x,y) => x.b - y.b); let debtor = arr[0]; let creditor = arr[arr.length-1];
     if (Math.abs(debtor.b) < 0.02 || Math.abs(creditor.b) < 0.02) break;
     let amt = Math.min(Math.abs(debtor.b), creditor.b);
-    dList.push(`💵 <b>${mNames[debtor.id]}</b> 應支付給 <b>${mNames[creditor.id]}</b>：<span style="color:#FFD60A;font-weight:bold">$${amt.toFixed(2)} AUD</span> (約 NT$ ${Math.round(amt*AUD_TWD)})`);
-    debtor.b += amt; creditor.b -= amt;
-    loop++;
+    dList.push(`💵 <b>${mNames[debtor.id]}</b> 應付給 <b>${mNames[creditor.id]}</b>：<span style="color:#FFD60A;font-weight:bold">$${amt.toFixed(2)} AUD</span>`);
+    debtor.b += amt; creditor.b -= amt; loop++;
   }
-  document.getElementById('debt-list').innerHTML = dList.length ? dList.join('<br>') : '🎉 帳目當前完全清空，太完美了！';
+  document.getElementById('debt-list').innerHTML = dList.length ? dList.join('<br>') : '🎉 帳目完全兩清！';
 }
-
 function copyToLine() {
-  let text = "📊 【2026澳洲公路探險開銷結算明細】\n";
+  let text = "📊 【2026澳洲公路自駕開銷結算】\n";
   let tAud = 0; expenses.forEach(e => tAud += e.amt);
   text += `🟢 總花費：$${tAud.toFixed(2)} AUD (約 NT$ ${Math.round(tAud*AUD_TWD).toLocaleString()})\n\n`;
-  text += "💡 【當前清算明細流程】\n";
-  const lines = document.getElementById('debt-list').innerText;
-  text += lines + "\n\n開啟導航網頁隨時掌握最新帳目！";
-  navigator.clipboard.writeText(text).then(() => showToast('📋 結算報告已成功複製至剪貼簿！')).catch(() => showToast('複製失敗'));
+  text += document.getElementById('debt-list').innerText;
+  navigator.clipboard.writeText(text).then(() => showToast('📋 已複製至剪貼簿！'));
 }
 
-// 榮譽榜與即時任務
-function renderScores() {
-  let sorted = Object.keys(scores).map(k => ({ id:k, pts:scores[k] })).sort((x,y)=>y.pts-x.pts);
-  document.getElementById('lb').innerHTML = sorted.map((s, idx) => {
-    let title = getTitle(s.pts);
-    return `
-      <div class="lbrow">
-        <div style="font-size:1.1rem; font-weight:900; width:24px; color:rgba(255,255,255,.4)">#${idx+1}</div>
-        <div class="mav" style="margin:0; width:36px; height:36px; font-size:1.1rem">${mEmojis[s.id]}</div>
-        <div style="flex:1">
-          <div class="lbname">${mNames[s.id]}</div>
-          <div class="lbtitle" style="background:${title.col}22; color:${title.col}">${title.txt}</div>
-        </div>
-        <div class="lbpts">${s.pts} <span style="font-size:0.6rem; color:rgba(255,255,255,.4)">PTS</span></div>
-      </div>`;
-  }).join('');
-
-  document.getElementById('tgrid').innerHTML = tasks.map(t => {
-    let done = tstate[t.id] ? true : false;
-    return `
-      <div class="tcrd ${done?'done':''}" onclick="toggleTask('${t.id}')">
-        <div style="font-size:1.6rem; margin-bottom:4px">${t.icon}</div>
-        <div style="font-size:0.75rem; font-weight:700; margin-bottom:4px; height:32px; display:flex; align-items:center; justify-content:center">${t.name}</div>
-        <div style="font-size:0.65rem; color:#FFD60A; font-weight:bold">+${t.pts} EXP</div>
-      </div>`;
-  }).join('');
-}
-
-function toggleTask(tid) {
-  tstate[tid] = !tstate[tid];
-  let t = tasks.find(x => x.id === tid);
-  // 加減積分逻辑（預設所有人都有分，Arthur當作主要加分對象做示範，現場可至戰力面板細調）
-  if (tstate[tid]) { scores['arthur'] += t.pts; showToast(`🎉 成功解鎖任務！Arthur 榮獲 ${t.pts} 積分！`); }
-  else { scores['arthur'] -= t.pts; }
-  saveAll(); renderScores(); updateDashboard();
-}
-
-// 成員模態框功能
+// 隊員戰力視窗
 function openMember(id) {
   let html = `
     <div style="text-align:center; margin-bottom:1rem">
-      <div style="font-size:3rem; margin-bottom:0.3rem">${mEmojis[id]}</div>
-      <div style="font-size:1.3rem; font-weight:900">${mNames[id]} 的探險戰力面板</div>
+      <div style="font-size:3rem">${mEmojis[id]}</div>
+      <div style="font-size:1.2rem; font-weight:900">${mNames[id]} 的戰力調校</div>
     </div>
     <div class="card" style="background:rgba(255,255,255,.03)">
-      <div style="margin-bottom:0.8rem; display:flex; justify-content:between; align-items:center">
-        <span style="font-size:0.85rem; color:rgba(255,255,255,.6)">公路探險個人當前榮譽積分：</span>
-        <span style="font-size:1.2rem; font-weight:900; color:#FFD60A">${scores[id]} PTS</span>
+      <div style="margin-bottom:0.8rem; display:flex; justify-content:space-between; align-items:center">
+        <span>當前榮譽經驗值：</span><span style="font-size:1.2rem; font-weight:900; color:#FFD60A">${scores[id]} EXP</span>
       </div>
       <div style="display:flex; gap:0.5rem">
-        <button class="btn-add" onclick="adjustScore('${id}', 10)" style="flex:1; background:#2D6A4F">+10 獎勵分</button>
-        <button class="btn-add" onclick="adjustScore('${id}', -10)" style="flex:1; background:#9B2335">-10 扣分</button>
+        <button class="btn-add" onclick="adjustScore('${id}', 10)" style="flex:1; background:#2D6A4F">+10 表現分</button>
+        <button class="btn-add" onclick="adjustScore('${id}', -10)" style="flex:1; background:#9B2335">-10 搞事分</button>
       </div>
-    </div>
-  `;
+    </div>`;
   document.getElementById('mem-cont').innerHTML = html;
   document.getElementById('mem-modal').classList.add('open');
 }
-function adjustScore(id, amt) {
-  scores[id] = Math.max(0, scores[id] + amt); saveAll(); renderScores(); openMember(id); showToast('🎯 積分調整成功！');
-}
+function adjustScore(id, amt) { scores[id] = Math.max(0, scores[id] + amt); saveAll(); renderScores(); openMember(id); showToast('🎯 經驗值已更新！'); }
 function closeMem(e) { if(e.target.id==='mem-modal') document.getElementById('mem-modal').classList.remove('open'); }
 
 // 備忘留言
 function renderMsgs() {
   document.getElementById('msg-list').innerHTML = msgs.map(m => `
-    <div class="mbub">
-      <div style="font-size:1.1rem; padding-top:2px">${mEmojis[m.who]}</div>
-      <div style="flex:1">
-        <div style="font-size:0.65rem; color:rgba(255,255,255,.4)">${mNames[m.who]} · 隨手備忘</div>
-        <div class="mtxt">${m.txt}</div>
-      </div>
-    </div>
-  `).join('');
+    <div class="mbub"><div style="font-size:1.1rem">${mEmojis[m.who]}</div><div style="flex:1"><div style="font-size:0.65rem; color:rgba(255,255,255,.4)">${mNames[m.who]}</div><div class="mtxt">${m.txt}</div></div></div>`).join('');
 }
 function sendMsg() {
-  const who = document.getElementById('msg-who').value;
-  const txt = document.getElementById('msg-inp').value;
-  if(!txt) return;
+  const who = document.getElementById('msg-who').value; const txt = document.getElementById('msg-inp').value; if(!txt) return;
   msgs.push({ who, txt }); saveAll(); document.getElementById('msg-inp').value=''; renderMsgs();
 }
 
-// 初始化
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
 window.onload = function() {
   updateDashboard();
-  renderPack();
-  renderEng();
+  renderItin();
   renderMsgs();
 };
 </script>

@@ -1,487 +1,401 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Australia Road Trip 2026</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
-}
-
-body{
-background:#0b1220;
-color:white;
-overflow-x:hidden;
-}
-
-/* HERO */
-
-.hero{
-height:70vh;
-position:relative;
-overflow:hidden;
-}
-
-.hero img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.hero-overlay{
-position:absolute;
-inset:0;
-background:
-linear-gradient(
-180deg,
-rgba(0,0,0,.15),
-rgba(0,0,0,.75)
-);
-display:flex;
-flex-direction:column;
-justify-content:flex-end;
-padding:30px;
-}
-
-.day-badge{
-display:inline-flex;
-width:max-content;
-padding:8px 16px;
-border-radius:30px;
-
-backdrop-filter:blur(30px);
-
-background:rgba(255,255,255,.15);
-
-font-size:13px;
-font-weight:700;
-margin-bottom:12px;
-}
-
-.hero-title{
-font-size:42px;
-font-weight:800;
-line-height:1;
-margin-bottom:8px;
-}
-
-.hero-sub{
-font-size:16px;
-opacity:.8;
-}
-
-.weather{
-margin-top:15px;
-
-display:flex;
-gap:10px;
-align-items:center;
-
-width:max-content;
-
-padding:10px 16px;
-
-border-radius:18px;
-
-background:rgba(255,255,255,.12);
-
-backdrop-filter:blur(20px);
-}
-
-/* SUMMARY */
-
-.summary{
-padding:20px;
-margin-top:-35px;
-position:relative;
-z-index:20;
-}
-
-.glass{
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(30px);
-border:1px solid rgba(255,255,255,.08);
-border-radius:26px;
-padding:20px;
-}
-
-.stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px;
-}
-
-.stat{
-text-align:center;
-}
-
-.stat-number{
-font-size:22px;
-font-weight:800;
-color:#4cc9f0;
-}
-
-.stat-label{
-font-size:12px;
-opacity:.7;
-}
-
-/* TODAY */
-
-.section{
-padding:20px;
-}
-
-.section-title{
-font-size:26px;
-font-weight:800;
-margin-bottom:15px;
-}
-
-.spot-card{
-background:white;
-color:black;
-border-radius:24px;
-overflow:hidden;
-margin-bottom:18px;
-}
-
-.spot-card img{
-width:100%;
-height:220px;
-object-fit:cover;
-}
-
-.spot-info{
-padding:18px;
-}
-
-.spot-title{
-font-size:22px;
-font-weight:800;
-margin-bottom:8px;
-}
-
-.spot-desc{
-color:#666;
-line-height:1.5;
-margin-bottom:12px;
-}
-
-.nav-btn{
-background:#007aff;
-border:none;
-color:white;
-padding:12px 18px;
-border-radius:14px;
-font-weight:700;
-}
-
-/* ROUTE */
-
-.route{
-display:flex;
-overflow-x:auto;
-gap:12px;
-padding-bottom:10px;
-}
-
-.route-item{
-min-width:140px;
-
-padding:18px;
-
-border-radius:20px;
-
-background:rgba(255,255,255,.08);
-
-backdrop-filter:blur(20px);
-
-text-align:center;
-}
-
-/* GALLERY */
-
-.gallery{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-}
-
-.gallery-item{
-aspect-ratio:1;
-
-border-radius:18px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-font-size:42px;
-
-background:rgba(255,255,255,.08);
-}
-
-.unlocked{
-background:
-linear-gradient(
-135deg,
-#4cc9f0,
-#4361ee
-);
-}
-
-.locked{
-opacity:.25;
-}
-
-/* TAB BAR */
-
-.tabbar{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-
-height:85px;
-
-background:rgba(10,10,20,.95);
-
-backdrop-filter:blur(30px);
-
-display:flex;
-justify-content:space-around;
-align-items:center;
-
-border-top:1px solid rgba(255,255,255,.08);
-}
-
-.tab{
-text-align:center;
-font-size:12px;
-opacity:.75;
-}
-
-.tab span{
-display:block;
-font-size:24px;
-margin-bottom:4px;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Travel App v3.0</title>
+    <!-- Tailwind CSS & FontAwesome 圖標 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 隱藏滾動條但保持滾動功能 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 模擬 iPhone 螢幕外框（桌機模式下尤佳） */
+        @media (min-width: 640px) {
+            .phone-container {
+                width: 412px;
+                height: 892px;
+                border: 12px solid #222;
+                border-radius: 48px;
+                position: relative;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            }
+        }
+        /* Dynamic Island 動畫 */
+        .dynamic-island {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .dynamic-island.expanded {
+            width: 90%;
+            height: 80px;
+            border-radius: 24px;
+        }
+    </style>
 </head>
-
-<body>
-
-<!-- HERO -->
-
-<section class="hero">
-
-<img src="https://images.unsplash.com/photo-1523428096881-5bd79d043006">
-
-<div class="hero-overlay">
-
-<div class="day-badge">
-DAY 4 · Blue Mountains
-</div>
-
-<div class="hero-title">
-Three Sisters
-</div>
-
-<div class="hero-sub">
-Scenic World · Echo Point
-</div>
-
-<div class="weather">
-☀️ 14°C
-</div>
-
-</div>
-
-</section>
-
-<!-- SUMMARY -->
-
-<section class="summary">
-
-<div class="glass">
-
-<div class="stats">
-
-<div class="stat">
-<div class="stat-number">8</div>
-<div class="stat-label">Days</div>
-</div>
-
-<div class="stat">
-<div class="stat-number">1450</div>
-<div class="stat-label">KM</div>
-</div>
-
-<div class="stat">
-<div class="stat-number">14</div>
-<div class="stat-label">Spots</div>
-</div>
-
-<div class="stat">
-<div class="stat-number">4</div>
-<div class="stat-label">Members</div>
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- TODAY -->
-
-<section class="section">
-
-<div class="section-title">
-Today's Adventure
-</div>
-
-<div class="spot-card">
-
-<img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb">
-
-<div class="spot-info">
-
-<div class="spot-title">
-🚠 Scenic World
-</div>
-
-<div class="spot-desc">
-搭乘全澳洲最陡森林鐵道，
-欣賞藍山世界遺產景觀。
-</div>
-
-<button class="nav-btn">
-導航前往
-</button>
-
-</div>
-
-</div>
-
-<div class="spot-card">
-
-<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-
-<div class="spot-info">
-
-<div class="spot-title">
-⛰️ Three Sisters
-</div>
-
-<div class="spot-desc">
-黃昏時段拍攝最美夕陽，
-也是整趟旅程代表景點。
-</div>
-
-<button class="nav-btn">
-導航前往
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ROUTE -->
-
-<section class="section">
-
-<div class="section-title">
-Road Trip Route
-</div>
-
-<div class="route">
-
-<div class="route-item">📍 Sydney</div>
-
-<div class="route-item">📍 Kiama</div>
-
-<div class="route-item">📍 Blue Mountains</div>
-
-<div class="route-item">📍 Coffs Harbour</div>
-
-<div class="route-item">📍 Byron Bay</div>
-
-<div class="route-item">📍 Gold Coast</div>
-
-<div class="route-item">📍 Brisbane</div>
-
-</div>
-
-</section>
-
-<!-- GALLERY -->
-
-<section class="section">
-
-<div class="section-title">
-Adventure Collection
-</div>
-
-<div class="gallery">
-
-<div class="gallery-item unlocked">🐨</div>
-
-<div class="gallery-item unlocked">🏖️</div>
-
-<div class="gallery-item unlocked">🦪</div>
-
-<div class="gallery-item unlocked">🍌</div>
-
-<div class="gallery-item locked">?</div>
-
-<div class="gallery-item locked">?</div>
-
-</div>
-
-</section>
-
-<!-- TAB -->
-
-<div class="tabbar">
-
-<div class="tab">
-<span>🏠</span>
-首頁
-</div>
-
-<div class="tab">
-<span>🗺️</span>
-行程
-</div>
-
-<div class="tab">
-<span>📸</span>
-圖鑑
-</div>
-
-<div class="tab">
-<span>💰</span>
-記帳
-</div>
-
-<div class="tab">
-<span>⚙️</span>
-工具
-</div>
-
-</div>
-
+<body class="bg-slate-900 flex justify-center items-center min-h-screen text-slate-100 font-sans">
+
+    <!-- Phone Container -->
+    <div class="phone-container bg-slate-950 w-full h-screen sm:h-[892px] flex flex-col overflow-hidden relative">
+        
+        <!-- iPhone 頂部狀態列與 Dynamic Island -->
+        <div class="pt-3 px-6 flex justify-between items-center text-xs z-50 bg-slate-950/80 backdrop-blur-md sticky top-0">
+            <span>9:41</span>
+            <!-- Dynamic Island -->
+            <div id="dynamic-island" class="dynamic-island bg-black w-28 h-7 rounded-full flex items-center justify-center text-white text-[10px] px-3 overflow-hidden cursor-pointer shadow-lg">
+                <span id="island-text" class="truncate">✨ 旅程準備就緒</span>
+            </div>
+            <div class="flex items-center space-x-1">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-three-quarters"></i>
+            </div>
+        </div>
+
+        <!-- 主要內容滾動區 -->
+        <div class="flex-1 overflow-y-auto no-scrollbar pb-24">
+            
+            <!-- 頁面 1：行程與景點頁 (預設顯示) -->
+            <div id="page-spots" class="page-content">
+                <!-- Hero Banner Carousel (以第一個景點為封面範例) -->
+                <div class="relative h-64 w-full overflow-hidden shadow-xl">
+                    <img id="hero-img" src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-all duration-500" alt="Hero">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 right-4">
+                        <span class="bg-indigo-600 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">🌟 本日焦點</span>
+                        <h1 id="hero-title" class="text-2xl font-black mt-1 drop-shadow-md">Sydney Opera House</h1>
+                        <p id="hero-desc" class="text-xs text-slate-300 drop-shadow">Bennelong Point • Sydney Harbour</p>
+                    </div>
+                </div>
+
+                <!-- 景點探索列表 -->
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold tracking-tight">澳洲東岸探索景點</h2>
+                        <span class="text-xs text-slate-400" id="checked-count">已打卡: 0/9</span>
+                    </div>
+                    
+                    <!-- 景點卡片容器 -->
+                    <div class="space-y-3" id="spots-list">
+                        <!-- 由 JavaScript 動態渲染景點卡片 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 頁面 2：記帳功能 -->
+            <div id="page-expenses" class="page-content hidden p-4">
+                <h2 class="text-2xl font-black mb-4 flex items-center gap-2"><i class="fas fa-wallet text-emerald-400"></i>旅程記帳</h2>
+                
+                <!-- 記帳輸入面板 -->
+                <div class="bg-slate-900 p-4 rounded-2xl mb-4 border border-slate-800">
+                    <div class="grid grid-cols-2 gap-2 mb-2">
+                        <input id="exp-title" type="text" placeholder="項目（如：午餐）" class="bg-slate-800 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <input id="exp-amount" type="number" placeholder="金額 (AUD)" class="bg-slate-800 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <button onclick="addExpense()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-emerald-900/30">
+                        <i class="fas fa-plus mr-1"></i> 新增支出
+                    </button>
+                </div>
+
+                <!-- 總計與清單 -->
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-sm text-slate-400">總計花費</span>
+                        <span class="text-xl font-black text-emerald-400" id="total-expense">AUD 0.00</span>
+                    </div>
+                    <div class="divide-y divide-slate-800 max-h-60 overflow-y-auto no-scrollbar" id="expense-list">
+                        <!-- 記帳項目動態插入 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 頁面 3：工具箱 (行李、英文句庫、SOS) -->
+            <div id="page-tools" class="page-content hidden p-4 space-y-4">
+                <!-- 英文句庫 -->
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                    <h3 class="text-md font-bold mb-2 flex items-center gap-2 text-indigo-400"><i class="fas fa-language"></i> 實用英文句庫</h3>
+                    <div class="space-y-2 text-xs text-slate-300">
+                        <div class="p-2.5 bg-slate-800/50 rounded-xl cursor-pointer hover:bg-slate-800 transition" onclick="triggerIsland('🗣️ Can I have the bill, please?')">
+                            <p class="font-semibold">麻煩請給我帳單。</p>
+                            <p class="text-slate-400">Can I have the bill, please?</p>
+                        </div>
+                        <div class="p-2.5 bg-slate-800/50 rounded-xl cursor-pointer hover:bg-slate-800 transition" onclick="triggerIsland('🗣️ Where is the bus station?')">
+                            <p class="font-semibold">請問巴士站在哪裡？</p>
+                            <p class="text-slate-400">Where is the bus station?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 行李清單 -->
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                    <h3 class="text-md font-bold mb-2 flex items-center gap-2 text-amber-400"><i class="fas fa-suitcase"></i> 行李清單</h3>
+                    <div class="grid grid-cols-2 gap-2 text-xs" id="luggage-list">
+                        <!-- 由 JS 渲染行李 -->
+                    </div>
+                </div>
+
+                <!-- SOS 緊急聯絡 -->
+                <div class="bg-rose-950/40 p-4 rounded-2xl border border-rose-900/50">
+                    <h3 class="text-md font-bold mb-2 flex items-center gap-2 text-rose-400"><i class="fas fa-phone-alt"></i> SOS 緊急聯絡</h3>
+                    <p class="text-xs text-rose-300/80 mb-3">若在澳洲遭遇緊急事件，請立即撥打：</p>
+                    <a href="tel:000" class="flex justify-between items-center bg-rose-600 hover:bg-rose-500 text-white font-bold p-3 rounded-xl transition text-center shadow-lg shadow-rose-900/40">
+                        <span>澳洲緊急求救專線</span>
+                        <span class="text-lg"><i class="fas fa-headset mr-1"></i> 000</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- iPhone 底部 iOS Tab Bar 導航列 -->
+        <div class="absolute bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-lg border-t border-slate-900 p-2 flex justify-around items-center z-50 pb-6">
+            <button onclick="switchTab('spots')" class="tab-btn flex flex-col items-center text-indigo-500" id="tab-spots">
+                <i class="fas fa-map-marked-alt text-xl"></i>
+                <span class="text-[10px] mt-1 font-medium">行程景點</span>
+            </button>
+            <button onclick="switchTab('expenses')" class="tab-btn flex flex-col items-center text-slate-400" id="tab-expenses">
+                <i class="fas fa-dollar-sign text-xl"></i>
+                <span class="text-[10px] mt-1 font-medium">旅程記帳</span>
+            </button>
+            <button onclick="switchTab('tools')" class="tab-btn flex flex-col items-center text-slate-400" id="tab-tools">
+                <i class="fas fa-briefcase text-xl"></i>
+                <span class="text-[10px] mt-1 font-medium">實用工具</span>
+            </button>
+        </div>
+        
+        <!-- iOS 底部 Home Indicator 線 -->
+        <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-slate-700 rounded-full z-50 pointer-events-none"></div>
+    </div>
+
+    <!-- JavaScript 邏輯中心 -->
+    <script>
+        // 1. 景點真實資料庫（包含精選實景 Unsplash 高清圖）
+        const spotsData = [
+            { id: 1, name: "Sydney Opera House", area: "Sydney", desc: "雪梨歌劇院 • 現代建築人類奇蹟", img: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80", geo: "-33.8568,151.2153" },
+            { id: 2, name: "Sydney Fish Market", area: "Sydney", desc: "南半球最大的海鮮市場，現撈鮮美海味", img: "https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?auto=format&fit=crop&w=800&q=80", geo: "-33.8735,151.1944" },
+            { id: 3, name: "Bondi Beach", area: "Sydney", desc: "傳奇衝浪天堂，綿延潔白沙灘與絕美泳池", img: "https://images.unsplash.com/photo-1524225547346-6df7d391f740?auto=format&fit=crop&w=800&q=80", geo: "-33.8915,151.2767" },
+            { id: 4, name: "Kiama Blowhole", area: "Kiama", desc: "天然噴水洞，感受大自然驚人的巨浪洗禮", img: "https://images.unsplash.com/photo-1590559899731-a382839e5549?auto=format&fit=crop&w=800&q=80", geo: "-34.6719,150.8631" },
+            { id: 5, name: "Blue Mountains", area: "Katoomba", desc: "回音谷與三姐妹岩，繚繞藍色微芒的壯麗峽谷", img: "https://images.unsplash.com/photo-1619537021675-bc324be86240?auto=format&fit=crop&w=800&q=80", geo: "-33.7154,150.3119" },
+            { id: 6, name: "Big Banana", area: "Coffs Harbour", desc: "經典地標大香蕉樂園，澳洲大東西文化始祖", img: "https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=800&q=80", geo: "-30.2747,153.1341" },
+            { id: 7, name: "Byron Bay Lighthouse", area: "Byron Bay", desc: "澳洲大陸最東端燈塔，眺望無邊際太平洋與海豚", img: "https://images.unsplash.com/photo-1517400508447-f8dd518b86db?auto=format&fit=crop&w=800&q=80", geo: "-28.6385,153.6366" },
+            { id: 8, name: "Lone Pine Koala Sanctuary", area: "Brisbane", desc: "全球首座也是最大無尾熊保護區，近距離親近抱抱", img: "https://images.unsplash.com/photo-1548550022-cbfaf1ec608d?auto=format&fit=crop&w=800&q=80", geo: "-27.5332,152.9686" },
+            { id: 9, name: "Brisbane City", area: "Brisbane", desc: "漫步布里斯本河畔，體驗現代與悠閒交織的城市風情", img: "https://images.unsplash.com/photo-1554904572-887498c0d970?auto=format&fit=crop&w=800&q=80", geo: "-27.4698,153.0251" }
+        ];
+
+        // 2. 初始化狀態 (從 LocalStorage 載入)
+        let appState = JSON.parse(localStorage.getItem('travelAppState')) || {
+            checkedSpots: [],
+            expenses: [],
+            luggage: [
+                { id: 1, item: "護照、簽證", packed: true },
+                { id: 2, item: "澳洲網卡 / Esim", packed: true },
+                { id: 3, item: "澳幣現金 & 信用卡", packed: false },
+                { id: 4, item: "萬用轉接頭 (澳洲三腳八字)", packed: false }
+            ]
+        };
+
+        // 儲存狀態至 LocalStorage
+        function saveState() {
+            localStorage.setItem('travelAppState', JSON.stringify(appState));
+        }
+
+        // 3. Dynamic Island 觸發器動畫
+        function triggerIsland(message) {
+            const island = document.getElementById('dynamic-island');
+            const txt = document.getElementById('island-text');
+            txt.innerText = message;
+            island.classList.add('expanded', 'bg-slate-900', 'border', 'border-slate-800');
+            
+            setTimeout(() => {
+                island.classList.remove('expanded', 'bg-slate-900', 'border', 'border-slate-800');
+                txt.innerText = "✨ 旅程隨身助手";
+            }, 3500);
+        }
+
+        // 4. 切換 iOS 底部分頁
+        function switchTab(tabId) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+            document.getElementById(`page-${tabId}`).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.replace('text-indigo-500', 'text-slate-400'));
+            document.getElementById(`tab-${tabId}`).classList.replace('text-slate-400', 'text-indigo-500');
+        }
+
+        // 5. 渲染景點卡片（含手風琴展開、大圖切換與打卡）
+        function renderSpots() {
+            const container = document.getElementById('spots-list');
+            container.innerHTML = '';
+            
+            spotsData.forEach(spot => {
+                const isChecked = appState.checkedSpots.includes(spot.id);
+                const card = document.createElement('div');
+                card.className = "bg-slate-900 rounded-2xl border border-slate-800/80 overflow-hidden transition-all duration-300";
+                card.id = `spot-card-${spot.id}`;
+                
+                card.innerHTML = `
+                    <!-- 卡片標題點擊區 (展開/收合) -->
+                    <div class="p-3.5 flex justify-between items-center cursor-pointer hover:bg-slate-800/50" onclick="toggleCard(${spot.id}, '${spot.img}', '${spot.name}', '${spot.desc}')">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-xs bg-slate-800 px-2 py-1 rounded-md text-slate-400">${spot.area}</span>
+                            <span class="font-semibold text-sm ${isChecked ? 'text-slate-400 line-through' : ''}">${spot.name}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            ${isChecked ? '<i class="fas fa-check-circle text-emerald-400 text-sm"></i>' : ''}
+                            <i id="arrow-${spot.id}" class="fas fa-chevron-down text-xs text-slate-500 transition-transform"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- 展開內容模組 -->
+                    <div id="details-${spot.id}" class="hidden p-3 bg-slate-950/40 border-t border-slate-800/60 text-xs space-y-3">
+                        <p class="text-slate-400 leading-relaxed">${spot.desc}</p>
+                        
+                        <!-- 迷你圖片輪播/多圖示意 -->
+                        <div class="flex gap-2 overflow-x-auto no-scrollbar">
+                            <img src="${spot.img}" class="w-24 h-16 object-cover rounded-lg border border-slate-800 flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1490750916424-85d97ba693f0?auto=format&fit=crop&w=300&q=80" class="w-24 h-16 object-cover rounded-lg border border-slate-800 flex-shrink-0 opacity-70">
+                            <img src="https://images.unsplash.com/photo-1524225547346-6df7d391f740?auto=format&fit=crop&w=300&q=80" class="w-24 h-16 object-cover rounded-lg border border-slate-800 flex-shrink-0 opacity-70">
+                        </div>
+
+                        <!-- 導航與打卡按鈕組 -->
+                        <div class="grid grid-cols-2 gap-2 pt-1">
+                            <a href="https://www.google.com/maps/search/?api=1&query=${spot.geo}" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 py-2 rounded-xl flex items-center justify-center font-medium gap-1.5 transition">
+                                <i class="fas fa-location-arrow text-indigo-400"></i> 地圖導航
+                            </a>
+                            <button onclick="checkIn(${spot.id}, event)" class="py-2 rounded-xl flex items-center justify-center font-bold gap-1.5 transition ${isChecked ? 'bg-emerald-950 text-emerald-400 border border-emerald-800/60' : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-900/30'}">
+                                <i class="fas ${isChecked ? 'fa-check' : 'fa-camera'}"></i> ${isChecked ? '已完成打卡' : '拍照打卡'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            
+            document.getElementById('checked-count').innerText = `已打卡: ${appState.checkedSpots.length}/${spotsData.length}`;
+        }
+
+        // 手風琴展開與動態切換 Hero Banner 大圖
+        function toggleCard(id, imgUrl, name, desc) {
+            const details = document.getElementById(`details-${id}`);
+            const arrow = document.getElementById(`arrow-${id}`);
+            const isHidden = details.classList.contains('hidden');
+            
+            // 關閉其他展開的卡片
+            spotsData.forEach(s => {
+                if(s.id !== id) {
+                    document.getElementById(`details-${s.id}`).classList.add('hidden');
+                    document.getElementById(`arrow-${s.id}`).classList.remove('rotate-180');
+                }
+            });
+
+            if (isHidden) {
+                details.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+                // 連動切換最上方 Hero Banner 照片與標題
+                document.getElementById('hero-img').src = imgUrl;
+                document.getElementById('hero-title').innerText = name;
+                document.getElementById('hero-desc').innerText = desc;
+            } else {
+                details.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
+            }
+        }
+
+        // 拍照打卡與動態島動畫結合
+        function checkIn(id, event) {
+            event.stopPropagation(); // 防止觸發手風琴關閉
+            const index = appState.checkedSpots.indexOf(id);
+            const targetSpot = spotsData.find(s => s.id === id);
+
+            if (index === -1) {
+                appState.checkedSpots.push(id);
+                triggerIsland(`📸 成功打卡 ${targetSpot.name}！獲得 +50 積分`);
+            } else {
+                appState.checkedSpots.splice(index, 1);
+            }
+            
+            saveState();
+            renderSpots();
+        }
+
+        // 6. 記帳邏輯
+        function renderExpenses() {
+            const list = document.getElementById('expense-list');
+            list.innerHTML = '';
+            let total = 0;
+            
+            appState.expenses.forEach((exp, idx) => {
+                total += parseFloat(exp.amount);
+                const item = document.createElement('div');
+                item.className = "flex justify-between items-center py-2.5 text-xs text-slate-300";
+                item.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>${exp.title}</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-slate-100">AUD ${parseFloat(exp.amount).toFixed(2)}</span>
+                        <i class="fas fa-trash-alt text-slate-500 hover:text-rose-400 cursor-pointer transition" onclick="deleteExpense(${idx})"></i>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+            
+            document.getElementById('total-expense').innerText = `AUD ${total.toFixed(2)}`;
+        }
+
+        function addExpense() {
+            const titleInput = document.getElementById('exp-title');
+            const amountInput = document.getElementById('exp-amount');
+            
+            if(!titleInput.value || !amountInput.value) return;
+            
+            appState.expenses.push({
+                title: titleInput.value,
+                amount: amountInput.value
+            });
+            
+            triggerIsland(`💰 已記錄支出：${titleInput.value} AUD ${amountInput.value}`);
+            titleInput.value = '';
+            amountInput.value = '';
+            
+            saveState();
+            renderExpenses();
+        }
+
+        function deleteExpense(index) {
+            appState.expenses.splice(index, 1);
+            saveState();
+            renderExpenses();
+        }
+
+        // 7. 行李清單邏輯
+        function renderLuggage() {
+            const container = document.getElementById('luggage-list');
+            container.innerHTML = '';
+            
+            appState.luggage.forEach((lug) => {
+                const item = document.createElement('div');
+                item.className = `p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${lug.packed ? 'bg-slate-950/60 border-slate-800 text-slate-500' : 'bg-slate-800/40 border-slate-800 text-slate-200'}`;
+                item.onclick = () => {
+                    lug.packed = !lug.packed;
+                    saveState();
+                    renderLuggage();
+                };
+                item.innerHTML = `
+                    <span class="${lug.packed ? 'line-through' : ''}">${lug.item}</span>
+                    <i class="far ${lug.packed ? 'fa-check-square text-amber-500' : 'fa-square'} text-sm"></i>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // 啟動 App 渲染
+        window.onload = () => {
+            renderSpots();
+            renderExpenses();
+            renderLuggage();
+        };
+    </script>
 </body>
 </html>

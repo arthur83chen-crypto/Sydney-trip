@@ -35,6 +35,7 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
 
 /* PHOTO WALL */
 .pwall{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem;margin:1rem 0}
+.pwall {display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem;margin:1rem 0}
 .pitem{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:.5rem .2rem;text-align:center;opacity:.25;transition:all .3s}
 .pitem.active{opacity:1;background:rgba(244,162,97,.1);border-color:rgba(244,162,97,.4)}
 .pitem-ico{font-size:1.2rem;margin-bottom:2px}
@@ -92,7 +93,7 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
 .who-box{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:.25rem .5rem;font-size:.75rem;cursor:pointer}
 .who-box.selected{background:var(--ocean);border-color:#00B4D8}
 .einp{display:flex;gap:.4rem;margin-bottom:.5rem;flex-wrap:wrap}
-.einp input, .einp select{background:rgba(255,255,255,.07);border:1px solid var(--border);border-radius:8px;color:#fff;font-size:.8rem;padding:.45rem .6rem;outline:none}
+.einp input, .einp select{background:rgba(255,255,255,.07);border:1px solid var(--border);border-radius:8px;color:#fff;font-size:#fff;font-size:.8rem;padding:.45rem .6rem;outline:none}
 .elist{max-height:260px;overflow-y:auto;margin-top:.5rem}
 .erow{display:flex;align-items:center;gap:.5rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.78rem}
 .btn-add, .btn-line{background:#0077B6;border:none;border-radius:8px;color:#fff;font-size:.78rem;font-weight:700;padding:.45rem .8rem;cursor:pointer}
@@ -122,22 +123,22 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
 
 <div class="hero">
   <div class="hero-title">🇦🇺 2026 澳洲雪梨自駕全攻略<br><span style="font-size:1.1rem; color:var(--sand)">沿海公路與壯麗藍山大冒險</span></div>
-  <div class="hero-sub">Arthur · Karen · Steven · 江總</div>
+  <div class="hero-sub">Arthur · Karen · Steven · 大哥</div>
   
   <div class="db-grid">
     <div class="db-card"><div class="db-lbl">📍 目前位置</div><div class="db-val" id="db-loc">Sydney</div></div>
     <div class="db-card"><div class="db-lbl">📅 今天行程</div><div class="db-val" id="db-day">Day 1</div></div>
     <div class="db-card"><div class="db-lbl">☀️ 天氣預報</div><div class="db-val">16°C</div></div>
     <div class="db-card" style="grid-column: span 2"><div class="db-lbl">🚗 下一站景點</div><div class="db-val" id="db-next" style="color:var(--sand)">魚市場午餐 🐟</div></div>
-    <div class="db-card"><div class="db-lbl">⏳ 旅程倒數</div><div class="db-val" id="db-countdown">7 Days</div></div>
+    <div class="db-card"><div class="db-lbl">⏳ 旅程倒數</div><div class="db-val" id="db-countdown">-- Days</div></div>
   </div>
 
   <div class="route-wrap">
     <div class="route-title">🗺️ 雪梨至布里斯本推進線</div>
     <div class="route-line">
       <div class="route-node passed" id="rn-syd"><div class="route-dot"></div><div class="route-name">雪梨</div></div>
-      <div class="route-node" id="rn-blue"><div class="route-dot"></div><div class="route-name">藍山</div></div>
       <div class="route-node" id="rn-kiama"><div class="route-dot"></div><div class="route-name">噴水洞</div></div>
+      <div class="route-node" id="rn-blue"><div class="route-dot"></div><div class="route-name">藍山</div></div>
       <div class="route-node" id="rn-coffs"><div class="route-dot"></div><div class="route-name">大香蕉</div></div>
       <div class="route-node" id="rn-byron"><div class="route-dot"></div><div class="route-name">拜倫灣</div></div>
       <div class="route-node" id="rn-gc"><div class="route-dot"></div><div class="route-name">黃金海岸</div></div>
@@ -166,14 +167,14 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
   <div class="ticket-container" style="display: flex; flex-direction: column; gap: 1rem; max-width: 460px; margin: 0 auto;">
     <div class="air-ticket" style="background: linear-gradient(135deg, #1e3a8a, #0d1b2a); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.35);">
       <div style="background: rgba(255,255,255,0.08); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.2);">
-        <span style="font-size: 0.7rem; color: #90E0EF; font-weight: bold; letter-spacing: 1px;">DEPARTURE · 去程航班</span>
+        <span style="font-size: 0.7rem; color: #90E0EF; font-weight: bold; letter-spacing: 1px;">DEPARTURE · 去程航班（僅限 大哥 & Steven）</span>
         <span style="font-size: 0.75rem; font-weight: 800; color: #fff; background: #0077B6; padding: 2px 8px; border-radius: 20px;">CI 51</span>
       </div>
       <div style="padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
         <div style="text-align: left;">
           <div style="font-size: 1.4rem; font-weight: 900; color: #fff;">TPE</div>
           <div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">台北桃園</div>
-          <div style="font-size: 0.8rem; font-weight: bold; color: var(--sand); margin-top: 4px;">1/7 (三) 22:30</div>
+          <div style="font-size: 0.8rem; font-weight: bold; color: var(--sand); margin-top: 4px;">7/1 (三) 22:30</div>
         </div>
         <div style="flex: 1; text-align: center; padding: 0 1rem; color: rgba(255,255,255,0.3);">
           <span style="font-size: 1rem;">✈️</span>
@@ -183,21 +184,21 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
         <div style="text-align: right;">
           <div style="font-size: 1.4rem; font-weight: 900; color: #fff;">SYD</div>
           <div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">雪梨國際</div>
-          <div style="font-size: 0.8rem; font-weight: bold; color: #52B788; margin-top: 4px;">2/7 (四) 10:45</div>
+          <div style="font-size: 0.8rem; font-weight: bold; color: #52B788; margin-top: 4px;">7/2 (四) 10:45</div>
         </div>
       </div>
     </div>
 
     <div class="air-ticket" style="background: linear-gradient(135deg, #2d1b4e, #0d1b2a); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.35);">
       <div style="background: rgba(255,255,255,0.08); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.2);">
-        <span style="font-size: 0.7rem; color: #D6BBFB; font-weight: bold; letter-spacing: 1px;">RETURN · 回程航班</span>
+        <span style="font-size: 0.7rem; color: #D6BBFB; font-weight: bold; letter-spacing: 1px;">RETURN · 回程航班（全員）</span>
         <span style="font-size: 0.75rem; font-weight: 800; color: #fff; background: #7B2FBE; padding: 2px 8px; border-radius: 20px;">CI 52</span>
       </div>
       <div style="padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
         <div style="text-align: left;">
           <div style="font-size: 1.4rem; font-weight: 900; color: #fff;">SYD</div>
           <div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">雪梨國際</div>
-          <div style="font-size: 0.8rem; font-weight: bold; color: var(--sand); margin-top: 4px;">9/7 (四) 22:10</div>
+          <div style="font-size: 0.8rem; font-weight: bold; color: var(--sand); margin-top: 4px;">7/9 (四) 22:10</div>
         </div>
         <div style="flex: 1; text-align: center; padding: 0 1rem; color: rgba(255,255,255,0.3);">
           <span style="font-size: 1rem; display: inline-block; transform: scaleX(-1);">✈️</span>
@@ -207,7 +208,7 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
         <div style="text-align: right;">
           <div style="font-size: 1.4rem; font-weight: 900; color: #fff;">TPE</div>
           <div style="font-size: 0.65rem; color: rgba(255,255,255,0.5)">台北桃園</div>
-          <div style="font-size: 0.8rem; font-weight: bold; color: #52B788; margin-top: 4px;">10/7 (五) 05:40</div>
+          <div style="font-size: 0.8rem; font-weight: bold; color: #52B788; margin-top: 4px;">7/10 (五) 05:40</div>
         </div>
       </div>
     </div>
@@ -280,10 +281,10 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
 <div id="s-members" class="sec">
   <div class="stitle">👥 冒險隊員戰力面板</div>
   <div class="mgrid">
-    <div class="mcrd a" onclick="openMember('arthur')"><div class="mav">🧑‍💻</div><div class="mname">Arthur</div><div style="font-size:0.65rem;opacity:0.7">主要旅遊帶隊官</div></div>
-    <div class="mcrd k" onclick="openMember('karen')"><div class="mav">👩</div><div class="mname">Karen</div><div style="font-size:0.65rem;opacity:0.7">行程後勤協助官</div></div>
-    <div class="mcrd s" onclick="openMember('steven')"><div class="mav">👦</div><div class="mname">Steven</div><div style="font-size:0.65rem;opacity:0.7">初次觀光代表</div></div>
-    <div class="mcrd d" onclick="openMember('dage')"><div class="mav">👨</div><div class="mname">江總</div><div style="font-size:0.65rem;opacity:0.7">初次觀光元老級嘉賓</div></div>
+    <div class="mcrd a" onclick="openMember('arthur')"><div class="mav">🧑‍💻</div><div class="mname">Arthur</div><div style="font-size:0.65rem;opacity:0.7">主要導航長 / 帶隊官</div></div>
+    <div class="mcrd k" onclick="openMember('karen')"><div class="mav">👩</div><div class="mname">Karen</div><div style="font-size:0.65rem;opacity:0.7">專業美食與照片後勤官</div></div>
+    <div class="mcrd s" onclick="openMember('steven')"><div class="mav">👦</div><div class="mname">Steven</div><div style="font-size:0.65rem;opacity:0.7">首席野生動物觀察員</div></div>
+    <div class="mcrd d" onclick="openMember('dage')"><div class="mav">👨</div><div class="mname">大哥</div><div style="font-size:0.65rem;opacity:0.7">核心老司機司機長</div></div>
   </div>
 </div>
 
@@ -306,11 +307,20 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
     <a class="btn-call" href="tel:+61297679000">📞 直撥急診</a>
   </div>
 
+  <div class="card" style="background:rgba(255,255,255,.05); border-color:var(--border)">
+    <div class="card-t" style="font-size:0.85rem; color:#90E0EF">🏠 Granville 大本營資訊</div>
+    <div style="font-size:0.8rem; line-height:1.6">
+      <span style="color:rgba(255,255,255,.6)">地址：</span>28 The Avenue, Granville NSW 2142<br>
+      <span style="color:rgba(255,255,255,.6)">申報/入境聯絡人：</span>彭旭 (Peng-Xu Chen), 0478 818 498<br>
+      <span style="color:var(--sunset); font-weight:bold;">⚠️ 澳洲海關嚴禁攜帶任何新鮮肉類、蛋類、蔬菜水果。木製品或超過 AUD 10,000 的現金均必須誠實申報。</span>
+    </div>
+  </div>
+
   <div class="card-t" style="margin-top:1rem">💬 隨身備忘留言</div>
   <div class="mlist" id="msg-list"></div>
   <div style="display:flex; gap:0.3rem">
     <select id="msg-who" style="background:#08121f; color:#fff; border:1px solid var(--border); border-radius:6px; font-size:0.75rem">
-      <option value="arthur">Arthur</option><option value="karen">Karen</option><option value="steven">Steven</option><option value="dage">江總</option>
+      <option value="arthur">Arthur</option><option value="karen">Karen</option><option value="steven">Steven</option><option value="dage">大哥</option>
     </select>
     <input type="text" id="msg-inp" placeholder="輸入備忘細節..." style="flex:1; background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:6px; padding:0.3rem; color:#fff; font-size:0.8rem">
     <button class="btn-add" onclick="sendMsg()" style="padding:0.3rem 0.6rem">送出</button>
@@ -329,62 +339,68 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;pa
 <script>
 const AUD_TWD = 21.5;
 const members = ['arthur','karen','steven','dage'];
-const mNames = { arthur:'Arthur', karen:'Karen', steven:'Steven', dage:'江總' };
+const mNames = { arthur:'Arthur', karen:'Karen', steven:'Steven', dage:'大哥' };
 const mEmojis = { arthur:'🧑‍💻', karen:'👩', steven:'👦', dage:'👨' };
 
-// 行程數據庫 (包含真實高質感圖網址與修正接機時間)
+// 行程數據庫 (已完整替換最新最狂2026山海冒險行程)
 const itinData = [
-  { day: 1, date: '2/7', label: '抵達雪梨', loc: 'Sydney', stops: [
-    { id: 's1', name: '機場會合通關 (11:00 接江總＆Steven)', desc: 'Arthur & Karen 已抵達，11:00 準時接機江總與 Steven，清點行李、確認入境，開啟公路之旅！', img: 'https://images.unsplash.com/photo-1542296332-2e4473fac563?w=500&q=80', next: '新魚市場補給 🐟' },
-    { id: 's2', name: 'Sydney Fish Market 新魚市場', desc: '澳洲必吃海鮮大餐！狂嗑鮮甜生蠔與大龍蝦補充滿滿體力。', img: 'https://images.unsplash.com/photo-1553618551-fba689030290?w=500&q=80', next: 'Granville 基地放行李 🏠' },
-    { id: 's3', name: 'Granville 基地放行李安頓', desc: '返回寬敞公寓舒適落腳，稍作歇息放行李。', img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&q=80', next: 'DFO Outlet 採購 🛍️' },
-    { id: 's4', name: 'DFO Homebush 戰利品採購', desc: 'UGG、Coach 各大品牌折扣大掃貨，第一天就買好買滿！', img: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=500&q=80', next: '晚餐義大利菜 🍕' }
+  { day: 1, date: '7/2', label: '雪梨抵達', loc: 'Sydney', stops: [
+    { id: 's1', name: '雪梨機場接機會合 (10:45)', desc: '10:45 班機準時抵達雪梨，與 Arthur 和 Karen 順利會合，開啟2026雪梨山海大長征。', img: 'https://images.unsplash.com/photo-1542296332-2e4473fac563?w=500&q=80', next: '全新雪梨魚市場 🐟' },
+    { id: 's2', name: '全新翻新雪梨新魚市場', desc: '朝聖全新完工的雪梨魚市場，爽嗑尚青生蠔、新鮮龍蝦海鮮大餐！', img: 'https://images.unsplash.com/photo-1553618551-fba689030290?w=500&q=80', next: 'Granville 基地放行李 🏠' },
+    { id: 's3', name: 'Granville 大本營進駐休息', desc: '先回 Granville 溫馨大公寓卸下沉重行李，休息並整備隨身自駕裝備。', img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&q=80', next: '血拼採購戰 🛍️' },
+    { id: 's4', name: 'DFO Homebush 或 Westfield 採購', desc: 'UGG、Coach、各大澳洲服飾與補給品大採購，第一天就買齊必備戰利品。', img: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=500&q=80', next: '明天探索雪梨市區精華 🏙️' }
   ]},
-  { day: 2, date: '3/7', label: '市區精華', loc: 'Sydney', stops: [
-    { id: 's5', name: '雪梨歌劇院經典外拍', desc: '近距離打卡世界級經典地標，拍下最完美的家族大合照。', img: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=500&q=80', next: 'QVB 皇家購物拱廊 🏛️' },
-    { id: 's6', name: 'QVB 皇家購物長廊', desc: '漫步最美百年古蹟商場，欣賞極致奢華的維多利亞風格建築。', img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&q=80', next: 'Bondi Beach 海灘 🏖️' },
-    { id: 's7', name: 'Bondi Beach 邦代海灘海岸線', desc: '走訪絕美白色沙灘與網美無邊際泳池海岸線。', img: 'https://images.unsplash.com/photo-1524338198850-8a2ff63a103f?w=500&q=80', next: '明天準備前往藍山 ⛰️' }
+  { day: 2, date: '7/3', label: '雪梨精華', loc: 'Sydney', stops: [
+    { id: 's5', name: '雪梨歌劇院外拍 & 皇家植物園', desc: '漫步歌劇院外圍、在麥覺理夫人石椅遠眺雙地標大合照，並在植物園綠地野餐。', img: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=500&q=80', next: 'QVB 與聖瑪麗大教堂 🏛️' },
+    { id: 's6', name: 'QVB 拱廊與聖瑪麗大教堂', desc: '朝聖百年奢華維多利亞風格 QVB 購物拱廊，隨後參觀宏偉的哥德式聖瑪麗大教堂。', img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&q=80', next: '邦代海灘 🏖️' },
+    { id: 's7', name: 'Bondi Beach 邦代海灘與雪梨大學', desc: '踏上熱門網美邦代海灘沙灘，傍晚造訪具備魔幻哈利波特氛圍的雪梨大學主樓。', img: 'https://images.unsplash.com/photo-1524338198850-8a2ff63a103f?w=500&q=80', next: '明天沿海公路南下 🦘' }
   ]},
-  { day: 3, date: '4/7', label: '海岸南下', loc: 'Kiama', stops: [
-    { id: 's8', name: 'Kiama Blowhole 巨型噴水洞', desc: '感受世界最大天然噴水孔大自然浪花咆咆哮震撼奇景。', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80', next: '明天勇闖藍山大峽谷 ⛰️' }
+  { day: 3, date: '7/4', label: '海岸公路', loc: 'Kiama', stops: [
+    { id: 's8', name: 'Mogo Wildlife Park 野生動物園', desc: 'Steven 的專屬第一波大行程！近距離接觸袋鼠、跟無尾熊超萌同框。', img: 'https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=500&q=80', next: 'Kiama 噴水洞 🌊' },
+    { id: 's9', name: 'Kiama Blowhole 巨型噴水洞', desc: '沿著太斯曼海岸公路南下，看世界最大天然噴水洞隨海浪衝擊噴出壯觀水柱！', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80', next: '明天前進壯麗藍山大峽谷 ⛰️' }
   ]},
-  { day: 4, date: '5/7', label: '藍山探險', loc: 'Blue Mountains', stops: [
-    { id: 's9', name: '景觀世界 Scenic World 纜車', desc: '挑戰全澳洲最陡斜特快森林鐵道，穿梭在熱帶雨林大峽谷。', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=80', next: '回音谷黃昏三姐妹岩 ⛰️' },
-    { id: 's10', name: 'Echo Point 三姐妹岩黃昏夕陽', desc: '捕捉金黃暮光灑在斷崖上的世界級絕景大作。', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&q=80', next: '今晚凌晨準備大長征 🍌' }
+  { day: 4, date: '7/5', label: '藍山探險', loc: 'Blue Mountains', stops: [
+    { id: 's10', name: '藍山景觀世界 Scenic World 纜車', desc: '清晨出發避開人潮，挑戰全澳最陡快車森林鐵道，搭三種高空纜車俯瞰壯觀峽谷。', img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=80', next: '羅拉小鎮漫步 🏡' },
+    { id: 's11', name: 'Leura 羅拉小鎮漫步與夕陽三姐妹岩', desc: '在充滿英式鄉村風的主街悠閒午餐，傍晚在 Echo Point 捕捉金黃暮光下的三姐妹岩絕景。', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&q=80', next: '明晨 3:00 北上超級大狂征 🍌' }
   ]},
-  { day: 5, date: '6/7', label: '香蕉小鎮', loc: 'Coffs Harbour', stops: [
-    { id: 's11', name: 'Big Banana Fun Park 巨型香蕉', desc: '打卡澳洲代表性的巨型水果公路地標，趣味十足！', img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&q=80', next: '明天前往拜倫灣最東端 🏰' }
+  { day: 5, date: '7/6', label: '香蕉小鎮', loc: 'Coffs Harbour', stops: [
+    { id: 's12', name: '凌晨長途急征 ＆ 抵達大香蕉地標', desc: '03:00 凌晨開拔北上大狂征（車上補眠），直達 Coffs Harbour 打卡經典 Big Banana 巨型水果大香蕉。', img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&q=80', next: '碼頭與沙灘漫步 🌊' },
+    { id: 's13', name: 'Jetty 碼頭區與 Park Beach 散步', desc: '在極具風味的碼頭海邊享用午餐，在清澈的 Park Beach 沙灘悠閒散步，入住 Coffs Harbour。', img: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=500&q=80', next: '明天朝聖澳洲極東點 🏰' }
   ]},
   { day: 6, date: '7/7', label: '最東燈塔', loc: 'Byron Bay', stops: [
-    { id: 's12', name: 'Cape Byron 燈塔極東太平洋', desc: '在澳洲極東海岸線燈塔，遠眺無邊無際的深藍太平洋。', img: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=500&q=80', next: '下午前進衝浪者天堂 🏄' }
+    { id: 's14', name: 'Cape Byron 拜倫灣燈塔看極東日出', desc: '清晨衝拜倫灣白色燈塔，迎接澳洲本土第一道絕美曙光！沿途注意海豚與海鯨。', img: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=500&q=80', next: '嬉皮風格文青小鎮 🏄' },
+    { id: 's15', name: 'Byron Bay 小鎮與黃金海岸衝浪者天堂', desc: '感受小鎮獨特的嬉皮度假氛圍，下午驅車1小時挺進黃金海岸，夜遊衝浪者天堂 Surfers Paradise。', img: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=500&q=80', next: '明天龍柏無尾熊特攻 🐨' }
   ]},
-  { day: 7, date: '8/7', label: '黃金海岸', loc: 'Gold Coast', stops: [
-    { id: 's13', name: 'Lone Pine 龍柏無尾熊保護區', desc: '解鎖抱無尾熊與親手餵袋鼠行程！滿足 Steven 與江總的期待。', img: 'https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=500&q=80', next: '布里斯本市區漫步 🌉' }
+  { day: 7, date: '7/8', label: '黃金海岸', loc: 'Gold Coast', stops: [
+    { id: 's16', name: 'Lone Pine 龍柏無尾熊保護區', desc: 'Steven 終極圓夢點！在世界最大無尾熊園區，體驗合法親手抱無尾熊、大群袋鼠餵食。', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&q=80', next: '布里斯本市區精華 🌉' },
+    { id: 's17', name: '布里斯本市區 South Bank 人工沙灘', desc: '走訪 South Bank 南岸公園城市人工沙灘，傍晚打卡 Story Bridge 故事橋，隨後踏上夜車回雪梨大長征。', img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=500&q=80', next: '最後回程採購 🛍️' }
   ]},
-  { day: 8, date: '9/7', label: '布里斯本', loc: 'Brisbane', stops: [
-    { id: 's14', name: 'Chemist Warehouse 藥妝大補貨', desc: '澳洲保健品、綿羊油、伴手禮最後大補給，滿載而歸。', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&q=80', next: '開往機場，準備回台灣 ✈️' }
+  { day: 8, date: '7/9', label: '布里斯本', loc: 'Sydney', stops: [
+    { id: 's18', name: 'Chemist Warehouse 終極伴手禮採購', desc: '回到雪梨做最後總掃貨：維他命、綿羊油、澳洲零食、伴手禮全部塞滿行李箱！', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&q=80', next: '前往雪梨機場返回台灣 ✈️' },
+    { id: 's19', name: '抵達雪梨機場準備回台 (17:00)', desc: '17:00 前抵達雪梨國際機場辦理退稅、託運，搭乘 22:10 中華航空 CI 52 完美歸賦！', img: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&q=80', next: '旅程圓滿成功 🎉' }
   ]}
 ];
 
 const packingData = {
-  "重要證件": ["護照正本 (效期6個月以上)", "台灣身份證/駕照備用", "電子簽證 ETA 確認件列印", "海外高額刷卡回饋信用卡", "國際駕照正本 + 台灣駕照正本"],
-  "電子數位設備": ["行動電源與各類慢充線材", "澳洲專用萬國轉接插頭", "車用手機架 (自駕極其重要)", "車用雙孔點菸器快充頭"],
-  "衣物與日常用品": ["防風防水保暖外套 (夜間防寒)", "舒適耐磨步行運動鞋", "防曬乳/太陽眼鏡/遮陽帽", "個人私密常用藥品/感冒藥"]
+  "重要證件": ["護照正本 (效期6個月以上)", "電子簽證 ETA 確認件列印", "國際駕照正本 + 台灣駕照正本", "海外高額刷卡回饋信用卡"],
+  "電子數位設備": ["行動電源與各類慢充線材", "澳洲專用萬國轉接插頭 (三腳扁型)", "車用手機架 (自駕極其重要)", "車用雙孔點菸器快充頭"],
+  "衣物與日常用品": ["防風防水保暖外套 (7月澳洲寒冬夜間必備)", "舒適耐磨步行運動鞋", "防曬乳/太陽眼鏡/遮陽帽", "個人私密常用藥品/感冒藥"]
 };
 
 const englishData = [
   { q: "點餐時想要分開付", e: "Can we split the bill, please?", t: "請問我們可以分開結帳嗎？" },
   { q: "需要打包外帶", e: "Could I get a doggy bag? / To go, please.", t: "麻煩幫我打包，謝謝。" },
   { q: "詢問有沒有推薦菜色", e: "What do you recommend here?", t: "你們這裡有推薦什麼招牌菜嗎？" },
-  { q: "尋問加油站人工服務", e: "Hi, I need to pay for pump number.", t: "你好，我要結帳X號油槍。" }
+  { q: "尋問加油站人工服務", e: "Hi, I need to pay for pump number [X].", t: "你好，我要結帳 X 號油槍。" }
 ];
 
 const tasks = [
   { id: 't1', name: '捕捉到野生袋鼠身影', icon: '🦘', pts: 20 },
-  { id: 't2', name: '親口嚐鮮澳洲生蠔', icon: '🦪', pts: 15 },
+  { id: 't2', name: '親口嚐鮮雪梨新市場生蠔', icon: '🦪', pts: 15 },
   { id: 't3', name: '解鎖三姐妹岩黃昏大合照', icon: '⛰️', pts: 20 },
   { id: 't4', name: '親腳踏上 Bondi Beach 沙灘', icon: '🏖️', pts: 10 },
-  { id: 't6', name: '親手抱到超萌無尾熊', icon: '🐨', pts: 30 },
+  { id: 't5', name: '親手抱到超萌無尾熊', icon: '🐨', pts: 30 },
+  { id: 't6', name: '解鎖拜倫灣澳洲極東點日出', icon: '🌅', pts: 25 },
   { id: 't7', name: '親眼目睹 Kiama 噴水洞發威', icon: '💨', pts: 15 }
 ];
 
@@ -415,7 +431,6 @@ function saveAll() {
   localStorage.setItem('syd-pack', JSON.stringify(checkedPack));
 }
 
-// 頁面顯示切換核心邏輯
 function showSec(id, btn) {
   document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
   document.querySelectorAll('.nav .nb').forEach(b => b.classList.remove('on'));
@@ -444,7 +459,7 @@ function updateDashboard() {
   document.getElementById('db-loc').textContent = currentLoc;
   document.getElementById('db-next').textContent = nextStop ? nextStop.name.substring(0,12)+'...' : '旅程圓滿落幕！';
 
-  const nodes = { 'Sydney':'rn-syd', 'Blue Mountains':'rn-blue', 'Kiama':'rn-kiama', 'Coffs Harbour':'rn-coffs', 'Byron Bay':'rn-byron', 'Gold Coast':'rn-gc' };
+  const nodes = { 'Sydney':'rn-syd', 'Kiama':'rn-kiama', 'Blue Mountains':'rn-blue', 'Coffs Harbour':'rn-coffs', 'Byron Bay':'rn-byron', 'Gold Coast':'rn-gc' };
   let passed = true;
   for (let [locName, elementId] of Object.entries(nodes)) {
     const el = document.getElementById(elementId); if (!el) continue;
@@ -516,121 +531,193 @@ function renderItin() {
       </div>
     </div>`).join('');
 }
-function toggleStop(id) { checkedStops[id] = !checkedStops[id]; saveAll(); renderItin(); updateDashboard(); }
 
-function initExpSelectors() {
-  document.getElementById('payer-grp').innerHTML = members.map(m => `<div class="who-box ${m === selectedPayer ? 'selected' : ''}" onclick="setParam('payer','${m}')">${mEmojis[m]} ${mNames[m]}</div>`).join('');
-  document.getElementById('consumers-grp').innerHTML = members.map(m => `<div class="who-box ${selectedConsumers.includes(m) ? 'selected' : ''}" onclick="setParam('consumer','${m}')">${mEmojis[m]} ${mNames[m]}</div>`).join('');
+function toggleStop(id) {
+  checkedStops[id] = !checkedStops[id];
+  saveAll();
+  renderItin();
+  updateDashboard();
 }
-function setParam(type, who) {
-  if (type === 'payer') selectedPayer = who;
-  else { if (selectedConsumers.includes(who)) { if (selectedConsumers.length > 1) selectedConsumers = selectedConsumers.filter(c => c !== who); } else selectedConsumers.push(who); }
-  initExpSelectors();
+
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// 記帳演算法核心邏輯
+function renderExpUI() {
+  document.getElementById('payer-grp').innerHTML = members.map(m => `
+    <div class="who-box ${selectedPayer===m?'selected':''}" onclick="selectedPayer='${m}';renderExpUI()">${mEmojis[m]} ${mNames[m]}</div>
+  `).join('');
+  document.getElementById('consumers-grp').innerHTML = members.map(m => `
+    <div class="who-box ${selectedConsumers.includes(m)?'selected':''}" onclick="toggleConsumer('${m}')">${mEmojis[m]} ${mNames[m]}</div>
+  `).join('');
+
+  let tAud = 0;
+  expenses.forEach(e => tAud += parseFloat(e.amt));
+  document.getElementById('tot-aud').textContent = `$${tAud.toFixed(2)}`;
+  document.getElementById('tot-twd').textContent = `NT$ ${Math.round(tAud * AUD_TWD).toLocaleString()}`;
+
+  document.getElementById('e-list').innerHTML = expenses.map((e, idx) => `
+    <div class="erow">
+      <span style="font-weight:bold; color:var(--sand); width:55px">$${parseFloat(e.amt).toFixed(1)}</span>
+      <span style="color:rgba(255,255,255,.4); width:35px">[${e.cat}]</span>
+      <span style="flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">${e.desc}</span>
+      <span style="font-size:0.7rem; color:#90E0EF">${mNames[e.payer]}墊 ➔ ${e.cons.map(c=>mNames[c].substring(0,2)).join(',')}</span>
+      <button onclick="delExp(${idx})" style="background:none; border:none; color:#FF6B6B; padding:0 .3rem; cursor:pointer">✕</button>
+    </div>
+  `).join('');
+
+  calcDebts();
+}
+
+function toggleConsumer(m) {
+  if (selectedConsumers.includes(m)) selectedConsumers = selectedConsumers.filter(c => c!==m);
+  else selectedConsumers.push(m);
+  renderExpUI();
 }
 
 function addExp() {
-  const amt = parseFloat(document.getElementById('e-amt').value); const desc = document.getElementById('e-desc').value.trim();
-  if (!amt || !desc) { alert('請填妥金額與項目說明！'); return; }
-  expenses.push({ amt, desc, cat: document.getElementById('e-cat').value, payer: selectedPayer, consumers: [...selectedConsumers] });
-  scores[selectedPayer] += 5; saveAll(); renderExpUI();
+  const amt = document.getElementById('e-amt').value;
+  const desc = document.getElementById('e-desc').value;
+  const cat = document.getElementById('e-cat').value;
+  if (!amt || !desc || selectedConsumers.length === 0) { showToast('⚠️ 請輸入正確金額、消費說明並選擇分攤成員！'); return; }
+  expenses.unshift({ amt: parseFloat(amt), desc, payer: selectedPayer, cons: [...selectedConsumers], cat });
+  saveAll();
   document.getElementById('e-amt').value = ''; document.getElementById('e-desc').value = '';
-  toast('帳目記錄成功！');
+  renderExpUI();
+  showToast('💰 成功記錄一筆海外開銷！');
 }
-function delExp(idx) { expenses.splice(idx, 1); saveAll(); renderExpUI(); }
 
-function renderExpUI() {
-  initExpSelectors(); const totalAUD = expenses.reduce((sum, e) => sum + e.amt, 0);
-  document.getElementById('tot-aud').textContent = `$${totalAUD.toFixed(2)}`;
-  document.getElementById('tot-twd').textContent = `NT$ ${Math.round(totalAUD * AUD_TWD).toLocaleString()}`;
+function delExp(idx) {
+  expenses.splice(idx, 1); saveAll(); renderExpUI();
+}
 
-  let balances = { arthur: 0, karen: 0, steven: 0, dage: 0 };
-  expenses.forEach(e => { balances[e.payer] += e.amt; const share = e.amt / e.consumers.length; e.consumers.forEach(c => balances[c] -= share); });
-  let debtHTML = '';
-  for (let [person, bal] of Object.entries(balances)) {
-    if (bal > 0) debtHTML += `<div style="color:#52B788">💰 <strong>${mNames[person]}</strong> 應收回：<strong>AUD $${bal.toFixed(2)}</strong></div>`;
-    else if (bal < 0) debtHTML += `<div style="color:#FF8B8B">💸 <strong>${mNames[person]}</strong> 應補繳：<strong>AUD $${Math.abs(bal).toFixed(2)}</strong></div>`;
+function calcDebts() {
+  let bal = { arthur:0, karen:0, steven:0, dage:0 };
+  expenses.forEach(e => {
+    let a = parseFloat(e.amt);
+    bal[e.payer] += a;
+    let share = a / e.cons.length;
+    e.cons.forEach(c => bal[c] -= share);
+  });
+
+  let dList = [];
+  let arr = Object.keys(bal).map(k => ({ id: k, b: bal[k] }));
+  
+  // 簡單的債務清算撮合
+  let loop = 0;
+  while(loop < 40) {
+    arr.sort((x,y) => x.b - y.b);
+    let debtor = arr[0]; let creditor = arr[arr.length-1];
+    if (Math.abs(debtor.b) < 0.02 || Math.abs(creditor.b) < 0.02) break;
+    let amt = Math.min(Math.abs(debtor.b), creditor.b);
+    dList.push(`💵 <b>${mNames[debtor.id]}</b> 應支付給 <b>${mNames[creditor.id]}</b>：<span style="color:#FFD60A;font-weight:bold">$${amt.toFixed(2)} AUD</span> (約 NT$ ${Math.round(amt*AUD_TWD)})`);
+    debtor.b += amt; creditor.b -= amt;
+    loop++;
   }
-  document.getElementById('debt-list').innerHTML = debtHTML || '<div style="color:rgba(255,255,255,.4)">帳目平衡</div>';
-
-  const el = document.getElementById('e-list');
-  if (!expenses.length) { el.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,.3);padding:1rem">暫無帳目</div>`; return; }
-  el.innerHTML = expenses.map((e, idx) => `
-    <div class="erow">
-      <span style="flex:1"><strong>[${e.cat}] ${e.desc}</strong><br><span style="font-size:0.65rem; color:rgba(255,255,255,.4)">由 ${mNames[e.payer]} 墊付</span></span>
-      <div style="text-align:right"><div style="color:#FFD60A; font-weight:bold">$${e.amt.toFixed(2)}</div></div>
-      <button onclick="delExp(${idx})" style="background:none; border:none; color:#FF6B6B; margin-left:8px; cursor:pointer">✕</button>
-    </div>`).reverse().join('');
+  document.getElementById('debt-list').innerHTML = dList.length ? dList.join('<br>') : '🎉 帳目當前完全清空，太完美了！';
 }
+
 function copyToLine() {
-  let text = "📊 澳洲最新對帳單\n"; expenses.forEach((e,i) => text += `${i+1}. ${e.desc}: AUD $${e.amt} (${mNames[e.payer]}墊)\n`);
-  navigator.clipboard.writeText(text); toast('複製成功！');
+  let text = "📊 【2026澳洲公路探險開銷結算明細】\n";
+  let tAud = 0; expenses.forEach(e => tAud += e.amt);
+  text += `🟢 總花費：$${tAud.toFixed(2)} AUD (約 NT$ ${Math.round(tAud*AUD_TWD).toLocaleString()})\n\n`;
+  text += "💡 【當前清算明細流程】\n";
+  const lines = document.getElementById('debt-list').innerText;
+  text += lines + "\n\n開啟導航網頁隨時掌握最新帳目！";
+  navigator.clipboard.writeText(text).then(() => showToast('📋 結算報告已成功複製至剪貼簿！')).catch(() => showToast('複製失敗'));
 }
 
+// 榮譽榜與即時任務
 function renderScores() {
-  const sorted = [...members].sort((a, b) => scores[b] - scores[a]);
-  const badges = ['🥇', '🥈', '🥉', '4️⃣'];
-  document.getElementById('lb').innerHTML = sorted.map((m, i) => {
-    const titleObj = getTitle(scores[m]);
+  let sorted = Object.keys(scores).map(k => ({ id:k, pts:scores[k] })).sort((x,y)=>y.pts-x.pts);
+  document.getElementById('lb').innerHTML = sorted.map((s, idx) => {
+    let title = getTitle(s.pts);
     return `
       <div class="lbrow">
-        <span style="font-size:1.1rem; font-weight:bold; min-width:24px">${badges[i]}</span>
-        <div class="mav" style="margin:0; width:34px; height:34px; font-size:1rem">${mEmojis[m]}</div>
-        <div style="flex:1; margin-left:5px"><div class="lbname">${mNames[m]}</div><div class="lbtitle" style="background:${titleObj.col}22; color:${titleObj.col}">${titleObj.txt}</div></div>
-        <div class="lbpts">${scores[m]} pt</div>
+        <div style="font-size:1.1rem; font-weight:900; width:24px; color:rgba(255,255,255,.4)">#${idx+1}</div>
+        <div class="mav" style="margin:0; width:36px; height:36px; font-size:1.1rem">${mEmojis[s.id]}</div>
+        <div style="flex:1">
+          <div class="lbname">${mNames[s.id]}</div>
+          <div class="lbtitle" style="background:${title.col}22; color:${title.col}">${title.txt}</div>
+        </div>
+        <div class="lbpts">${s.pts} <span style="font-size:0.6rem; color:rgba(255,255,255,.4)">PTS</span></div>
       </div>`;
   }).join('');
 
-  document.getElementById('tgrid').innerHTML = tasks.map(t => `
-    <div class="tcrd ${tstate[t.id] ? 'done' : ''}" onclick="claimTask('${t.id}', ${t.pts})">
-      <div style="font-size:1.2rem">${t.icon}</div><div style="font-weight:bold; margin:2px 0">${t.name}</div><div style="color:#FFD60A">+${t.pts} pt</div>
-      ${tstate[t.id] ? `<div style="color:#52B788; font-size:0.65rem; margin-top:4px">✓ ${mNames[tstate[t.id]]}</div>` : `
-        <select id="sel-${t.id}" onclick="event.stopPropagation()" style="width:100%; font-size:0.65rem; margin-top:4px; background:#08121f; color:#fff; border:1px solid var(--border)">
-          ${members.map(m=>`<option value="${m}">${mNames[m]}</option>`).join('')}
-        </select>}
-    </div>`).join('');
+  document.getElementById('tgrid').innerHTML = tasks.map(t => {
+    let done = tstate[t.id] ? true : false;
+    return `
+      <div class="tcrd ${done?'done':''}" onclick="toggleTask('${t.id}')">
+        <div style="font-size:1.6rem; margin-bottom:4px">${t.icon}</div>
+        <div style="font-size:0.75rem; font-weight:700; margin-bottom:4px; height:32px; display:flex; align-items:center; justify-content:center">${t.name}</div>
+        <div style="font-size:0.65rem; color:#FFD60A; font-weight:bold">+${t.pts} EXP</div>
+      </div>`;
+  }).join('');
 }
-function claimTask(id, pts) { if (tstate[id]) return; const who = document.getElementById('sel-' + id).value; tstate[id] = who; scores[who] += pts; saveAll(); renderScores(); updateDashboard(); }
 
+function toggleTask(tid) {
+  tstate[tid] = !tstate[tid];
+  let t = tasks.find(x => x.id === tid);
+  // 加減積分逻辑（預設所有人都有分，Arthur當作主要加分對象做示範，現場可至戰力面板細調）
+  if (tstate[tid]) { scores['arthur'] += t.pts; showToast(`🎉 成功解鎖任務！Arthur 榮獲 ${t.pts} 積分！`); }
+  else { scores['arthur'] -= t.pts; }
+  saveAll(); renderScores(); updateDashboard();
+}
+
+// 成員模態框功能
 function openMember(id) {
-  const name = mNames[id]; const emoji = mEmojis[id]; const pts = scores[id];
-  const paidSum = expenses.filter(e => e.payer === id).reduce((sum,e)=>sum+e.amt, 0);
-  const taskCount = Object.values(tstate).filter(v => v === id).length;
-  
-  let desc = "";
-  if(id === 'arthur') desc = "主要帶大家去旅遊的靈魂核心";
-  else if(id === 'karen') desc = "協助幫忙各項後勤與美食長";
-  else if(id === 'steven') desc = "第一次來觀光的新星大冒險家";
-  else if(id === 'dage') desc = "第一次來觀光的元老級重量嘉賓";
-
-  document.getElementById('mem-cont').innerHTML = `
-    <div style="text-align:center; padding:1rem 0">
-      <div style="font-size:3rem">${emoji}</div>
-      <div style="font-size:1.4rem; font-weight:900; margin-top:5px">${name}</div>
-      <div style="color:rgba(255,255,255,.6); font-size:0.75rem; margin-bottom:5px">特質：${desc}</div>
-      <div style="color:var(--sand); font-weight:bold; font-size:1.1rem; margin:5px 0">${pts} pt</div>
-      <div style="font-size:0.75rem; color:rgba(255,255,255,.4); margin-bottom:1rem">${getTitle(pts).txt}</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; text-align:left">
-        <div style="background:rgba(255,255,255,.04); padding:0.6rem; border-radius:8px"><span style="font-size:0.65rem; color:rgba(255,255,255,.4)">🎯 解鎖任務</span><div style="font-size:1.1rem; font-weight:bold">${taskCount} 項</div></div>
-        <div style="background:rgba(255,255,255,.04); padding:0.6rem; border-radius:8px"><span style="font-size:0.65rem; color:rgba(255,255,255,.4)">💰 代墊金</span><div style="font-size:1.1rem; font-weight:bold; color:#52B788">$${paidSum.toFixed(1)} AUD</div></div>
+  let html = `
+    <div style="text-align:center; margin-bottom:1rem">
+      <div style="font-size:3rem; margin-bottom:0.3rem">${mEmojis[id]}</div>
+      <div style="font-size:1.3rem; font-weight:900">${mNames[id]} 的探險戰力面板</div>
+    </div>
+    <div class="card" style="background:rgba(255,255,255,.03)">
+      <div style="margin-bottom:0.8rem; display:flex; justify-content:between; align-items:center">
+        <span style="font-size:0.85rem; color:rgba(255,255,255,.6)">公路探險個人當前榮譽積分：</span>
+        <span style="font-size:1.2rem; font-weight:900; color:#FFD60A">${scores[id]} PTS</span>
       </div>
-    </div>`;
+      <div style="display:flex; gap:0.5rem">
+        <button class="btn-add" onclick="adjustScore('${id}', 10)" style="flex:1; background:#2D6A4F">+10 獎勵分</button>
+        <button class="btn-add" onclick="adjustScore('${id}', -10)" style="flex:1; background:#9B2335">-10 扣分</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('mem-cont').innerHTML = html;
   document.getElementById('mem-modal').classList.add('open');
 }
-function closeMem(e){ if(e.target.id === 'mem-modal') document.getElementById('mem-modal').classList.remove('remove'); document.getElementById('mem-modal').classList.remove('open'); }
-
-function sendMsg() {
-  const who = document.getElementById('msg-who').value; const txt = document.getElementById('msg-inp').value.trim(); if(!txt) return;
-  msgs.push({ who, txt }); saveAll(); document.getElementById('msg-inp').value = ''; renderMsgs();
+function adjustScore(id, amt) {
+  scores[id] = Math.max(0, scores[id] + amt); saveAll(); renderScores(); openMember(id); showToast('🎯 積分調整成功！');
 }
+function closeMem(e) { if(e.target.id==='mem-modal') document.getElementById('mem-modal').classList.remove('open'); }
+
+// 備忘留言
 function renderMsgs() {
-  const el = document.getElementById('msg-list'); if(!msgs.length) { el.innerHTML = `<div style="color:rgba(255,255,255,.3); font-size:0.75rem; text-align:center; padding:1rem">暫無留言</div>`; return; }
-  el.innerHTML = msgs.map(m => `<div class="mbub"><div class="mtxt"><strong>${mNames[m.who]}</strong>: ${m.txt}</div></div>`).join('');
+  document.getElementById('msg-list').innerHTML = msgs.map(m => `
+    <div class="mbub">
+      <div style="font-size:1.1rem; padding-top:2px">${mEmojis[m.who]}</div>
+      <div style="flex:1">
+        <div style="font-size:0.65rem; color:rgba(255,255,255,.4)">${mNames[m.who]} · 隨手備忘</div>
+        <div class="mtxt">${m.txt}</div>
+      </div>
+    </div>
+  `).join('');
 }
-function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
+function sendMsg() {
+  const who = document.getElementById('msg-who').value;
+  const txt = document.getElementById('msg-inp').value;
+  if(!txt) return;
+  msgs.push({ who, txt }); saveAll(); document.getElementById('msg-inp').value=''; renderMsgs();
+}
 
-// 初始化啟動
-updateDashboard();
-renderMsgs();
+// 初始化
+window.onload = function() {
+  updateDashboard();
+  renderPack();
+  renderEng();
+  renderMsgs();
+};
 </script>
 </body>
 </html>

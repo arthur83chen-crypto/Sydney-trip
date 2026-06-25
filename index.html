@@ -103,6 +103,7 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; paddin
 .exp-box h4 { font-size: 0.65rem; color: var(--text-sub); text-transform: uppercase; margin-bottom: 4px; }
 .exp-box div { font-size: 1.15rem; font-weight: 800; }
 .form-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 14px; margin-bottom: 15px; }
+.form-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 14px; margin-bottom: 15px; }
 .form-row { display: flex; gap: 8px; margin-bottom: 10px; }
 .form-row input, .form-row select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; padding: 10px; font-size: 0.85rem; outline: none; flex: 1; }
 .selector-lbl { font-size: 0.72rem; color: var(--text-sub); margin: 6px 0 4px; text-align: left; }
@@ -407,9 +408,8 @@ function toggleIsland() {
   document.getElementById('island').classList.toggle('expanded');
 }
 
-// 核心頁面切換 (完全修復：全手動對應 ID、移除動態拼湊 Bug)
+// 核心頁面切換
 function switchSection(secId) {
-  // 1. 隱藏所有區塊
   document.getElementById('sec-itin').style.display = 'none';
   document.getElementById('sec-exp').style.display = 'none';
   document.getElementById('sec-score').style.display = 'none';
@@ -417,10 +417,8 @@ function switchSection(secId) {
   document.getElementById('sec-eng').style.display = 'none';
   document.getElementById('sec-sos').style.display = 'none';
   
-  // 2. 顯示目標區塊
   document.getElementById('sec-' + secId).style.display = 'block';
   
-  // 3. 移除所有導航鈕的 active
   document.getElementById('btn-tab-itin').classList.remove('active');
   document.getElementById('btn-tab-exp').classList.remove('active');
   document.getElementById('btn-tab-score').classList.remove('active');
@@ -428,12 +426,10 @@ function switchSection(secId) {
   document.getElementById('btn-tab-eng').classList.remove('active');
   document.getElementById('btn-tab-sos').classList.remove('active');
   
-  // 4. 為點擊的按鈕加上 active
   document.getElementById('btn-tab-' + secId).classList.add('active');
   
   window.scrollTo({ top: 0, behavior: 'smooth' });
   
-  // 5. 觸發各別渲染
   if(secId === 'itin') renderItinerary();
   if(secId === 'exp') renderExpenseSystem();
   if(secId === 'score') renderScoresAndTasks();
@@ -452,6 +448,7 @@ function initCarousel() {
   const dots = document.querySelectorAll('.c-dot');
 
   setInterval(() => {
+    if (!track) return;
     currentSlide = (currentSlide + 1) % slides.length;
     track.style.transform = `translateX(-${currentSlide * 100}%)`;
     dots.forEach((d, idx) => d.classList.toggle('active', idx === currentSlide));

@@ -267,6 +267,23 @@ color:var(--sub);
 line-height:1.55;
 }
 
+/* 🎨 2. 刪除按鈕 CSS */
+.delBtn{
+    background:rgba(255,69,58,.15);
+    color:#ff453a;
+    border:1px solid rgba(255,69,58,.3);
+    border-radius:12px;
+    padding:6px 10px;
+    font-size:14px;
+    cursor:pointer;
+    align-self:center;
+    transition:.2s;
+}
+
+.delBtn:hover{
+    background:rgba(255,69,58,.3);
+}
+
 .bottomBar{
 position:fixed;
 left:18px;
@@ -320,9 +337,6 @@ cursor:pointer;
 z-index:999;
 }
 
-/* ==========================================
-   新增與修正的 UI 元件樣式 (Modal, Viewer, Toast)
-   ========================================== */
 .modal {
     position: fixed;
     inset: 0;
@@ -485,9 +499,7 @@ z-index:999;
 
 <section class="section">
     <div class="sectionTitle">🗺️ 行程安排</div>
-    <div id="tripContainer">
-        <!-- 這裡會由 JavaScript 動態渲染，若無快取則會渲染初始預設資料 -->
-    </div>
+    <div id="tripContainer"></div>
 </section>
 
 <div class="fab" id="editButton">✏️</div>
@@ -506,11 +518,11 @@ z-index:999;
 <div id="editModal" class="modal">
     <div class="modalCard">
         <div class="modalHeader">
-            <h2>✏️ 新增/編輯行程</h2>
+            <h2 id="modalTitle">✏️ 新增行程</h2>
             <button class="closeBtn" onclick="closeEditor()">✕</button>
         </div>
         <div class="modalBody">
-            <label>天數 (例如: 1 或 2)</label>
+            <label>天數 (例如: 1)</label>
             <input id="editDayNum" type="number" min="1" placeholder="1">
 
             <label>日期</label>
@@ -552,11 +564,14 @@ z-index:999;
 <div id="toast">已儲存 ✔</div>
 
 <!-- ========================= -->
-<!-- JavaScript 邏輯優化 -->
+<!-- JavaScript -->
 <!-- ========================= -->
 <script>
 
-// 初始預設精美資料庫
+// ⚙️ 3. 新增「編輯狀態變數」
+let editMode = null;
+let tripData = [];
+
 const defaultData = [
     {
         day: 1,
@@ -590,8 +605,6 @@ const defaultData = [
     }
 ];
 
-let tripData = [];
-
 function loadData(){
     let cache = localStorage.getItem("tripData");
     if(cache){
@@ -606,17 +619,15 @@ function saveData(){
     localStorage.setItem("tripData", JSON.stringify(tripData));
 }
 
-// 動態網頁渲染引擎
 function renderDOM() {
     const container = document.getElementById("tripContainer");
     container.innerHTML = "";
 
     if (tripData.length === 0) {
-        container.innerHTML = "<p style='color:var(--sub);text-align:center;'>目前沒有行程，點擊右下角新增吧！</p>";
+        container.innerHTML = "<p style='color:var(--sub);text-align:center;padding:20px;'>目前沒有行程，點擊右下角新增吧！</p>";
         return;
     }
 
-    // 依據天數排序
     tripData.sort((a, b) => a.day - b.day);
 
     tripData.forEach(dayGroup => {
@@ -624,19 +635,22 @@ function renderDOM() {
         dayCard.className = "dayCard";
 
         let placesHTML = "";
-        // 依據時間排序內部景點
         dayGroup.places.sort((a, b) => a.time.localeCompare(b.time));
 
-        dayGroup.places.forEach(p => {
+        // ✅ 1. 在 place 卡片加「編輯 / 刪除按鈕」
+        dayGroup.places.forEach((p, idx) => {
             placesHTML += `
-                <div class="place">
-                    <img class="placeImage" src="${p.img || 'images/places/fishmarket.jpg'}" alt="${p.title}">
-                    <div class="placeInfo">
-                        <div class="placeTime">${p.time}</div>
-                        <div class="placeTitle">${p.title}</div>
-                        <div class="placeNote">${p.note}</div>
-                    </div>
+            <div class="place">
+                <img class="placeImage" src="${p.img || 'images/places/fishmarket.jpg'}" alt="${p.title}">
+
+                <div class="placeInfo" onclick="editPlace(${dayGroup.day}, ${idx})">
+                    <div class="placeTime">${p.time}</div>
+                    <div class="placeTitle">${p.title}</div>
+                    <div class="placeNote">${p.note}</div>
                 </div>
+
+                <button class="delBtn" onclick="deletePlace(event, ${dayGroup.day}, ${idx})">🗑</button>
+            </div>
             `;
         });
 
@@ -653,14 +667,13 @@ function renderDOM() {
         container.appendChild(dayCard);
     });
 
-    // 重新綁定動態生成圖片的點擊事件 (全螢幕 Viewer)
     bindImageViewer();
 }
 
 function bindImageViewer() {
     document.querySelectorAll(".placeImage").forEach(img => {
         img.onclick = (e) => {
-            e.stopPropagation(); // 防止事件冒泡
+            e.stopPropagation();
             document.getElementById("viewer").style.display = "flex";
             document.getElementById("viewerImg").src = img.src;
         }
@@ -676,26 +689,48 @@ function toast(text){
     }, 1800);
 }
 
-// 監聽關閉檢視器
-document.getElementById("viewer").onclick = () => {
-    document.getElementById("viewer").style.display = "none";
-};
+// ✏️ 4. 新增「點選編輯」
+function editPlace(day, index){
+    const targetDay = tripData.find(d => d.day === day);
+    const place = targetDay.places[index];
 
-// 開啟編輯器
-document.getElementById("editButton").onclick = () => {
-    // 預填當前日期格式
-    document.getElementById("editDate").value = new Date().toISOString().split('T')[0];
+    editMode = { day, index };
+    document.getElementById("modalTitle").innerText = "✏️ 編輯行程";
+
+    document.getElementById("editDayNum").value = day;
+    document.getElementById("editDate").value = targetDay.date.replace(/ /g,"-").replaceAll("/", "-");
+    document.getElementById("editCity").value = targetDay.city;
+    document.getElementById("editPlace").value = place.title;
+    document.getElementById("editTime").value = place.time;
+    document.getElementById("editNote").value = place.note;
+    document.getElementById("editBanner").value = targetDay.banner;
+    document.getElementById("editPhoto").value = place.img;
+
     document.getElementById("editModal").style.display = "flex";
-};
-
-function closeEditor(){
-    document.getElementById("editModal").style.display = "none";
 }
 
-// 實作真正的儲存資料與更新畫面排程
+// 🗑 5. 刪除功能
+function deletePlace(e, day, index){
+    e.stopPropagation();
+
+    if(!confirm("確定要刪除這個景點嗎？")) return;
+
+    const targetDay = tripData.find(d => d.day === day);
+    targetDay.places.splice(index, 1);
+
+    if(targetDay.places.length === 0){
+        tripData = tripData.filter(d => d.day !== day);
+    }
+
+    saveData();
+    renderDOM();
+    toast("已刪除 🗑");
+}
+
+// 🔁 6. 修改 saveTrip（支援「新增 + 編輯」）
 function saveTrip(){
     const dayNum = parseInt(document.getElementById("editDayNum").value) || 1;
-    const rawDate = document.getElementById("editDate").value.replace(/-/g, " / ");
+    const rawDate = document.getElementById("editDate").value.replace(/-/g, "/");
     const city = document.getElementById("editCity").value || "Sydney";
     const placeTitle = document.getElementById("editPlace").value;
     const placeTime = document.getElementById("editTime").value || "12:00";
@@ -703,13 +738,10 @@ function saveTrip(){
     const bannerUrl = document.getElementById("editBanner").value || "images/banner/sydney.jpg";
     const photoUrl = document.getElementById("editPhoto").value || "images/places/fishmarket.jpg";
 
-    if(!placeTitle) {
+    if(!placeTitle){
         alert("請輸入景點名稱！");
         return;
     }
-
-    // 尋找是否已有同一天的天數群組
-    let targetDay = tripData.find(d => d.day === dayNum);
 
     const newPlace = {
         time: placeTime,
@@ -718,31 +750,66 @@ function saveTrip(){
         img: photoUrl
     };
 
-    if(targetDay) {
-        // 如果該天已存在，直接推入新景點
-        targetDay.places.push(newPlace);
-    } else {
-        // 如果是新的一天，建立新的 Day Card 物件結構
-        tripData.push({
-            day: dayNum,
-            date: rawDate,
-            city: city,
-            banner: bannerUrl,
-            places: [newPlace]
-        });
+    // ====== 編輯模式 ======
+    if(editMode){
+        const targetDay = tripData.find(d => d.day === editMode.day);
+        targetDay.places[editMode.index] = newPlace;
+
+        targetDay.date = rawDate;
+        targetDay.city = city;
+        targetDay.banner = bannerUrl;
+
+        editMode = null;
+        toast("已更新 ✔");
+    }
+    // ====== 新增模式 ======
+    else{
+        let targetDay = tripData.find(d => d.day === dayNum);
+
+        if(targetDay){
+            targetDay.places.push(newPlace);
+        } else {
+            tripData.push({
+                day: dayNum,
+                date: rawDate,
+                city,
+                banner: bannerUrl,
+                places: [newPlace]
+            });
+        }
+
+        toast("已新增 ✔");
     }
 
     saveData();
     renderDOM();
-    toast("已更新行程 ✔");
     closeEditor();
-
-    // 清空表單欄位以利下次輸入
-    document.getElementById("editPlace").value = "";
-    document.getElementById("editNote").value = "";
 }
 
-// 底部導覽列切換
+document.getElementById("viewer").onclick = () => {
+    document.getElementById("viewer").style.display = "none";
+};
+
+// 點擊右下角 FAB 為新增模式
+document.getElementById("editButton").onclick = () => {
+    editMode = null; 
+    document.getElementById("modalTitle").innerText = "✏️ 新增行程";
+    document.getElementById("editDayNum").value = "";
+    document.getElementById("editDate").value = new Date().toISOString().split('T')[0];
+    document.getElementById("editCity").value = "";
+    document.getElementById("editPlace").value = "";
+    document.getElementById("editTime").value = "";
+    document.getElementById("editNote").value = "";
+    document.getElementById("editBanner").value = "";
+    document.getElementById("editPhoto").value = "";
+    document.getElementById("editModal").style.display = "flex";
+};
+
+function closeEditor(){
+    document.getElementById("editModal").style.display = "none";
+    editMode = null;
+}
+
 const tabs = document.querySelectorAll(".tab");
 tabs.forEach(tab => {
     tab.onclick = () => {
@@ -751,7 +818,6 @@ tabs.forEach(tab => {
     }
 });
 
-// 初始化頁面
 window.onload = () => {
     loadData();
     renderDOM();
@@ -759,9 +825,6 @@ window.onload = () => {
 
 </script>
 
-<!-- ========================= -->
-<!-- PWA Service Worker -->
-<!-- ========================= -->
 <script>
 if("serviceWorker" in navigator){
     navigator.serviceWorker.register("service-worker.js");

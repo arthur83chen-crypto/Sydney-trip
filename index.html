@@ -15,7 +15,6 @@
 <style>
 
 :root{
-
 --bg:#081522;
 --card:rgba(255,255,255,.08);
 --line:rgba(255,255,255,.08);
@@ -26,7 +25,6 @@
 --orange:#FF9F0A;
 --red:#FF453A;
 --radius:24px;
-
 }
 
 *{
@@ -41,21 +39,16 @@ scroll-behavior:smooth;
 }
 
 body{
-
 font-family:
 -apple-system,
 BlinkMacSystemFont,
 "SF Pro Display",
 "PingFang TC",
 sans-serif;
-
 background:
 linear-gradient(180deg,#05111d,#0a2138);
-
 color:white;
-
 padding-bottom:110px;
-
 }
 
 img{
@@ -64,440 +57,390 @@ width:100%;
 }
 
 button{
-
 border:none;
 background:none;
 font:inherit;
-
 }
 
 a{
-
 text-decoration:none;
 color:inherit;
-
 }
 
 .hero{
-
 height:330px;
-
 position:relative;
-
 overflow:hidden;
-
 }
 
 .hero img{
-
 height:100%;
 object-fit:cover;
-
 filter:brightness(.82);
-
 }
 
 .heroOverlay{
-
 position:absolute;
 inset:0;
-
 background:
-
 linear-gradient(
 180deg,
 rgba(0,0,0,.15),
 rgba(0,0,0,.55)
 );
-
 display:flex;
-
 flex-direction:column;
-
 justify-content:flex-end;
-
 padding:26px;
-
 }
 
 .tripTitle{
-
 font-size:34px;
-
 font-weight:800;
-
 }
 
 .tripSub{
-
 margin-top:8px;
-
 color:#d7e8ff;
-
 font-size:15px;
-
 }
 
 .dashboard{
-
 display:grid;
-
 grid-template-columns:
-
 repeat(2,1fr);
-
 gap:14px;
-
 padding:18px;
-
 margin-top:-40px;
-
 position:relative;
-
 z-index:5;
-
 }
 
 .card{
-
 background:var(--card);
-
 backdrop-filter:blur(22px);
-
 border:1px solid var(--line);
-
 border-radius:var(--radius);
-
 padding:18px;
-
 box-shadow:
-
 0 10px 30px rgba(0,0,0,.25);
-
 }
 
 .cardTitle{
-
 font-size:13px;
-
 color:var(--sub);
-
 margin-bottom:10px;
-
 }
 
 .cardValue{
-
 font-size:26px;
-
 font-weight:700;
-
 }
 
 .banner{
-
 margin:20px;
-
 border-radius:28px;
-
 overflow:hidden;
-
 position:relative;
-
 }
 
 .banner img{
-
 height:210px;
-
 object-fit:cover;
-
 }
 
 .bannerInfo{
-
 position:absolute;
-
 left:0;
 right:0;
 bottom:0;
-
 padding:18px;
-
 background:
-
 linear-gradient(
-
 180deg,
-
 transparent,
-
 rgba(0,0,0,.75)
-
 );
-
 }
 
 .bannerTitle{
-
 font-size:28px;
-
 font-weight:700;
-
 }
 
 .bannerDesc{
-
 margin-top:5px;
-
 color:#e3eefb;
-
 font-size:14px;
-
 }
 
 .section{
-
 padding:20px;
-
 }
 
 .sectionTitle{
-
 font-size:26px;
-
 font-weight:800;
-
 margin-bottom:18px;
-
 }
 
 .dayCard{
-
 background:var(--card);
-
 border-radius:22px;
-
 overflow:hidden;
-
 margin-bottom:22px;
-
 border:1px solid var(--line);
-
 }
 
 .dayImage{
-
 height:190px;
-
+width:100%;
 object-fit:cover;
-
 }
 
 .dayContent{
-
 padding:18px;
-
 }
 
 .dayTop{
-
 display:flex;
-
 justify-content:space-between;
-
 align-items:center;
-
 margin-bottom:10px;
-
 }
 
 .dayBadge{
-
 background:var(--blue);
-
 padding:7px 15px;
-
 border-radius:30px;
-
 font-size:13px;
-
 font-weight:700;
-
 }
 
 .dayDate{
-
 color:var(--sub);
-
 font-size:13px;
-
 }
 
 .place{
-
 padding:15px;
-
 border-radius:18px;
-
 background:rgba(255,255,255,.05);
-
 margin-top:14px;
-
 display:flex;
-
 gap:14px;
-
 cursor:pointer;
-
 transition:.25s;
-
 }
 
 .place:hover{
-
 transform:translateY(-2px);
-
 }
 
 .placeImage{
-
 width:95px;
-
 height:95px;
-
 border-radius:18px;
-
 object-fit:cover;
-
 flex-shrink:0;
-
 }
 
 .placeInfo{
-
 flex:1;
-
 }
 
 .placeTitle{
-
 font-size:19px;
-
 font-weight:700;
-
 margin-bottom:6px;
-
 }
 
 .placeTime{
-
 font-size:13px;
-
 color:#5fb5ff;
-
 margin-bottom:5px;
-
 }
 
 .placeNote{
-
 font-size:14px;
-
 color:var(--sub);
-
 line-height:1.55;
-
 }
 
 .bottomBar{
-
 position:fixed;
-
 left:18px;
 right:18px;
 bottom:18px;
-
 height:78px;
-
 background:
-
 rgba(12,24,40,.82);
-
 backdrop-filter:blur(30px);
-
 border-radius:30px;
-
 display:flex;
-
 justify-content:space-around;
-
 align-items:center;
-
 border:1px solid rgba(255,255,255,.08);
-
 z-index:999;
-
 }
 
 .tab{
-
 display:flex;
-
 flex-direction:column;
-
 align-items:center;
-
 gap:5px;
-
 font-size:12px;
-
 color:#8eaecf;
-
+cursor:pointer;
 }
 
 .tab.active{
-
 color:white;
-
 }
 
 .tab i{
-
 font-size:24px;
-
 font-style:normal;
-
 }
 
 .fab{
-
 position:fixed;
-
 right:26px;
-
 bottom:120px;
-
 width:64px;
-
 height:64px;
-
 border-radius:50%;
-
 background:var(--blue);
-
 display:flex;
-
 align-items:center;
-
 justify-content:center;
-
 font-size:30px;
-
 box-shadow:0 15px 40px rgba(0,0,0,.45);
-
 cursor:pointer;
+z-index:999;
+}
 
+/* ==========================================
+   新增與修正的 UI 元件樣式 (Modal, Viewer, Toast)
+   ========================================== */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 12, 22, 0.75);
+    backdrop-filter: blur(15px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.modalCard {
+    background: #0b1f35;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 24px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: 12px;
+}
+
+.closeBtn {
+    color: var(--sub);
+    font-size: 22px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.closeBtn:hover { color: white; }
+
+.modalBody label {
+    display: block;
+    margin: 14px 0 6px;
+    font-size: 14px;
+    color: var(--sub);
+    font-weight: 600;
+}
+
+.modalBody input, .modalBody textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    color: white;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+}
+.modalBody input:focus, .modalBody textarea:focus {
+    border-color: var(--blue);
+}
+
+.saveBtn {
+    width: 100%;
+    background: var(--blue);
+    color: white;
+    padding: 15px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 24px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(46, 144, 250, 0.3);
+    transition: 0.2s;
+}
+.saveBtn:hover { filter: brightness(1.1); }
+
+.viewer {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    cursor: pointer;
+}
+.viewer img {
+    max-width: 92%;
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+
+#toast {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: rgba(48, 209, 88, 0.95);
+    backdrop-filter: blur(5px);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-weight: 700;
+    z-index: 4000;
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 10px 25px rgba(48, 209, 88, 0.3);
+}
+#toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 </style>
@@ -506,625 +449,324 @@ cursor:pointer;
 <body>
 
 <header class="hero">
-
-<img
-src="images/banner/sydney-opera-house.jpg"
-id="heroImage"
->
-
+<img src="images/banner/sydney-opera-house.jpg" id="heroImage">
 <div class="heroOverlay">
-
-<div class="tripTitle">
-
-Australia Road Trip
-
+<div class="tripTitle">Australia Road Trip</div>
+<div class="tripSub">Sydney → Blue Mountains → Kiama → Coffs Harbour → Byron Bay → Gold Coast → Brisbane</div>
 </div>
-
-<div class="tripSub">
-
-Sydney → Blue Mountains → Kiama → Coffs Harbour → Byron Bay → Gold Coast → Brisbane
-
-</div>
-
-</div>
-
 </header>
 
 <section class="dashboard">
-
 <div class="card">
-
-<div class="cardTitle">
-
-📍 目前城市
-
+<div class="cardTitle">📍 目前城市</div>
+<div class="cardValue" id="cityName">Sydney</div>
 </div>
-
-<div class="cardValue" id="cityName">
-
-Sydney
-
-</div>
-
-</div>
-
 <div class="card">
-
-<div class="cardTitle">
-
-📅 Day
-
+<div class="cardTitle">📅 Day</div>
+<div class="cardValue" id="dayNumber">1</div>
 </div>
-
-<div class="cardValue" id="dayNumber">
-
-1
-
-</div>
-
-</div>
-
 <div class="card">
-
-<div class="cardTitle">
-
-☀️ Weather
-
+<div class="cardTitle">☀️ Weather</div>
+<div class="cardValue">16°C</div>
 </div>
-
-<div class="cardValue">
-
-16°C
-
-</div>
-
-</div>
-
 <div class="card">
-
-<div class="cardTitle">
-
-🚗 Next
-
+<div class="cardTitle">🚗 Next</div>
+<div class="cardValue" style="font-size:18px">Sydney Fish Market</div>
 </div>
-
-<div class="cardValue" style="font-size:18px">
-
-Sydney Fish Market
-
-</div>
-
-</div>
-
 </section>
 
 <section class="banner">
-
-<img
-src="images/banner/sydney.jpg"
-id="todayBanner">
-
+<img src="images/banner/sydney.jpg" id="todayBanner">
 <div class="bannerInfo">
-
-<div class="bannerTitle">
-
-Day 1 · Sydney
-
+<div class="bannerTitle">Day 1 · Sydney</div>
+<div class="bannerDesc">Opera House · Harbour Bridge · Fish Market</div>
 </div>
-
-<div class="bannerDesc">
-
-Opera House · Harbour Bridge · Fish Market
-
-</div>
-
-</div>
-
 </section>
+
 <section class="section">
-
-    <div class="sectionTitle">
-        🗺️ 行程安排
-    </div>
-
+    <div class="sectionTitle">🗺️ 行程安排</div>
     <div id="tripContainer">
-
-        <!-- Day 1 -->
-
-        <div class="dayCard">
-
-            <img
-                class="dayImage"
-                src="images/banner/sydney.jpg"
-            >
-
-            <div class="dayContent">
-
-                <div class="dayTop">
-
-                    <div class="dayBadge">
-                        Day 1
-                    </div>
-
-                    <div class="dayDate">
-                        2026 / 07 / 02
-                    </div>
-
-                </div>
-
-                <div class="place">
-
-                    <img
-                        class="placeImage"
-                        src="images/places/fishmarket.jpg"
-                    >
-
-                    <div class="placeInfo">
-
-                        <div class="placeTime">
-                            11:30
-                        </div>
-
-                        <div class="placeTitle">
-                            Sydney Fish Market
-                        </div>
-
-                        <div class="placeNote">
-                            澳洲最大的魚市場，品嚐生蠔、龍蝦與海鮮拼盤。
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="place">
-
-                    <img
-                        class="placeImage"
-                        src="images/places/opera-house.jpg"
-                    >
-
-                    <div class="placeInfo">
-
-                        <div class="placeTime">
-                            15:00
-                        </div>
-
-                        <div class="placeTitle">
-                            Sydney Opera House
-                        </div>
-
-                        <div class="placeNote">
-                            澳洲最具代表性的世界文化遺產。
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="place">
-
-                    <img
-                        class="placeImage"
-                        src="images/places/qvb.jpg"
-                    >
-
-                    <div class="placeInfo">
-
-                        <div class="placeTime">
-                            17:00
-                        </div>
-
-                        <div class="placeTitle">
-                            Queen Victoria Building
-                        </div>
-
-                        <div class="placeNote">
-                            百年古典購物中心。
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Day 2 -->
-
-        <div class="dayCard">
-
-            <img
-                class="dayImage"
-                src="images/banner/blue-mountains.jpg"
-            >
-
-            <div class="dayContent">
-
-                <div class="dayTop">
-
-                    <div class="dayBadge">
-                        Day 2
-                    </div>
-
-                    <div class="dayDate">
-                        2026 / 07 / 03
-                    </div>
-
-                </div>
-
-                <div class="place">
-
-                    <img
-                        class="placeImage"
-                        src="images/places/scenic-world.jpg"
-                    >
-
-                    <div class="placeInfo">
-
-                        <div class="placeTime">
-                            09:00
-                        </div>
-
-                        <div class="placeTitle">
-                            Scenic World
-                        </div>
-
-                        <div class="placeNote">
-                            搭乘森林纜車與全世界最陡客運鐵道。
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="place">
-
-                    <img
-                        class="placeImage"
-                        src="images/places/three-sisters.jpg"
-                    >
-
-                    <div class="placeInfo">
-
-                        <div class="placeTime">
-                            14:30
-                        </div>
-
-                        <div class="placeTitle">
-                            Three Sisters
-                        </div>
-
-                        <div class="placeNote">
-                            藍山最著名的三姐妹岩觀景台。
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Day 3 -->
-
-        <div class="dayCard">
-
-            <img
-                class="dayImage"
-                src="images/banner/kiama.jpg"
-            >
-
-            <div class="dayContent">
-
-                <div class="dayTop">
-
-                    <div class="dayBadge">
-                        Day 3
-                    </div>
-
-                    <div class="dayDate">
-                        2026 / 07 / 04
-                    </div>
-
-                </div>
-
-                <div class="place">
-
-                    <img
-                        class="placeImage"
-                        src="images/places/kiama-blowhole.jpg"
-                    >
-
-                    <div class="placeInfo">
-
-                        <div class="placeTime">
-                            10:00
-                        </div>
-
-                        <div class="placeTitle">
-                            Kiama Blowhole
-                        </div>
-
-                        <div class="placeNote">
-                            澳洲最著名天然噴水洞。
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
+        <!-- 這裡會由 JavaScript 動態渲染，若無快取則會渲染初始預設資料 -->
     </div>
-
 </section>
 
-<div class="fab" id="editButton">
-    ✏️
-</div>
+<div class="fab" id="editButton">✏️</div>
 
 <nav class="bottomBar">
-
-    <div class="tab active">
-        <i>🏠</i>
-        首頁
-    </div>
-
-    <div class="tab">
-        <i>🗺️</i>
-        行程
-    </div>
-
-    <div class="tab">
-        <i>🧳</i>
-        行李
-    </div>
-
-    <div class="tab">
-        <i>💰</i>
-        記帳
-    </div>
-
-    <div class="tab">
-        <i>👥</i>
-        更多
-    </div>
-
+    <div class="tab active"><i>🏠</i>首頁</div>
+    <div class="tab"><i>🗺️</i>行程</div>
+    <div class="tab"><i>🧳</i>行李</div>
+    <div class="tab"><i>💰</i>記帳</div>
+    <div class="tab"><i>👥</i>更多</div>
 </nav>
 
-<!-- Part 1 第三段會接續：
-1. 行程編輯 Modal
-2. 景點圖片全螢幕 Viewer
-3. JavaScript 初始化
-4. LocalStorage
-5. PWA 註冊
-6. index.html 結尾 -->
-  <!-- ========================= -->
+<!-- ========================= -->
 <!-- Edit Trip Modal -->
 <!-- ========================= -->
-
 <div id="editModal" class="modal">
-
     <div class="modalCard">
-
         <div class="modalHeader">
-
-            <h2>✏️ 編輯行程</h2>
-
-            <button class="closeBtn" onclick="closeEditor()">
-                ✕
-            </button>
-
+            <h2>✏️ 新增/編輯行程</h2>
+            <button class="closeBtn" onclick="closeEditor()">✕</button>
         </div>
-
         <div class="modalBody">
+            <label>天數 (例如: 1 或 2)</label>
+            <input id="editDayNum" type="number" min="1" placeholder="1">
 
             <label>日期</label>
+            <input id="editDate" type="date">
 
-            <input
-                id="editDate"
-                type="date"
-            >
+            <label>地點城市 (例如: Sydney)</label>
+            <input id="editCity" type="text" placeholder="Sydney">
 
-            <label>地點</label>
-
-            <input
-                id="editPlace"
-                type="text"
-                placeholder="Sydney Fish Market"
-            >
+            <label>景點名稱</label>
+            <input id="editPlace" type="text" placeholder="Sydney Fish Market">
 
             <label>時間</label>
-
-            <input
-                id="editTime"
-                type="time"
-            >
+            <input id="editTime" type="time">
 
             <label>說明</label>
+            <textarea id="editNote" rows="3" placeholder="輸入介紹..."></textarea>
 
-            <textarea
-                id="editNote"
-                rows="5"
-                placeholder="輸入介紹..."
-            ></textarea>
+            <label>該天 Banner 圖片網址 (選填)</label>
+            <input id="editBanner" type="text" placeholder="images/banner/sydney.jpg">
 
-            <label>Banner 圖片網址</label>
+            <label>景點圖片網址 (選填)</label>
+            <input id="editPhoto" type="text" placeholder="images/places/fishmarket.jpg">
 
-            <input
-                id="editBanner"
-                type="text"
-                placeholder="https://..."
-            >
-
-            <label>景點圖片網址</label>
-
-            <input
-                id="editPhoto"
-                type="text"
-                placeholder="https://..."
-            >
-
-            <button
-                class="saveBtn"
-                onclick="saveTrip()"
-            >
-                💾 儲存
-            </button>
-
+            <button class="saveBtn" onclick="saveTrip()">💾 儲存</button>
         </div>
-
     </div>
-
 </div>
 
 <!-- ========================= -->
 <!-- Photo Viewer -->
 <!-- ========================= -->
-
 <div id="viewer" class="viewer">
-
     <img id="viewerImg">
-
 </div>
 
 <!-- ========================= -->
 <!-- Toast -->
 <!-- ========================= -->
-
-<div id="toast">
-
-    已儲存 ✔
-
-</div>
+<div id="toast">已儲存 ✔</div>
 
 <!-- ========================= -->
-<!-- JavaScript -->
+<!-- JavaScript 邏輯優化 -->
 <!-- ========================= -->
-
 <script>
 
-let tripData=[]
+// 初始預設精美資料庫
+const defaultData = [
+    {
+        day: 1,
+        date: "2026/07/02",
+        city: "Sydney",
+        banner: "images/banner/sydney.jpg",
+        places: [
+            { time: "11:30", title: "Sydney Fish Market", note: "澳洲最大的魚市場，品嚐生蠔、龍蝦與海鮮拼盤。", img: "images/places/fishmarket.jpg" },
+            { time: "15:00", title: "Sydney Opera House", note: "澳洲最具代表性的世界文化遺產。", img: "images/places/opera-house.jpg" },
+            { time: "17:00", title: "Queen Victoria Building", note: "百年古典購物中心。", img: "images/places/qvb.jpg" }
+        ]
+    },
+    {
+        day: 2,
+        date: "2026/07/03",
+        city: "Blue Mountains",
+        banner: "images/banner/blue-mountains.jpg",
+        places: [
+            { time: "09:00", title: "Scenic World", note: "搭乘森林纜車與全世界最陡客運鐵道。", img: "images/places/scenic-world.jpg" },
+            { time: "14:30", title: "Three Sisters", note: "藍山最著名的三姐妹岩觀景台。", img: "images/places/three-sisters.jpg" }
+        ]
+    },
+    {
+        day: 3,
+        date: "2026/07/04",
+        city: "Kiama",
+        banner: "images/banner/kiama.jpg",
+        places: [
+            { time: "10:00", title: "Kiama Blowhole", note: "澳洲最著名天然噴水洞。", img: "images/places/kiama-blowhole.jpg" }
+        ]
+    }
+];
+
+let tripData = [];
 
 function loadData(){
-
-    let cache=localStorage.getItem("tripData")
-
+    let cache = localStorage.getItem("tripData");
     if(cache){
-
-        tripData=JSON.parse(cache)
-
+        tripData = JSON.parse(cache);
+    } else {
+        tripData = defaultData;
+        saveData();
     }
-
 }
 
 function saveData(){
+    localStorage.setItem("tripData", JSON.stringify(tripData));
+}
 
-    localStorage.setItem(
+// 動態網頁渲染引擎
+function renderDOM() {
+    const container = document.getElementById("tripContainer");
+    container.innerHTML = "";
 
-        "tripData",
+    if (tripData.length === 0) {
+        container.innerHTML = "<p style='color:var(--sub);text-align:center;'>目前沒有行程，點擊右下角新增吧！</p>";
+        return;
+    }
 
-        JSON.stringify(tripData)
+    // 依據天數排序
+    tripData.sort((a, b) => a.day - b.day);
 
-    )
+    tripData.forEach(dayGroup => {
+        let dayCard = document.createElement("div");
+        dayCard.className = "dayCard";
 
+        let placesHTML = "";
+        // 依據時間排序內部景點
+        dayGroup.places.sort((a, b) => a.time.localeCompare(b.time));
+
+        dayGroup.places.forEach(p => {
+            placesHTML += `
+                <div class="place">
+                    <img class="placeImage" src="${p.img || 'images/places/fishmarket.jpg'}" alt="${p.title}">
+                    <div class="placeInfo">
+                        <div class="placeTime">${p.time}</div>
+                        <div class="placeTitle">${p.title}</div>
+                        <div class="placeNote">${p.note}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        dayCard.innerHTML = `
+            <img class="dayImage" src="${dayGroup.banner || 'images/banner/sydney.jpg'}">
+            <div class="dayContent">
+                <div class="dayTop">
+                    <div class="dayBadge">Day ${dayGroup.day}</div>
+                    <div class="dayDate">${dayGroup.date}</div>
+                </div>
+                ${placesHTML}
+            </div>
+        `;
+        container.appendChild(dayCard);
+    });
+
+    // 重新綁定動態生成圖片的點擊事件 (全螢幕 Viewer)
+    bindImageViewer();
+}
+
+function bindImageViewer() {
+    document.querySelectorAll(".placeImage").forEach(img => {
+        img.onclick = (e) => {
+            e.stopPropagation(); // 防止事件冒泡
+            document.getElementById("viewer").style.display = "flex";
+            document.getElementById("viewerImg").src = img.src;
+        }
+    });
 }
 
 function toast(text){
-
-    let t=document.getElementById("toast")
-
-    t.innerHTML=text
-
-    t.classList.add("show")
-
-    setTimeout(()=>{
-
-        t.classList.remove("show")
-
-    },1800)
-
+    let t = document.getElementById("toast");
+    t.innerHTML = text;
+    t.classList.add("show");
+    setTimeout(() => {
+        t.classList.remove("show");
+    }, 1800);
 }
 
-document.querySelectorAll(".placeImage").forEach(img=>{
+// 監聽關閉檢視器
+document.getElementById("viewer").onclick = () => {
+    document.getElementById("viewer").style.display = "none";
+};
 
-    img.onclick=()=>{
-
-        document.getElementById("viewer").style.display="flex"
-
-        document.getElementById("viewerImg").src=img.src
-
-    }
-
-})
-
-document.getElementById("viewer").onclick=()=>{
-
-    document.getElementById("viewer").style.display="none"
-
-}
-
-document.getElementById("editButton").onclick=()=>{
-
-    document.getElementById("editModal").style.display="flex"
-
-}
+// 開啟編輯器
+document.getElementById("editButton").onclick = () => {
+    // 預填當前日期格式
+    document.getElementById("editDate").value = new Date().toISOString().split('T')[0];
+    document.getElementById("editModal").style.display = "flex";
+};
 
 function closeEditor(){
-
-    document.getElementById("editModal").style.display="none"
-
+    document.getElementById("editModal").style.display = "none";
 }
 
+// 實作真正的儲存資料與更新畫面排程
 function saveTrip(){
+    const dayNum = parseInt(document.getElementById("editDayNum").value) || 1;
+    const rawDate = document.getElementById("editDate").value.replace(/-/g, " / ");
+    const city = document.getElementById("editCity").value || "Sydney";
+    const placeTitle = document.getElementById("editPlace").value;
+    const placeTime = document.getElementById("editTime").value || "12:00";
+    const placeNote = document.getElementById("editNote").value || "未輸入介紹。";
+    const bannerUrl = document.getElementById("editBanner").value || "images/banner/sydney.jpg";
+    const photoUrl = document.getElementById("editPhoto").value || "images/places/fishmarket.jpg";
 
-    toast("已更新行程")
-
-    closeEditor()
-
-}
-
-const tabs=document.querySelectorAll(".tab")
-
-tabs.forEach(tab=>{
-
-    tab.onclick=()=>{
-
-        tabs.forEach(t=>t.classList.remove("active"))
-
-        tab.classList.add("active")
-
+    if(!placeTitle) {
+        alert("請輸入景點名稱！");
+        return;
     }
 
-})
+    // 尋找是否已有同一天的天數群組
+    let targetDay = tripData.find(d => d.day === dayNum);
 
-window.onload=()=>{
+    const newPlace = {
+        time: placeTime,
+        title: placeTitle,
+        note: placeNote,
+        img: photoUrl
+    };
 
-    loadData()
+    if(targetDay) {
+        // 如果該天已存在，直接推入新景點
+        targetDay.places.push(newPlace);
+    } else {
+        // 如果是新的一天，建立新的 Day Card 物件結構
+        tripData.push({
+            day: dayNum,
+            date: rawDate,
+            city: city,
+            banner: bannerUrl,
+            places: [newPlace]
+        });
+    }
 
+    saveData();
+    renderDOM();
+    toast("已更新行程 ✔");
+    closeEditor();
+
+    // 清空表單欄位以利下次輸入
+    document.getElementById("editPlace").value = "";
+    document.getElementById("editNote").value = "";
 }
+
+// 底部導覽列切換
+const tabs = document.querySelectorAll(".tab");
+tabs.forEach(tab => {
+    tab.onclick = () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+    }
+});
+
+// 初始化頁面
+window.onload = () => {
+    loadData();
+    renderDOM();
+};
 
 </script>
 
 <!-- ========================= -->
-<!-- PWA -->
+<!-- PWA Service Worker -->
 <!-- ========================= -->
-
 <script>
-
 if("serviceWorker" in navigator){
-
-navigator.serviceWorker.register("service-worker.js")
-
+    navigator.serviceWorker.register("service-worker.js");
 }
-
 </script>
 
 </body>
-
 </html>

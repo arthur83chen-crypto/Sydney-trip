@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<!-- 🔥 ③ 導入 Sortable.js 拖曳排序庫 CDN -->
+<!-- 🔥 導入 Sortable.js 拖曳排序庫 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
 <style>
@@ -49,6 +49,10 @@ padding-bottom:110px;
 img{ display:block; width:100%; }
 button{ border:none; background:none; font:inherit; }
 a{ text-decoration:none; color:inherit; }
+
+/* 基礎頁面容器切換樣式 */
+.page { display: none; }
+.page.active { display: block; }
 
 .hero{
 height:330px;
@@ -117,7 +121,6 @@ background: linear-gradient(180deg, transparent, rgba(0,0,0,.75));
 .section{ padding:20px; }
 .sectionTitle{ font-size:26px; font-weight:800; margin-bottom:18px; }
 
-/* 搜尋與快速新增欄位樣式 */
 .search-box {
     width:100%;
     padding:12px 16px;
@@ -167,7 +170,7 @@ background: linear-gradient(180deg, transparent, rgba(0,0,0,.75));
 }
 
 .dayImage{ height:190px; width:100%; object-fit:cover; }
-.dayContent{ padding:18px; min-height: 50px; } /* 設最小高度防止空箱子無法拖入 */
+.dayContent{ padding:18px; min-height: 50px; }
 .dayTop{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
 .dayBadge{ background:var(--blue); padding:7px 15px; border-radius:30px; font-size:13px; font-weight:700; }
 .dayDate{ color:var(--sub); font-size:13px; }
@@ -185,7 +188,6 @@ background: linear-gradient(180deg, transparent, rgba(0,0,0,.75));
 .place:active { cursor: grabbing; }
 .place:hover{ transform:translateY(-2px); background:rgba(255,255,255,.08); }
 
-/* Sortable 拖動時的樣式佔位 */
 .sortable-ghost { opacity: 0.4; background: var(--blue) !important; }
 
 .placeImage{ width:95px; height:95px; border-radius:18px; object-fit:cover; flex-shrink:0; }
@@ -259,51 +261,90 @@ font-size:30px; box-shadow:0 15px 40px rgba(0,0,0,.45); cursor:pointer; z-index:
     pointer-events: none; box-shadow: 0 10px 25px rgba(48, 209, 88, 0.3);
 }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* 預留功能模組骨架精緻化 */
+.placeholder-page {
+    padding: 40px 24px;
+    text-align: center;
+}
+.placeholder-page h2 { font-size: 28px; margin-bottom: 12px; }
+.placeholder-page p { color: var(--sub); font-size: 15px; }
 </style>
 </head>
 
 <body>
 
-<header class="hero">
-<img src="images/banner/sydney-opera-house.jpg" id="heroImage">
-<div class="heroOverlay">
-<div class="tripTitle">Australia Road Trip</div>
-<div class="tripSub">Sydney → Blue Mountains → Kiama → Coffs Harbour → Byron Bay → Gold Coast → Brisbane</div>
+<!-- 📦 問題 3：真正的 Page Container 機制分流 -->
+
+<!-- 🏠 頁面：首頁與行程 (Index 0 & 1 共用此架構，以便連動) -->
+<div id="page-home" class="page active">
+    <header class="hero">
+        <img src="images/banner/sydney-opera-house.jpg" id="heroImage">
+        <div class="heroOverlay">
+            <div class="tripTitle">Australia Road Trip</div>
+            <div class="tripSub">Sydney → Blue Mountains → Kiama → Coffs Harbour → Byron Bay → Gold Coast → Brisbane</div>
+        </div>
+    </header>
+
+    <section class="dashboard">
+        <div class="card"><div class="cardTitle">📍 目前城市</div><div class="cardValue" id="cityName">Sydney</div></div>
+        <div class="card"><div class="cardTitle">📅 Day</div><div class="cardValue" id="dayNumber">1</div></div>
+        <div class="card"><div class="cardTitle">☀️ Weather</div><div class="cardValue">16°C</div></div>
+        <div class="card"><div class="cardTitle">🚗 Next</div><div class="cardValue" style="font-size:18px">Sydney Fish Market</div></div>
+    </section>
+
+    <section class="banner">
+        <img src="images/banner/sydney.jpg" id="todayBanner">
+        <div class="bannerInfo">
+            <div class="bannerTitle">Day 1 · Sydney</div>
+            <div class="bannerDesc">Opera House · Harbour Bridge · Fish Market</div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="sectionTitle">🗺️ 行程安排</div>
+        
+        <!-- 🔍 全域搜尋 UI -->
+        <input id="searchBox" class="search-box" placeholder="🔍 搜尋行程景點或備註...">
+
+        <!-- ⚡ 快速新增模式 UI -->
+        <div class="quick-add-bar">
+            <input id="quickInput" type="text" placeholder="⚡ 快速新增景點到第一天 (輸入名稱後按 Enter)...">
+            <button class="quick-add-btn" onclick="quickAddPlace()">+</button>
+        </div>
+
+        <div id="tripContainer"></div>
+    </section>
 </div>
-</header>
 
-<section class="dashboard">
-<div class="card"><div class="cardTitle">📍 目前城市</div><div class="cardValue" id="cityName">Sydney</div></div>
-<div class="card"><div class="cardTitle">📅 Day</div><div class="cardValue" id="dayNumber">1</div></div>
-<div class="card"><div class="cardTitle">☀️ Weather</div><div class="cardValue">16°C</div></div>
-<div class="card"><div class="cardTitle">🚗 Next</div><div class="cardValue" style="font-size:18px">Sydney Fish Market</div></div>
-</section>
-
-<section class="banner">
-<img src="images/banner/sydney.jpg" id="todayBanner">
-<div class="bannerInfo">
-<div class="bannerTitle">Day 1 · Sydney</div>
-<div class="bannerDesc">Opera House · Harbour Bridge · Fish Market</div>
-</div>
-</section>
-
-<section class="section">
-    <div class="sectionTitle">🗺️ 行程安排</div>
-    
-    <!-- 🔍 ② 全域搜尋 UI -->
-    <input id="searchBox" class="search-box" placeholder="🔍 搜尋行程景點或備註...">
-
-    <!-- ⚡ ⑤ 快速新增模式 UI -->
-    <div class="quick-add-bar">
-        <input id="quickInput" type="text" placeholder="⚡ 快速新增景點到第一天 (輸入名稱後按 Enter)...">
-        <button class="quick-add-btn" onclick="quickAddPlace()">+</button>
+<!-- 🧳 頁面：行李清單 -->
+<div id="page-bag" class="page">
+    <div class="placeholder-page">
+        <h2>🧳 行李功能開發中</h2>
+        <p>優化清單與多天數自動配給物品演算法即將推出...</p>
     </div>
+</div>
 
-    <div id="tripContainer"></div>
-</section>
+<!-- 💰 頁面：記帳 -->
+<div id="page-money" class="page">
+    <div class="placeholder-page">
+        <h2>💰 記帳功能開發中</h2>
+        <p>支援多幣別拆帳與每日開銷圓餅圖追蹤...</p>
+    </div>
+</div>
 
+<!-- 👥 頁面：更多 -->
+<div id="page-more" class="page">
+    <div class="placeholder-page">
+        <h2>👥 更多功能</h2>
+        <p>成員同步、離線地圖導出與 PWA 設定選項。</p>
+    </div>
+</div>
+
+<!-- 浮動新增按鈕 -->
 <div class="fab" id="editButton">✏️</div>
 
+<!-- 底部導覽列 -->
 <nav class="bottomBar">
     <div class="tab active"><i>🏠</i>首頁</div>
     <div class="tab"><i>🗺️</i>行程</div>
@@ -344,15 +385,10 @@ font-size:30px; box-shadow:0 15px 40px rgba(0,0,0,.45); cursor:pointer; z-index:
 <div id="viewer" class="viewer"><img id="viewerImg"></div>
 <div id="toast">已儲存 ✔</div>
 
-<!-- ========================= -->
-<!-- JavaScript 核心邏輯升級 -->
-<!-- ========================= -->
 <script>
-// ⚙️ ③ 新增編輯狀態變數 (改為 ID 安全追蹤)
-let editMode = null; // 儲存格式: { id: 12345678 }
+let editMode = null; 
 let tripData = [];
 
-// 🧠 ① 改良版內建預設資料結構（含唯一安全 ID 與 Order 權重）
 const defaultData = [
     {
         day: 1, date: "2026/07/02", city: "Sydney", banner: "images/banner/sydney.jpg",
@@ -368,23 +404,16 @@ const defaultData = [
             { id: 1004, time: "09:00", title: "Scenic World", note: "搭乘森林纜車與全世界最陡客運鐵道。", img: "images/places/scenic-world.jpg", order: 4 },
             { id: 1005, time: "14:30", title: "Three Sisters", note: "藍山最著名的三姐妹岩觀景台。", img: "images/places/three-sisters.jpg", order: 5 }
         ]
-    },
-    {
-        day: 3, date: "2026/07/04", city: "Kiama", banner: "images/banner/kiama.jpg",
-        places: [
-            { id: 1006, time: "10:00", title: "Kiama Blowhole", note: "澳洲最著名天然噴水洞。", img: "images/places/kiama-blowhole.jpg", order: 6 }
-        ]
     }
 ];
 
-// 💾 ⑤ 防資料損壞的保險加固載入機制
 function loadData(){
     let cache = localStorage.getItem("tripData");
     if(cache){
         try {
             tripData = JSON.parse(cache);
         } catch(e) {
-            console.error("快取資料損壞，已還原預設資料", e);
+            console.error("快取資料損壞", e);
             tripData = JSON.parse(JSON.stringify(defaultData));
         }
     } else {
@@ -397,19 +426,13 @@ function saveData(){
     localStorage.setItem("tripData", JSON.stringify(tripData));
 }
 
-// ⚡ ④ 自動 Day 重新編排演算法
 function normalizeDays(){
-    // 先刪除沒有任何景點的空心 Day 群組
     tripData = tripData.filter(d => d.places.length > 0);
-    // 排序天數
     tripData.sort((a, b) => a.day - b.day);
-    // 依序重新索引重新排列流水號 Day 1, Day 2, Day 3...
-    tripData.forEach((d, i) => {
-        d.day = i + 1;
-    });
+    tripData.forEach((d, i) => { d.day = i + 1; });
 }
 
-// 🔍 ② 支援搜尋過濾的動態網頁渲染引擎
+// 🔁 問題 2 修正：在渲染層也做「強制雙重Fallback防空字串驗證」
 function renderDOM(keyword = "") {
     const container = document.getElementById("tripContainer");
     container.innerHTML = "";
@@ -422,24 +445,20 @@ function renderDOM(keyword = "") {
     const cleanKeyword = keyword.trim().toLowerCase();
 
     tripData.forEach(dayGroup => {
-        // 🔍 過濾景點
         let filteredPlaces = dayGroup.places.filter(p => 
             p.title.toLowerCase().includes(cleanKeyword) || 
             p.note.toLowerCase().includes(cleanKeyword)
         );
 
-        // 如果在搜尋狀態下，該天沒有符合的景點，就不渲染該天
         if (cleanKeyword !== "" && filteredPlaces.length === 0) return;
 
-        // 排定時間順序
         filteredPlaces.sort((a, b) => a.time.localeCompare(b.time));
 
         let dayCard = document.createElement("div");
         dayCard.className = "dayCard";
-        dayCard.setAttribute("data-day", dayGroup.day); // 綁定天數標籤供 Sortable 識別
+        dayCard.setAttribute("data-day", dayGroup.day);
 
         let placesHTML = "";
-        // ✅ 1. 改為基於安全唯一 id 的 DOM 生成
         filteredPlaces.forEach(p => {
             placesHTML += `
             <div class="place" data-id="${p.id}">
@@ -454,8 +473,11 @@ function renderDOM(keyword = "") {
             `;
         });
 
+        // 🛡️ 防炸處理
+        const checkedBanner = (dayGroup.banner && dayGroup.banner.trim() !== '') ? dayGroup.banner : 'images/banner/sydney.jpg';
+
         dayCard.innerHTML = `
-            <img class="dayImage" src="${dayGroup.banner || 'images/banner/sydney.jpg'}">
+            <img class="dayImage" src="${checkedBanner}">
             <div class="dayContent" data-day="${dayGroup.day}">
                 <div class="dayTop">
                     <div class="dayBadge">Day ${dayGroup.day}</div>
@@ -469,17 +491,15 @@ function renderDOM(keyword = "") {
 
     bindImageViewer();
     
-    // 🔥 ③ 在渲染結束後，動態將各天綁定 Sortable（支援跨天拖拽組件）
-    if(cleanKeyword === "") { // 僅在非搜尋狀態下允許拖曳排序，防邏輯衝突
+    if(cleanKeyword === "") { 
         initSortable();
     }
 }
 
-// 🔥 ③ 整合 Notion 般拖曳排序核心
 function initSortable() {
     document.querySelectorAll(".dayContent").forEach(el => {
         new Sortable(el, {
-            group: "shared", // 開啟跨天拖拽群組
+            group: "shared",
             animation: 150,
             draggable: ".place",
             ghostClass: "sortable-ghost",
@@ -490,23 +510,16 @@ function initSortable() {
     });
 }
 
-// 🔥 ③ 拖動後同步資料集與數據模型
 function syncOrder(){
     let newTripData = [];
-
-    // 巡檢當前畫面中所有 Day 容器節點
     document.querySelectorAll(".dayContent").forEach((contentEl) => {
         const currentDayNum = parseInt(contentEl.getAttribute("data-day"));
-        
-        // 從舊數據中抽出該天的基本資料（Date, City, Banner）
         const oldDayMeta = tripData.find(d => d.day === currentDayNum);
         if(!oldDayMeta) return;
 
-        // 撈取容器內當前所有的 place 的 Data-ID 排序
         let orderedPlaces = [];
         contentEl.querySelectorAll(".place").forEach((placeEl) => {
             const pid = parseInt(placeEl.getAttribute("data-id"));
-            // 全域協尋對應的 Place 物件
             let foundPlace = null;
             tripData.forEach(d => {
                 let p = d.places.find(item => item.id === pid);
@@ -527,21 +540,14 @@ function syncOrder(){
     });
 
     tripData = newTripData;
-    normalizeDays(); // ⚡ 自動排序與防斷代更新
+    normalizeDays();
     saveData();
     renderDOM();
     toast("已更新排序 🔁");
 }
 
-// 🔍 ② 搜尋輸入框監聽器打通
 document.getElementById("searchBox").addEventListener("input", (e) => {
-    const keyword = e.target.value;
-    renderDOM(keyword);
-});
-
-// ⚡ ⑤ 快速新增欄位事件
-document.getElementById("quickInput").addEventListener("keydown", (e) => {
-    if(e.key === "Enter") quickAddPlace();
+    renderDOM(e.target.value);
 });
 
 function quickAddPlace() {
@@ -549,7 +555,6 @@ function quickAddPlace() {
     const title = inputEl.value.trim();
     if(!title) return;
 
-    // 預設將景點塞在第一天，若無第一天則創建
     let dayOne = tripData.find(d => d.day === 1);
     const newPlace = {
         id: Date.now(),
@@ -567,38 +572,30 @@ function quickAddPlace() {
             day: 1,
             date: new Date().toISOString().split('T')[0].replace(/-/g, "/"),
             city: "Sydney",
-            banner: "",
+            banner: "images/banner/sydney.jpg",
             places: [newPlace]
         });
     }
 
-    inputEl.value = ""; // 清空
+    inputEl.value = "";
     normalizeDays();
     saveData();
     renderDOM();
     toast("⚡ 快速新增成功！");
 }
 
-// ✏️ ④ 點選編輯（升級為 ID 導向，完全防錯位）
 function editPlace(id){
     let targetDay = null;
     let targetPlace = null;
 
-    // 用 ID 去篩查資料
     for(let d of tripData) {
         let p = d.places.find(item => item.id === id);
-        if(p) {
-            targetDay = d;
-            targetPlace = p;
-            break;
-        }
+        if(p) { targetDay = d; targetPlace = p; break; }
     }
-
     if(!targetPlace) return;
 
-    editMode = { id: id }; // 記住目前正在修改的 ID 標章
+    editMode = { id: id };
     document.getElementById("modalTitle").innerText = "✏️ 編輯行程";
-
     document.getElementById("editDayNum").value = targetDay.day;
     document.getElementById("editDate").value = targetDay.date.replace(/ /g,"-").replaceAll("/", "-");
     document.getElementById("editCity").value = targetDay.city;
@@ -607,26 +604,19 @@ function editPlace(id){
     document.getElementById("editNote").value = targetPlace.note;
     document.getElementById("editBanner").value = targetDay.banner;
     document.getElementById("editPhoto").value = targetPlace.img;
-
     document.getElementById("editModal").style.display = "flex";
 }
 
-// 🗑 ⑤ 刪除功能修正（認 ID 機制）
 function deletePlace(e, id){
     e.stopPropagation();
     if(!confirm("確定要刪除這個景點嗎？")) return;
-
-    tripData.forEach(d => {
-        d.places = d.places.filter(p => p.id !== id);
-    });
-
-    normalizeDays(); // ⚡ 自動剔除空天數重編
+    tripData.forEach(d => { d.places = d.places.filter(p => p.id !== id); });
+    normalizeDays();
     saveData();
     renderDOM();
     toast("已刪除 🗑");
 }
 
-// 🔁 ⑥ 修改 saveTrip（全面兼容 ID 更新機制）
 function saveTrip(){
     const dayNum = parseInt(document.getElementById("editDayNum").value) || 1;
     const rawDate = document.getElementById("editDate").value.replace(/-/g, "/");
@@ -634,43 +624,35 @@ function saveTrip(){
     const placeTitle = document.getElementById("editPlace").value.trim();
     const placeTime = document.getElementById("editTime").value || "12:00";
     const placeNote = document.getElementById("editNote").value || "未輸入介紹。";
-    const bannerUrl = document.getElementById("editBanner").value || "";
     const photoUrl = document.getElementById("editPhoto").value || "";
+    
+    // 🔁 問題 2 修正：在寫入端直接阻斷空字串污染
+    let bannerUrl = document.getElementById("editBanner").value.trim();
+    if(!bannerUrl) bannerUrl = "images/banner/sydney.jpg";
 
-    if(!placeTitle){
-        alert("請輸入景點名稱！");
-        return;
-    }
+    if(!placeTitle){ alert("請輸入景點名稱！"); return; }
 
-    // ====== 編輯模式 ======
     if(editMode){
         let oldDayOfPlace = null;
         let placeObj = null;
 
-        // 先把原來的物件與其所屬天數找出來
         tripData.forEach(d => {
             let found = d.places.find(p => p.id === editMode.id);
             if(found) { oldDayOfPlace = d; placeObj = found; }
         });
 
         if(placeObj) {
-            // 更新景點屬性
             placeObj.time = placeTime;
             placeObj.title = placeTitle;
             placeObj.note = placeNote;
             placeObj.img = photoUrl;
 
-            // 檢查使用者有沒有改天數
             if(oldDayOfPlace.day === dayNum) {
-                // 沒有改天數，直接更新該天的元數據
                 oldDayOfPlace.date = rawDate;
                 oldDayOfPlace.city = city;
-                if(bannerUrl) oldDayOfPlace.banner = bannerUrl;
+                oldDayOfPlace.banner = bannerUrl; // 儲存非空校正值
             } else {
-                // 有改天數！從舊天數中移除
                 oldDayOfPlace.places = oldDayOfPlace.places.filter(p => p.id !== editMode.id);
-                
-                // 放到新天數去
                 let targetNewDay = tripData.find(d => d.day === dayNum);
                 if(targetNewDay) {
                     targetNewDay.places.push(placeObj);
@@ -683,11 +665,9 @@ function saveTrip(){
         }
         editMode = null;
         toast("已更新 ✔");
-    }
-    // ====== 新增模式 ======
-    else{
+    } else {
         const newPlace = {
-            id: Date.now(), // 🧠 產生安全唯一時間戳記 ID
+            id: Date.now(),
             time: placeTime,
             title: placeTitle,
             note: placeNote,
@@ -706,11 +686,48 @@ function saveTrip(){
         toast("已新增 ✔");
     }
 
-    normalizeDays(); // ⚡ 安全自動重估
+    normalizeDays();
     saveData();
     renderDOM();
     closeEditor();
 }
+
+// 📦 問題 1 & 3 修正：真正健全的 SPA 切頁與高亮引擎
+const pages = [
+    document.getElementById("page-home"), // Index 0: 首頁 (顯示主架構)
+    document.getElementById("page-home"), // Index 1: 行程 (與首頁共用同區塊)
+    document.getElementById("page-bag"),  // Index 2: 行李
+    document.getElementById("page-money"),// Index 3: 記帳
+    document.getElementById("page-more")  // Index 4: 更多
+];
+
+const tabs = document.querySelectorAll(".tab");
+
+tabs.forEach((tab, index) => {
+    tab.onclick = () => {
+        // 1. 切換高亮
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+
+        // 2. 隱藏全體頁面
+        pages.forEach(p => p.classList.remove("active"));
+
+        // 3. 獨立分流顯示
+        if(index === 0 || index === 1){
+            document.getElementById("page-home").classList.add("active");
+            if(index === 1) toast("🗺️ 進入行程流查看模式");
+        } 
+        else if(index === 2){
+            document.getElementById("page-bag").classList.add("active");
+        }
+        else if(index === 3){
+            document.getElementById("page-money").classList.add("active");
+        }
+        else if(index === 4){
+            document.getElementById("page-more").classList.add("active");
+        }
+    };
+});
 
 function bindImageViewer() {
     document.querySelectorAll(".placeImage").forEach(img => {
@@ -726,7 +743,6 @@ document.getElementById("viewer").onclick = () => {
     document.getElementById("viewer").style.display = "none";
 };
 
-// 點擊原生的右下角 FAB
 document.getElementById("editButton").onclick = () => {
     editMode = null; 
     document.getElementById("modalTitle").innerText = "✏️ 新增行程";
@@ -753,26 +769,11 @@ function toast(text){
     setTimeout(() => { t.classList.remove("show"); }, 1800);
 }
 
-const tabs = document.querySelectorAll(".tab");
-tabs.forEach(tab => {
-    tab.onclick = () => {
-        tabs.forEach(t => t.classList.remove("active"));
-        tab.classList.add("active");
-    }
-});
-
 window.onload = () => {
     loadData();
     normalizeDays();
     renderDOM();
 };
 </script>
-
-<script>
-if("serviceWorker" in navigator){
-    navigator.serviceWorker.register("service-worker.js");
-}
-</script>
-
 </body>
 </html>

@@ -1,399 +1,586 @@
-<!-- 1. 首先引入獨立的行程與清單資料檔 -->
-<script src="trip-data.js"></script>
-
-<!-- 2. 主程式核心控制與邏輯運算 -->
-<script>
-// ==========================================
-// 核心全域變數安全校驗 (防止 trip-data.js 載入失敗)
-// ==========================================
-window.EX_RATE = window.EX_RATE || 21.5; // 預設澳幣匯率
-window.members = window.members || ['arthur', 'karen', 'steven', 'dage'];
-window.memberNames = window.memberNames || { arthur: 'Arthur', karen: 'Karen', steven: 'Steven', dage: '大哥' };
-window.memberEmojis = window.memberEmojis || { arthur: '🧑‍💻', karen: '👩‍🦰', steven: '👦', dage: '👨' };
-window.itineraryData = window.itineraryData || [];
-window.taskData = window.taskData || [];
-window.packingData = window.packingData || {};
-window.englishData = window.englishData || [];
-
-let currentDayIdx = 0;
-let selectedPayer = window.members[0] || 'arthur';
-let selectedConsumers = [...window.members];
-
-// 從本機儲存空間（Browser LocalStorage）讀取打卡與記帳狀態
-let db_spots = JSON.parse(localStorage.getItem('v3_spots') || '{}');
-let db_expenses = JSON.parse(localStorage.getItem('v3_expenses') || '[]');
-let db_tasks = JSON.parse(localStorage.getItem('v3_tasks') || '{}');
-let db_pack = JSON.parse(localStorage.getItem('v3_pack') || '{}');
-
-// 初始排行榜分數 (若無紀錄則從資料檔讀取預設，或歸零)
-let defaultScores = {};
-window.members.forEach(m => { defaultScores[m] = 0; });
-let db_scores = JSON.parse(localStorage.getItem('v3_scores') || JSON.stringify(defaultScores));
-
-function saveState() {
-  localStorage.setItem('v3_spots', JSON.stringify(db_spots));
-  localStorage.setItem('v3_expenses', JSON.stringify(db_expenses));
-  localStorage.setItem('v3_tasks', JSON.stringify(db_tasks));
-  localStorage.setItem('v3_pack', JSON.stringify(db_pack));
-  localStorage.setItem('v3_scores', JSON.stringify(db_scores));
-}
-
-// 智慧型動態島控制
-function triggerIsland(msg, isExpanded = false) {
-  const island = document.getElementById('island');
-  const txt = document.getElementById('di-txt');
-  if(!island || !txt) return;
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>AusDrive V3 - 雪梨自駕奢華領航</title>
   
-  txt.textContent = msg;
-  if (isExpanded) {
-    island.classList.add('expanded');
-    setTimeout(() => { island.classList.remove('expanded'); }, 4000);
-  } else {
-    island.classList.remove('expanded');
-  }
-}
-function toggleIsland() {
-  const island = document.getElementById('island');
-  if(island) island.classList.toggle('expanded');
-}
+  <!-- Apple PWA 專用設定與 iOS 安全區優化 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-// 核心功能頁面切換
-function switchSection(secId) {
-  const sections = ['itin', 'exp', 'score', 'pack', 'eng', 'sos'];
-  sections.forEach(sec => {
-    const el = document.getElementById('sec-' + sec);
-    const btn = document.getElementById('btn-tab-' + sec);
-    if(el) el.style.display = (sec === secId) ? 'block' : 'none';
-    if(btn) btn.classList.toggle('active', sec === secId);
-  });
-  
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  
-  if(secId === 'itin') renderItinerary();
-  if(secId === 'exp') renderExpenseSystem();
-  if(secId === 'score') renderScoresAndTasks();
-  if(secId === 'pack') renderPackList();
-  if(secId === 'eng') renderEnglishPhrases();
-}
+  <style>
+    :root {
+      --bg-dark: #000000;
+      --ios-card: rgba(28, 28, 30, 0.65);
+      --ios-blur: blur(30px);
+      --text-main: #FFFFFF;
+      --text-sub: #8E8E93;
+      --accent-blue: #0A84FF;
+      --accent-green: #30D158;
+      --accent-red: #FF453A;
+      --safe-top: env(safe-area-inset-top, 44px);
+      --safe-bottom: env(safe-area-inset-bottom, 34px);
+    }
 
-// 頂部橫幅照片輪播
-let currentSlide = 0;
-function initCarousel() {
-  const track = document.getElementById('carousel-track');
-  const slides = document.querySelectorAll('.carousel-slide');
-  const dotsContainer = document.getElementById('carousel-dots');
-  
-  if(!track || !slides.length || !dotsContainer) return;
-  dotsContainer.innerHTML = Array.from({length: slides.length}).map((_,i) => `<div class="c-dot ${i===0?'active':''}"></div>`).join('');
-  const dots = document.querySelectorAll('.c-dot');
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-  setInterval(() => {
-    currentSlide = (currentSlide + 1) % slides.length;
-    track.style.transform = `translateX(-${currentSlide * 100}%)`;
-    dots.forEach((d, idx) => d.classList.toggle('active', idx === currentSlide));
-  }, 4500);
-}
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      padding-bottom: calc(85px + var(--safe-bottom));
+      /* 確保支援 120Hz 螢幕流暢滾動 */
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
 
-// 1. 行程模組渲染
-function renderItinerary() {
-  const tabs = document.getElementById('day-tabs');
-  const listContainer = document.getElementById('itin-list');
-  if(!tabs || !listContainer) return;
+    /* ==========================================
+       iOS 26 頂級視覺核心：滿版動態 Banner
+       ========================================== */
+    .hero-banner-wrapper {
+      position: relative;
+      width: 100%;
+      height: 48vh;
+      min-height: 320px;
+      overflow: hidden;
+      background: #1c1c1e;
+    }
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 40%, var(--bg-dark) 100%);
+    }
+    .hero-content {
+      position: absolute;
+      bottom: 24px;
+      left: 20px;
+      right: 20px;
+      z-index: 2;
+    }
+    .hero-day-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-  if(!window.itineraryData.length) {
-    tabs.innerHTML = '';
-    listContainer.innerHTML = '<div style="color:var(--text-sub);text-align:center;padding:20px;">暫無行程資料</div>';
-    return;
-  }
+    /* iOS 26 超級智慧動態島 */
+    .dynamic-island {
+      position: fixed;
+      top: calc(var(--safe-top) - 32px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 32px;
+      background: #000000;
+      border-radius: 20px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 0.5px solid rgba(255,255,255,0.15);
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .dynamic-island.expanded {
+      width: 90%;
+      max-width: 380px;
+      height: 75px;
+      border-radius: 24px;
+      top: calc(var(--safe-top) - 25px);
+      padding: 0 20px;
+      justify-content: space-between;
+    }
+    .island-content {
+      opacity: 0;
+      display: none;
+      width: 100%;
+      color: #fff;
+      font-size: 0.88rem;
+      align-items: center;
+      justify-content: space-between;
+      transition: opacity 0.3s ease;
+    }
+    .dynamic-island.expanded .island-content {
+      opacity: 1;
+      display: flex;
+    }
+    .island-dot {
+      width: 10px;
+      height: 10px;
+      background: #30D158;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #30D158;
+    }
 
-  tabs.innerHTML = window.itineraryData.map((d, idx) => `
-    <button class="day-tab ${idx === currentDayIdx ? 'active' : ''}" onclick="changeDay(${idx})">
-      Day ${d.day} (${d.date})
-    </button>`).join('');
+    /* 頂部全域動態儀表板 */
+    .dashboard-panel {
+      margin: -40px 16px 24px 16px;
+      position: relative;
+      z-index: 5;
+      background: var(--ios-card);
+      backdrop-filter: var(--ios-blur);
+      -webkit-backdrop-filter: var(--ios-blur);
+      border-radius: 24px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .db-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      text-align: center;
+    }
+    .db-item h5 { color: var(--text-sub); font-size: 0.72rem; margin-bottom: 4px; }
+    .db-item p { font-size: 1.15rem; font-weight: 700; color: #fff; }
 
-  const currentDay = window.itineraryData[currentDayIdx];
-  if(!currentDay) { listContainer.innerHTML = ''; return; }
-  
-  listContainer.innerHTML = currentDay.spots.map(s => {
-    const isCompleted = db_spots[s.id] ? true : false;
-    return `
-      <div class="spot-card ${isCompleted ? 'completed' : ''}" id="card_${s.id}">
-        <div class="spot-img-wrap" onclick="toggleDetails('${s.id}')">
-          <img src="${s.img}" alt="${s.name}" loading="lazy">
-          <div class="spot-tag">📍 點擊看詳情</div>
-        </div>
-        <div class="spot-info">
-          <div class="spot-top">
-            <div class="spot-cb" onclick="toggleSpotDone('${s.id}'); event.stopPropagation();">${isCompleted ? '✓' : ''}</div>
-            <div class="spot-title" onclick="toggleDetails('${s.id}')">${s.name}</div>
-          </div>
-          <div class="spot-details" id="details_${s.id}">
-            <p style="margin: 6px 0; font-size:0.78rem; color:#d1d1d6;">${s.desc}</p>
-            <div class="spot-actions">
-              <a class="btn-action nav-btn" href="https://maps.google.com/?q=${encodeURIComponent(s.map)}" target="_blank">🗺️ 導航直達景點</a>
-              <button class="btn-action" onclick="triggerIsland('📍 目前選定景點：${s.name}')">📸 景點註記</button>
+    /* 120Hz 絲滑全景式橫向天數選單 */
+    .day-scroller {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 0 16px 16px 16px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .day-scroller::-webkit-scrollbar { display: none; }
+    .day-tab-btn {
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.06);
+      border: none;
+      border-radius: 18px;
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .day-tab-btn.active {
+      background: var(--text-main);
+      color: var(--bg-dark);
+      transform: scale(1.03);
+    }
+
+    /* 景點主清單卡片 */
+    .main-container { padding: 0 16px; }
+    .spot-card {
+      background: var(--ios-card);
+      backdrop-filter: var(--ios-blur);
+      -webkit-backdrop-filter: var(--ios-blur);
+      border-radius: 24px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      will-change: transform;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .spot-card:active { transform: scale(0.98); }
+    .spot-media-box {
+      position: relative;
+      height: 190px;
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+    .spot-media-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .spot-body { padding: 20px; }
+    .spot-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .spot-title-group { flex: 1; padding-right: 12px; }
+    .spot-name { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .spot-time { font-size: 0.8rem; color: var(--accent-blue); font-weight: 600; }
+    
+    .spot-checkbox {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .spot-checkbox.checked {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+    }
+    .spot-desc {
+      font-size: 0.88rem;
+      color: #D1D1D6;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    /* 即時雙地圖智慧導航按鈕組 */
+    .nav-btn-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #fff;
+      transition: background 0.2s;
+    }
+    .btn-google { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); }
+    .btn-apple { background: rgba(10, 132, 255, 0.15); border: 1px solid rgba(10, 132, 255, 0.3); color: var(--accent-blue); }
+
+    /* 景點行內即時快編模式 */
+    .inline-edit-btn {
+      font-size: 0.78rem;
+      color: var(--accent-blue);
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .edit-area {
+      display: none;
+      margin-top: 12px;
+      background: rgba(0,0,0,0.3);
+      padding: 12px;
+      border-radius: 14px;
+    }
+    .edit-input {
+      width: 100%;
+      background: #2c2c2e;
+      border: none;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+    }
+
+    /* ==========================================
+       120Hz 全螢幕燈箱相簿功能 (Lightbox)
+       ========================================== */
+    .ios-lightbox {
+      position: fixed;
+      inset: 0;
+      background: #000000;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity;
+    }
+    .ios-lightbox.open { opacity: 1; pointer-events: auto; }
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ios-lightbox.open .lightbox-img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute;
+      top: calc(var(--safe-top) + 10px);
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* 底部 iOS 微型導航列 */
+    .ios-tab-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: calc(65px + var(--safe-bottom));
+      background: rgba(20, 20, 20, 0.6);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 0.5px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-around;
+      padding-top: 10px;
+      z-index: 900;
+    }
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-sub);
+      font-size: 0.65rem;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .tab-item.active { color: var(--accent-blue); }
+    .tab-icon { font-size: 1.4rem; margin-bottom: 2px; }
+  </style>
+</head>
+<body>
+
+  <!-- iOS 26 智慧動態島 -->
+  <div class="dynamic-island" id="island" onclick="toggleIsland()">
+    <div class="island-content">
+      <span id="island-msg">⚡ 系統已就緒</span>
+      <div class="island-dot"></div>
+    </div>
+  </div>
+
+  <!-- 滿版動態 Banner 區 -->
+  <div class="hero-banner-wrapper">
+    <img id="hero-cover" class="hero-img" src="" alt="Trip Banner">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-day-badge" id="hero-day-lbl">Loading...</div>
+      <h2 id="hero-title" style="font-size: 1.7rem; font-weight: 700;">載入行程中</h2>
+    </div>
+  </div>
+
+  <!-- 頂部智慧全域面板 -->
+  <div class="dashboard-panel">
+    <div class="db-grid">
+      <div class="db-item">
+        <h5>📍 當前錨點</h5>
+        <p id="db-loc">--</p>
+      </div>
+      <div class="db-item">
+        <h5>☀️ 預留天氣</h5>
+        <p id="db-wea">22°C</p>
+      </div>
+      <div class="db-item">
+        <h5>📈 進度解鎖</h5>
+        <p id="db-progress">0%</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 橫向滑動天數控制列 -->
+  <div class="day-scroller" id="day-tabs"></div>
+
+  <!-- 主行程卡片渲染區 -->
+  <div class="main-container" id="spots-list"></div>
+
+  <!-- 全螢幕高級相簿燈箱 -->
+  <div class="ios-lightbox" id="lightbox" onclick="closeLightbox()">
+    <div class="lightbox-close">✕</div>
+    <img class="lightbox-img" id="lightbox-target" src="" alt="Fullscreen">
+  </div>
+
+  <!-- 底部 iOS 固定選單 -->
+  <nav class="ios-tab-bar">
+    <a href="#" class="tab-item active"><div class="tab-icon">🗺️</div>行程</a>
+    <a href="#" class="tab-item" onclick="triggerIsland('💰 記帳功能模組已載入系統', true)"><div class="tab-icon">💵</div>記帳</a>
+    <a href="#" class="tab-item" onclick="triggerIsland('🧳 行李核對功能同步中', true)"><div class="tab-icon">🧳</div>行李</a>
+  </nav>
+
+  <!-- 載入資料與控制器邏輯 -->
+  <script src="trip-data.js"></script>
+  <script>
+    let activeDayIdx = 0;
+    // 讀取本地快取紀錄（已解鎖景點）
+    let db_spots_done = JSON.parse(localStorage.getItem('ios26_spots_done') || '{}');
+    // 讀取本地快取紀錄（使用者自行修改過的景點名稱與描述）
+    let db_custom_edits = JSON.parse(localStorage.getItem('ios26_custom_edits') || '{}');
+
+    // 系統島通知核心
+    function triggerIsland(msg, isExpand = false) {
+      const island = document.getElementById('island');
+      const text = document.getElementById('island-msg');
+      if(!island || !text) return;
+      text.textContent = msg;
+      if(isExpand) {
+        island.classList.add('expanded');
+        setTimeout(() => island.classList.remove('expanded'), 3500);
+      }
+    }
+    function toggleIsland() {
+      document.getElementById('island')?.classList.toggle('expanded');
+    }
+
+    // 燈箱控制（點圖滿版）
+    function openLightbox(url) {
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-target');
+      if(lb && img) {
+        img.src = url;
+        lb.classList.add('open');
+      }
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox')?.classList.remove('open');
+    }
+
+    // 渲染核心頁面
+    function initApp() {
+      if (!window.tripItinerary || !window.tripItinerary.length) {
+        document.getElementById('spots-list').innerHTML = '<p style="color:var(--text-sub); text-align:center; padding:4px;">暫無公開行程資料。</p>';
+        return;
+      }
+      renderTabs();
+      renderDayContent();
+    }
+
+    function renderTabs() {
+      const container = document.getElementById('day-tabs');
+      container.innerHTML = window.tripItinerary.map((d, idx) => `
+        <button class="day-tab-btn ${idx === activeDayIdx ? 'active' : ''}" onclick="switchDay(${idx})">
+          Day ${d.day}
+        </button>
+      `).join('');
+    }
+
+    function renderDayContent() {
+      const data = window.tripItinerary[activeDayIdx];
+      if(!data) return;
+
+      // 更新頂部滿版橫幅
+      document.getElementById('hero-cover').src = data.dayBanner;
+      document.getElementById('hero-day-lbl').textContent = `DAY ${data.day} • ${data.date}`;
+      document.getElementById('hero-title').textContent = data.title;
+      document.getElementById('db-loc').textContent = data.region;
+
+      // 渲染景點
+      const listContainer = document.getElementById('spots-list');
+      listContainer.innerHTML = data.spots.map(s => {
+        const isDone = db_spots_done[s.id] ? 'checked' : '';
+        // 檢查是否有使用者自訂過的資料
+        const currentName = db_custom_edits[`name_${s.id}`] || s.name;
+        const currentDesc = db_custom_edits[`desc_${s.id}`] || s.desc;
+
+        return `
+          <div class="spot-card">
+            <div class="spot-media-box" onclick="openLightbox('${s.img}')">
+              <img src="${s.img}" alt="${currentName}" loading="lazy">
+            </div>
+            <div class="spot-body">
+              <div class="spot-header">
+                <div class="spot-title-group">
+                  <div class="spot-name" id="lbl-name-${s.id}">${currentName}</div>
+                  <div class="spot-time">⏱️ 建議停留：${s.stay}</div>
+                </div>
+                <div class="spot-checkbox ${isDone}" onclick="toggleSpot('${s.id}')">
+                  ${isDone ? '✓' : ''}
+                </div>
+              </div>
+              <p class="spot-desc" id="lbl-desc-${s.id}">${currentDesc}</p>
+              
+              <!-- 雙地圖即時智慧導航 -->
+              <div class="nav-btn-group">
+                <a class="nav-link btn-google" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.mapQuery)}" target="_blank">🗺️ Google 地圖</a>
+                <a class="nav-link btn-apple" href="http://maps.apple.com/?q=${encodeURIComponent(s.mapQuery)}" target="_blank">🍎 Apple 地圖</a>
+              </div>
+
+              <!-- 行程可直接編輯按鈕與區塊 -->
+              <button class="inline-edit-btn" onclick="toggleEditBlock('${s.id}')">✏️ 編輯景點備忘</button>
+              <div class="edit-area" id="edit-box-${s.id}">
+                <input class="edit-input" id="input-name-${s.id}" type="text" value="${currentName}" placeholder="修改景點名稱">
+                <textarea class="edit-input" id="input-desc-${s.id}" rows="2" placeholder="修改行程備註描述">${currentDesc}</textarea>
+                <button class="nav-link btn-apple" style="width:100%; padding:8px;" onclick="saveInlineEdit('${s.id}')">保存修改</button>
+              </div>
             </div>
           </div>
-        </div>
-      </div>`;
-  }).join('');
-}
-function changeDay(idx) { currentDayIdx = idx; renderItinerary(); }
-function toggleDetails(id) { 
-  const el = document.getElementById('details_' + id);
-  if(el) el.classList.toggle('open'); 
-}
-function toggleSpotDone(id) {
-  db_spots[id] = !db_spots[id];
-  saveState();
-  renderItinerary();
-  updateGlobalDashboard();
-  if(db_spots[id]) triggerIsland("🎉 成功解鎖一個景點進度！", true);
-}
+        `;
+      }).join('');
 
-// 2. 智慧記帳系統
-function renderExpenseChips() {
-  const payerContainer = document.getElementById('payer-chips');
-  const splitContainer = document.getElementById('split-chips');
-  if(!payerContainer || !splitContainer) return;
-
-  payerContainer.innerHTML = window.members.map(m => `
-    <div class="chip ${m === selectedPayer ? 'selected' : ''}" onclick="selectPayer('${m}')">
-      ${window.memberEmojis[m] || '👤'} ${window.memberNames[m] || m}
-    </div>`).join('');
-
-  splitContainer.innerHTML = window.members.map(m => `
-    <div class="chip ${selectedConsumers.includes(m) ? 'selected' : ''}" onclick="toggleConsumer('${m}')">
-      ${window.memberEmojis[m] || '👤'} ${window.memberNames[m] || m}
-    </div>`).join('');
-}
-function selectPayer(m) { selectedPayer = m; renderExpenseChips(); }
-function toggleConsumer(m) {
-  if (selectedConsumers.includes(m)) {
-    if (selectedConsumers.length > 1) selectedConsumers = selectedConsumers.filter(item => item !== m);
-  } else {
-    selectedConsumers.push(m);
-  }
-  renderExpenseChips();
-}
-
-function submitExpense() {
-  const amtInput = document.getElementById('exp-amt');
-  const descInput = document.getElementById('exp-desc');
-  const catInput = document.getElementById('exp-cat');
-  if(!amtInput || !descInput || !catInput) return;
-  
-  const amt = parseFloat(amtInput.value);
-  const desc = descInput.value.trim();
-  const cat = catInput.value;
-  
-  if(!amt || !desc) { alert("請輸入正確的金額與明細！"); return; }
-  
-  db_expenses.push({
-    amt: amt, desc: desc, cat: cat, payer: selectedPayer, consumers: [...selectedConsumers], date: new Date().toLocaleDateString()
-  });
-  
-  if(db_scores[selectedPayer] !== undefined) db_scores[selectedPayer] += 5; 
-  saveState();
-  
-  amtInput.value = ''; descInput.value = '';
-  renderExpenseSystem();
-  updateGlobalDashboard();
-  triggerIsland(`💰 已記錄 ${desc} $${amt} AUD`, true);
-}
-
-function deleteExpense(idx) {
-  db_expenses.splice(idx, 1);
-  saveState();
-  renderExpenseSystem();
-  updateGlobalDashboard();
-}
-
-function renderExpenseSystem() {
-  renderExpenseChips();
-  const totalAUD = db_expenses.reduce((sum, e) => sum + e.amt, 0);
-  
-  const audEl = document.getElementById('summary-aud');
-  const twdEl = document.getElementById('summary-twd');
-  if(audEl) audEl.textContent = `$${totalAUD.toFixed(2)}`;
-  if(twdEl) twdEl.textContent = `NT$ ${Math.round(totalAUD * window.EX_RATE).toLocaleString()}`;
-  
-  let balances = {};
-  window.members.forEach(m => balances[m] = 0);
-  
-  db_expenses.forEach(e => {
-    if(balances[e.payer] !== undefined) balances[e.payer] += e.amt;
-    let share = e.amt / e.consumers.length;
-    e.consumers.forEach(c => { if(balances[c] !== undefined) balances[c] -= share; });
-  });
-
-  let debtHTML = '';
-  for(let [person, bal] of Object.entries(balances)) {
-    if (bal > 0.01) {
-      debtHTML += `<div style="color:var(--accent-green)">🟢 <strong>${window.memberNames[person] || person}</strong> 總共代墊，應收回：<strong>$${bal.toFixed(2)} AUD</strong></div>`;
-    } else if (bal < -0.01) {
-      debtHTML += `<div style="color:var(--accent-red)">🔴 <strong>${window.memberNames[person] || person}</strong> 應補繳付出：<strong>$${Math.abs(bal).toFixed(2)} AUD</strong></div>`;
+      calculateProgress();
     }
-  }
-  const settEl = document.getElementById('settlement-results');
-  if(settEl) settEl.innerHTML = debtHTML || '<div style="color:var(--text-sub)">目前各項目分帳皆完美平衡！</div>';
 
-  const hist = document.getElementById('history-list');
-  if(!hist) return;
-  if(!db_expenses.length) { hist.innerHTML = '<div style="color:var(--text-sub);text-align:center;padding:10px;">暫無明細</div>'; return; }
-  
-  hist.innerHTML = db_expenses.map((e, idx) => `
-    <div class="history-item">
-      <div>
-        <strong>[${e.cat}] ${e.desc}</strong>
-        <div style="font-size:0.68rem; color:var(--text-sub)">墊付: ${window.memberNames[e.payer] || e.payer} | 分攤: ${e.consumers.map(c=>window.memberNames[c] || c).join(', ')}</div>
-      </div>
-      <div style="text-align:right; display:flex; align-items:center; gap:8px;">
-        <span style="font-weight:bold; color:#ffd60a;">$${e.amt.toFixed(1)}</span>
-        <span style="color:var(--accent-red); cursor:pointer; font-weight:bold; padding:4px 8px;" onclick="deleteExpense(${idx})">✕</span>
-      </div>
-    </div>`).reverse().join('');
-}
-
-// 3. 排行榜與打卡任務成就模組
-function getPlayerTitle(pt) {
-  if (pt >= 150) return '👑 澳洲大富翁公路傳奇';
-  if (pt >= 100) return '🥇 專業自駕首席領航員';
-  if (pt >= 50) return '🥈 資深全能冒險家';
-  return '🥉 隨隊觀光實習生';
-}
-
-function renderScoresAndTasks() {
-  const wallEl = document.getElementById('photo-wall');
-  const leadEl = document.getElementById('leaderboard-list');
-  const taskEl = document.getElementById('task-grid');
-  
-  if(wallEl) {
-    wallEl.innerHTML = window.taskData.map(t => {
-      const isDone = db_tasks[t.id] ? true : false;
-      return `<div class="pwall-cell ${isDone?'active':''}"><div class="pwall-ico">${t.icon}</div><div class="pwall-lbl">${t.name.substring(0,3)}</div></div>`;
-    }).join('');
-  }
-
-  if(leadEl) {
-    const sorted = [...window.members].sort((a,b) => (db_scores[b]||0) - (db_scores[a]||0));
-    leadEl.innerHTML = sorted.map((m, idx) => `
-      <div class="rank-card">
-        <div class="rank-num">${idx+1}</div>
-        <div class="rank-avatar">${window.memberEmojis[m] || '👤'}</div>
-        <div class="rank-info">
-          <div class="rank-name">${window.memberNames[m] || m}</div>
-          <div class="rank-title">${getPlayerTitle(db_scores[m] || 0)}</div>
-        </div>
-        <div class="rank-pts">${db_scores[m] || 0} pt</div>
-      </div>`).join('');
-  }
-
-  if(taskEl) {
-    taskEl.innerHTML = window.taskData.map(t => {
-      const isDone = db_tasks[t.id];
-      return `
-        <div class="task-item ${isDone?'done':''}" onclick="claimTask('${t.id}', ${t.pts})">
-          <div class="task-icon">${t.icon}</div>
-          <div class="task-name">${t.name}</div>
-          <div class="task-pts">+${t.pts} pt</div>
-          ${isDone ? `<div class="task-assignee">✓ ${window.memberNames[isDone] || isDone}</div>` : `
-            <select id="sel_${t.id}" onclick="event.stopPropagation()" style="font-size:0.65rem; margin-top:4px; background:#2c2c2e; color:#fff; border:none; border-radius:4px; padding:2px;">
-              ${window.members.map(m=>`<option value="${m}">${window.memberNames[m] || m}</option>`).join('')}
-            </select>
-          `}
-        </div>`;
-    }).join('');
-  }
-}
-
-function claimTask(id, pts) {
-  if (db_tasks[id]) return;
-  const sel = document.getElementById('sel_' + id);
-  if(!sel) return;
-  const winner = sel.value;
-  db_tasks[id] = winner;
-  if(db_scores[winner] !== undefined) db_scores[winner] += pts;
-  saveState();
-  renderScoresAndTasks();
-  triggerIsland(`🏆 ${window.memberNames[winner] || winner} 解鎖成就 ＋${pts}分！`, true);
-}
-
-// 4. 行李清單模組
-function renderPackList() {
-  const container = document.getElementById('pack-container');
-  if(!container) return;
-  
-  let html = '';
-  for (let [groupName, items] of Object.entries(window.packingData)) {
-    html += `<div class="pack-group-title">${groupName}</div>`;
-    items.forEach(item => {
-      const isChecked = db_pack[item] ? true : false;
-      html += `
-        <div class="pack-item ${isChecked?'checked':''}" onclick="togglePackItem('${item}')">
-          <div class="pack-checkbox">${isChecked?'✓':''}</div>
-          <div class="pack-txt">${item}</div>
-        </div>`;
-    });
-  }
-  container.innerHTML = html || '<div style="color:var(--text-sub);text-align:center;padding:20px;">暫無行李清單資料</div>';
-}
-function togglePackItem(item) {
-  db_pack[item] = !db_pack[item];
-  saveState();
-  renderPackList();
-}
-
-// 5. 生存英文句庫模組
-function renderEnglishPhrases() {
-  const container = document.getElementById('english-container');
-  if(!container) return;
-  
-  container.innerHTML = window.englishData.map(e => `
-    <div class="phrase-card">
-      <div class="phrase-ctx">💡 行程現場場景：${e.q}</div>
-      <div class="phrase-eng">"${e.e}"</div>
-      <div class="phrase-zht">中文意思：${e.c}</div>
-    </div>`).join('') || '<div style="color:var(--text-sub);text-align:center;padding:20px;">暫無生存英文資料</div>';
-}
-
-// 全局儀表板與進度條刷新
-function updateGlobalDashboard() {
-  const totalAUD = db_expenses.reduce((sum, e) => sum + e.amt, 0);
-  const dbExp = document.getElementById('db-exp');
-  if(dbExp) dbExp.textContent = `$${totalAUD.toFixed(1)}`;
-  
-  let currentLoc = 'Sydney';
-  let totalSpots = 0; let doneSpots = 0;
-  window.itineraryData.forEach(day => {
-    day.spots.forEach(s => {
-      totalSpots++;
-      if (db_spots[s.id]) { doneSpots++; currentLoc = day.loc; }
-    });
-  });
-  
-  const dbLoc = document.getElementById('db-loc');
-  const pflowPct = document.getElementById('pflow-pct');
-  if(dbLoc) dbLoc.textContent = currentLoc;
-  if(pflowPct) pflowPct.textContent = totalSpots > 0 ? `${Math.round((doneSpots / totalSpots) * 100)}%` : '0%';
-
-  const mapNodes = { 'Sydney':'pf-syd', 'Blue Mountains':'pf-blue', 'Kiama':'pf-kiama', 'Coffs Harbour':'pf-coffs', 'Byron Bay':'pf-byron', 'Brisbane':'pf-bris' };
-  let passed = true;
-  for (let [locName, elId] of Object.entries(mapNodes)) {
-    const node = document.getElementById(elId);
-    if(node) {
-      node.classList.remove('active', 'done');
-      if (locName === currentLoc) { node.classList.add('active'); passed = false; }
-      else if (passed) { node.classList.add('done'); }
+    function switchDay(idx) {
+      activeDayIdx = idx;
+      renderTabs();
+      renderDayContent();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }
-}
 
-// 網頁啟動初始化
-window.onload = function() {
-  initCarousel();
-  renderItinerary();
-  updateGlobalDashboard();
-  triggerIsland("🚀 歡迎使用雪梨自駕 V3 系統", false);
-};
-</script>
+    function toggleSpot(id) {
+      db_spots_done[id] = !db_spots_done[id];
+      localStorage.setItem('ios26_spots_done', JSON.stringify(db_spots_done));
+      renderDayContent();
+      if(db_spots_done[id]) triggerIsland('🎉 成功踩點一個目的地！', true);
+    }
+
+    // 編輯控制
+    function toggleEditBlock(id) {
+      const box = document.getElementById(`edit-box-${id}`);
+      if(box) box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function saveInlineEdit(id) {
+      const newName = document.getElementById(`input-name-${id}`).value;
+      const newDesc = document.getElementById(`input-desc-${id}`).value;
+      
+      db_custom_edits[`name_${id}`] = newName;
+      db_custom_edits[`desc_${id}`] = newDesc;
+      
+      localStorage.setItem('ios26_custom_edits', JSON.stringify(db_custom_edits));
+      toggleEditBlock(id);
+      renderDayContent();
+      triggerIsland('💾 備忘資訊已即時儲存', true);
+    }
+
+    function calculateProgress() {
+      let total = 0;
+      let done = 0;
+      window.tripItinerary.forEach(d => {
+        d.spots.forEach(s => {
+          total++;
+          if(db_spots_done[s.id]) done++;
+        });
+      });
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+      document.getElementById('db-progress').textContent = `${pct}%`;
+    }
+
+    window.onload = initApp;
+  </script>
+</body>
+</html>

@@ -6,14 +6,15 @@
 <title>Australia Trip Pro</title>
 
 <link rel="manifest" href="manifest.json">
-
 <meta name="theme-color" content="#0B1F35">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<style>
+<!-- 🔥 ③ 導入 Sortable.js 拖曳排序庫 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
+<style>
 :root{
 --bg:#081522;
 --card:rgba(255,255,255,.08);
@@ -39,33 +40,15 @@ scroll-behavior:smooth;
 }
 
 body{
-font-family:
--apple-system,
-BlinkMacSystemFont,
-"SF Pro Display",
-"PingFang TC",
-sans-serif;
-background:
-linear-gradient(180deg,#05111d,#0a2138);
+font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang TC", sans-serif;
+background: linear-gradient(180deg,#05111d,#0a2138);
 color:white;
 padding-bottom:110px;
 }
 
-img{
-display:block;
-width:100%;
-}
-
-button{
-border:none;
-background:none;
-font:inherit;
-}
-
-a{
-text-decoration:none;
-color:inherit;
-}
+img{ display:block; width:100%; }
+button{ border:none; background:none; font:inherit; }
+a{ text-decoration:none; color:inherit; }
 
 .hero{
 height:330px;
@@ -82,33 +65,19 @@ filter:brightness(.82);
 .heroOverlay{
 position:absolute;
 inset:0;
-background:
-linear-gradient(
-180deg,
-rgba(0,0,0,.15),
-rgba(0,0,0,.55)
-);
+background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.55));
 display:flex;
 flex-direction:column;
 justify-content:flex-end;
 padding:26px;
 }
 
-.tripTitle{
-font-size:34px;
-font-weight:800;
-}
-
-.tripSub{
-margin-top:8px;
-color:#d7e8ff;
-font-size:15px;
-}
+.tripTitle{ font-size:34px; font-weight:800; }
+.tripSub{ margin-top:8px; color:#d7e8ff; font-size:15px; }
 
 .dashboard{
 display:grid;
-grid-template-columns:
-repeat(2,1fr);
+grid-template-columns: repeat(2,1fr);
 gap:14px;
 padding:18px;
 margin-top:-40px;
@@ -122,20 +91,11 @@ backdrop-filter:blur(22px);
 border:1px solid var(--line);
 border-radius:var(--radius);
 padding:18px;
-box-shadow:
-0 10px 30px rgba(0,0,0,.25);
+box-shadow: 0 10px 30px rgba(0,0,0,.25);
 }
 
-.cardTitle{
-font-size:13px;
-color:var(--sub);
-margin-bottom:10px;
-}
-
-.cardValue{
-font-size:26px;
-font-weight:700;
-}
+.cardTitle{ font-size:13px; color:var(--sub); margin-bottom:10px; }
+.cardValue{ font-size:26px; font-weight:700; }
 
 .banner{
 margin:20px;
@@ -144,319 +104,161 @@ overflow:hidden;
 position:relative;
 }
 
-.banner img{
-height:210px;
-object-fit:cover;
-}
-
+.banner img{ height:210px; object-fit:cover; }
 .bannerInfo{
 position:absolute;
-left:0;
-right:0;
-bottom:0;
+left:0; right:0; bottom:0;
 padding:18px;
-background:
-linear-gradient(
-180deg,
-transparent,
-rgba(0,0,0,.75)
-);
+background: linear-gradient(180deg, transparent, rgba(0,0,0,.75));
 }
+.bannerTitle{ font-size:28px; font-weight:700; }
+.bannerDesc{ margin-top:5px; color:#e3eefb; font-size:14px; }
 
-.bannerTitle{
-font-size:28px;
-font-weight:700;
+.section{ padding:20px; }
+.sectionTitle{ font-size:26px; font-weight:800; margin-bottom:18px; }
+
+/* 搜尋與快速新增欄位樣式 */
+.search-box {
+    width:100%;
+    padding:12px 16px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.06);
+    color:white;
+    margin-bottom:15px;
+    outline:none;
+    font-size:15px;
 }
+.search-box:focus { border-color: var(--blue); }
 
-.bannerDesc{
-margin-top:5px;
-color:#e3eefb;
-font-size:14px;
+.quick-add-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
 }
-
-.section{
-padding:20px;
+.quick-add-bar input {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.06);
+    color: white;
+    outline: none;
+    font-size: 15px;
 }
-
-.sectionTitle{
-font-size:26px;
-font-weight:800;
-margin-bottom:18px;
+.quick-add-bar input:focus { border-color: var(--blue); }
+.quick-add-btn {
+    background: var(--blue);
+    color: white;
+    padding: 0 18px;
+    border-radius: 14px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(46, 144, 250, 0.2);
 }
 
 .dayCard{
-background:var(--card);
-border-radius:22px;
-overflow:hidden;
-margin-bottom:22px;
-border:1px solid var(--line);
+    background:var(--card);
+    border-radius:22px;
+    overflow:hidden;
+    margin-bottom:22px;
+    border:1px solid var(--line);
 }
 
-.dayImage{
-height:190px;
-width:100%;
-object-fit:cover;
-}
-
-.dayContent{
-padding:18px;
-}
-
-.dayTop{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-}
-
-.dayBadge{
-background:var(--blue);
-padding:7px 15px;
-border-radius:30px;
-font-size:13px;
-font-weight:700;
-}
-
-.dayDate{
-color:var(--sub);
-font-size:13px;
-}
+.dayImage{ height:190px; width:100%; object-fit:cover; }
+.dayContent{ padding:18px; min-height: 50px; } /* 設最小高度防止空箱子無法拖入 */
+.dayTop{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.dayBadge{ background:var(--blue); padding:7px 15px; border-radius:30px; font-size:13px; font-weight:700; }
+.dayDate{ color:var(--sub); font-size:13px; }
 
 .place{
-padding:15px;
-border-radius:18px;
-background:rgba(255,255,255,.05);
-margin-top:14px;
-display:flex;
-gap:14px;
-cursor:pointer;
-transition:.25s;
+    padding:15px;
+    border-radius:18px;
+    background:rgba(255,255,255,.05);
+    margin-top:14px;
+    display:flex;
+    gap:14px;
+    cursor: grab;
+    transition:.25s;
 }
+.place:active { cursor: grabbing; }
+.place:hover{ transform:translateY(-2px); background:rgba(255,255,255,.08); }
 
-.place:hover{
-transform:translateY(-2px);
-}
+/* Sortable 拖動時的樣式佔位 */
+.sortable-ghost { opacity: 0.4; background: var(--blue) !important; }
 
-.placeImage{
-width:95px;
-height:95px;
-border-radius:18px;
-object-fit:cover;
-flex-shrink:0;
-}
+.placeImage{ width:95px; height:95px; border-radius:18px; object-fit:cover; flex-shrink:0; }
+.placeInfo{ flex:1; }
+.placeTitle{ font-size:19px; font-weight:700; margin-bottom:6px; }
+.placeTime{ font-size:13px; color:#5fb5ff; margin-bottom:5px; }
+.placeNote{ font-size:14px; color:var(--sub); line-height:1.55; }
 
-.placeInfo{
-flex:1;
-}
-
-.placeTitle{
-font-size:19px;
-font-weight:700;
-margin-bottom:6px;
-}
-
-.placeTime{
-font-size:13px;
-color:#5fb5ff;
-margin-bottom:5px;
-}
-
-.placeNote{
-font-size:14px;
-color:var(--sub);
-line-height:1.55;
-}
-
-/* 🎨 2. 刪除按鈕 CSS */
 .delBtn{
     background:rgba(255,69,58,.15);
     color:#ff453a;
     border:1px solid rgba(255,69,58,.3);
     border-radius:12px;
-    padding:6px 10px;
+    padding:6px 12px;
     font-size:14px;
     cursor:pointer;
     align-self:center;
     transition:.2s;
 }
-
-.delBtn:hover{
-    background:rgba(255,69,58,.3);
-}
+.delBtn:hover{ background:rgba(255,69,58,.3); }
 
 .bottomBar{
-position:fixed;
-left:18px;
-right:18px;
-bottom:18px;
-height:78px;
-background:
-rgba(12,24,40,.82);
-backdrop-filter:blur(30px);
-border-radius:30px;
-display:flex;
-justify-content:space-around;
-align-items:center;
-border:1px solid rgba(255,255,255,.08);
-z-index:999;
+position:fixed; left:18px; right:18px; bottom:18px; height:78px;
+background: rgba(12,24,40,.82); backdrop-filter:blur(30px);
+border-radius:30px; display:flex; justify-content:space-around; align-items:center;
+border:1px solid rgba(255,255,255,.08); z-index:999;
 }
 
-.tab{
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:5px;
-font-size:12px;
-color:#8eaecf;
-cursor:pointer;
-}
-
-.tab.active{
-color:white;
-}
-
-.tab i{
-font-size:24px;
-font-style:normal;
-}
+.tab{ display:flex; flex-direction:column; align-items:center; gap:5px; font-size:12px; color:#8eaecf; cursor:pointer; }
+.tab.active{ color:white; }
+.tab i{ font-size:24px; font-style:normal; }
 
 .fab{
-position:fixed;
-right:26px;
-bottom:120px;
-width:64px;
-height:64px;
-border-radius:50%;
-background:var(--blue);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:30px;
-box-shadow:0 15px 40px rgba(0,0,0,.45);
-cursor:pointer;
-z-index:999;
+position:fixed; right:26px; bottom:120px; width:64px; height:64px; border-radius:50%;
+background:var(--blue); display:flex; align-items:center; justify-content:center;
+font-size:30px; box-shadow:0 15px 40px rgba(0,0,0,.45); cursor:pointer; z-index:999;
 }
 
 .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(4, 12, 22, 0.75);
-    backdrop-filter: blur(15px);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    padding: 20px;
+    position: fixed; inset: 0; background: rgba(4, 12, 22, 0.75); backdrop-filter: blur(15px);
+    display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px;
 }
-
 .modalCard {
-    background: #0b1f35;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: var(--radius);
-    width: 100%;
-    max-width: 480px;
-    max-height: 85vh;
-    overflow-y: auto;
-    padding: 24px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+    background: #0b1f35; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: var(--radius);
+    width: 100%; max-width: 480px; max-height: 85vh; overflow-y: auto; padding: 24px; box-shadow: 0 25px 50px rgba(0,0,0,0.6);
 }
-
-.modalHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding-bottom: 12px;
-}
-
-.closeBtn {
-    color: var(--sub);
-    font-size: 22px;
-    cursor: pointer;
-    transition: 0.2s;
-}
+.modalHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px; }
+.closeBtn { color: var(--sub); font-size: 22px; cursor: pointer; transition: 0.2s; }
 .closeBtn:hover { color: white; }
 
-.modalBody label {
-    display: block;
-    margin: 14px 0 6px;
-    font-size: 14px;
-    color: var(--sub);
-    font-weight: 600;
-}
-
+.modalBody label { display: block; margin: 14px 0 6px; font-size: 14px; color: var(--sub); font-weight: 600; }
 .modalBody input, .modalBody textarea {
-    width: 100%;
-    padding: 12px 14px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 14px;
-    color: white;
-    font-size: 15px;
-    font-family: inherit;
-    outline: none;
+    width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; color: white; font-size: 15px; font-family: inherit; outline: none;
 }
-.modalBody input:focus, .modalBody textarea:focus {
-    border-color: var(--blue);
-}
+.modalBody input:focus, .modalBody textarea:focus { border-color: var(--blue); }
 
 .saveBtn {
-    width: 100%;
-    background: var(--blue);
-    color: white;
-    padding: 15px;
-    border-radius: 16px;
-    font-weight: 700;
-    font-size: 16px;
-    margin-top: 24px;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(46, 144, 250, 0.3);
-    transition: 0.2s;
+    width: 100%; background: var(--blue); color: white; padding: 15px; border-radius: 16px;
+    font-weight: 700; font-size: 16px; margin-top: 24px; cursor: pointer; box-shadow: 0 8px 20px rgba(46, 144, 250, 0.3); transition: 0.2s;
 }
 .saveBtn:hover { filter: brightness(1.1); }
 
-.viewer {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.92);
-    backdrop-filter: blur(8px);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 3000;
-    cursor: pointer;
-}
-.viewer img {
-    max-width: 92%;
-    max-height: 82vh;
-    object-fit: contain;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-}
+.viewer { position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 3000; cursor: pointer; }
+.viewer img { max-width: 92%; max-height: 82vh; object-fit: contain; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
 
 #toast {
-    position: fixed;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-20px);
-    background: rgba(48, 209, 88, 0.95);
-    backdrop-filter: blur(5px);
-    color: white;
-    padding: 14px 28px;
-    border-radius: 30px;
-    font-weight: 700;
-    z-index: 4000;
-    opacity: 0;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
-    pointer-events: none;
-    box-shadow: 0 10px 25px rgba(48, 209, 88, 0.3);
+    position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-20px);
+    background: rgba(48, 209, 88, 0.95); backdrop-filter: blur(5px); color: white; padding: 14px 28px; border-radius: 30px;
+    font-weight: 700; z-index: 4000; opacity: 0; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    pointer-events: none; box-shadow: 0 10px 25px rgba(48, 209, 88, 0.3);
 }
-#toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 
@@ -471,22 +273,10 @@ z-index:999;
 </header>
 
 <section class="dashboard">
-<div class="card">
-<div class="cardTitle">📍 目前城市</div>
-<div class="cardValue" id="cityName">Sydney</div>
-</div>
-<div class="card">
-<div class="cardTitle">📅 Day</div>
-<div class="cardValue" id="dayNumber">1</div>
-</div>
-<div class="card">
-<div class="cardTitle">☀️ Weather</div>
-<div class="cardValue">16°C</div>
-</div>
-<div class="card">
-<div class="cardTitle">🚗 Next</div>
-<div class="cardValue" style="font-size:18px">Sydney Fish Market</div>
-</div>
+<div class="card"><div class="cardTitle">📍 目前城市</div><div class="cardValue" id="cityName">Sydney</div></div>
+<div class="card"><div class="cardTitle">📅 Day</div><div class="cardValue" id="dayNumber">1</div></div>
+<div class="card"><div class="cardTitle">☀️ Weather</div><div class="cardValue">16°C</div></div>
+<div class="card"><div class="cardTitle">🚗 Next</div><div class="cardValue" style="font-size:18px">Sydney Fish Market</div></div>
 </section>
 
 <section class="banner">
@@ -499,6 +289,16 @@ z-index:999;
 
 <section class="section">
     <div class="sectionTitle">🗺️ 行程安排</div>
+    
+    <!-- 🔍 ② 全域搜尋 UI -->
+    <input id="searchBox" class="search-box" placeholder="🔍 搜尋行程景點或備註...">
+
+    <!-- ⚡ ⑤ 快速新增模式 UI -->
+    <div class="quick-add-bar">
+        <input id="quickInput" type="text" placeholder="⚡ 快速新增景點到第一天 (輸入名稱後按 Enter)...">
+        <button class="quick-add-btn" onclick="quickAddPlace()">+</button>
+    </div>
+
     <div id="tripContainer"></div>
 </section>
 
@@ -512,9 +312,7 @@ z-index:999;
     <div class="tab"><i>👥</i>更多</div>
 </nav>
 
-<!-- ========================= -->
-<!-- Edit Trip Modal -->
-<!-- ========================= -->
+<!-- 彈窗 Modal -->
 <div id="editModal" class="modal">
     <div class="modalCard">
         <div class="modalHeader">
@@ -522,95 +320,75 @@ z-index:999;
             <button class="closeBtn" onclick="closeEditor()">✕</button>
         </div>
         <div class="modalBody">
-            <label>天數 (例如: 1)</label>
+            <label>天數 (Day)</label>
             <input id="editDayNum" type="number" min="1" placeholder="1">
-
             <label>日期</label>
             <input id="editDate" type="date">
-
-            <label>地點城市 (例如: Sydney)</label>
+            <label>地點城市</label>
             <input id="editCity" type="text" placeholder="Sydney">
-
             <label>景點名稱</label>
             <input id="editPlace" type="text" placeholder="Sydney Fish Market">
-
             <label>時間</label>
             <input id="editTime" type="time">
-
             <label>說明</label>
             <textarea id="editNote" rows="3" placeholder="輸入介紹..."></textarea>
-
-            <label>該天 Banner 圖片網址 (選填)</label>
+            <label>該天 Banner 網址</label>
             <input id="editBanner" type="text" placeholder="images/banner/sydney.jpg">
-
-            <label>景點圖片網址 (選填)</label>
+            <label>景點圖片網址</label>
             <input id="editPhoto" type="text" placeholder="images/places/fishmarket.jpg">
-
             <button class="saveBtn" onclick="saveTrip()">💾 儲存</button>
         </div>
     </div>
 </div>
 
-<!-- ========================= -->
-<!-- Photo Viewer -->
-<!-- ========================= -->
-<div id="viewer" class="viewer">
-    <img id="viewerImg">
-</div>
-
-<!-- ========================= -->
-<!-- Toast -->
-<!-- ========================= -->
+<div id="viewer" class="viewer"><img id="viewerImg"></div>
 <div id="toast">已儲存 ✔</div>
 
 <!-- ========================= -->
-<!-- JavaScript -->
+<!-- JavaScript 核心邏輯升級 -->
 <!-- ========================= -->
 <script>
-
-// ⚙️ 3. 新增「編輯狀態變數」
-let editMode = null;
+// ⚙️ ③ 新增編輯狀態變數 (改為 ID 安全追蹤)
+let editMode = null; // 儲存格式: { id: 12345678 }
 let tripData = [];
 
+// 🧠 ① 改良版內建預設資料結構（含唯一安全 ID 與 Order 權重）
 const defaultData = [
     {
-        day: 1,
-        date: "2026/07/02",
-        city: "Sydney",
-        banner: "images/banner/sydney.jpg",
+        day: 1, date: "2026/07/02", city: "Sydney", banner: "images/banner/sydney.jpg",
         places: [
-            { time: "11:30", title: "Sydney Fish Market", note: "澳洲最大的魚市場，品嚐生蠔、龍蝦與海鮮拼盤。", img: "images/places/fishmarket.jpg" },
-            { time: "15:00", title: "Sydney Opera House", note: "澳洲最具代表性的世界文化遺產。", img: "images/places/opera-house.jpg" },
-            { time: "17:00", title: "Queen Victoria Building", note: "百年古典購物中心。", img: "images/places/qvb.jpg" }
+            { id: 1001, time: "11:30", title: "Sydney Fish Market", note: "澳洲最大的魚市場，品嚐生蠔、龍蝦與海鮮拼盤。", img: "images/places/fishmarket.jpg", order: 1 },
+            { id: 1002, time: "15:00", title: "Sydney Opera House", note: "澳洲最具代表性的世界文化遺產。", img: "images/places/opera-house.jpg", order: 2 },
+            { id: 1003, time: "17:00", title: "Queen Victoria Building", note: "百年古典購物中心。", img: "images/places/qvb.jpg", order: 3 }
         ]
     },
     {
-        day: 2,
-        date: "2026/07/03",
-        city: "Blue Mountains",
-        banner: "images/banner/blue-mountains.jpg",
+        day: 2, date: "2026/07/03", city: "Blue Mountains", banner: "images/banner/blue-mountains.jpg",
         places: [
-            { time: "09:00", title: "Scenic World", note: "搭乘森林纜車與全世界最陡客運鐵道。", img: "images/places/scenic-world.jpg" },
-            { time: "14:30", title: "Three Sisters", note: "藍山最著名的三姐妹岩觀景台。", img: "images/places/three-sisters.jpg" }
+            { id: 1004, time: "09:00", title: "Scenic World", note: "搭乘森林纜車與全世界最陡客運鐵道。", img: "images/places/scenic-world.jpg", order: 4 },
+            { id: 1005, time: "14:30", title: "Three Sisters", note: "藍山最著名的三姐妹岩觀景台。", img: "images/places/three-sisters.jpg", order: 5 }
         ]
     },
     {
-        day: 3,
-        date: "2026/07/04",
-        city: "Kiama",
-        banner: "images/banner/kiama.jpg",
+        day: 3, date: "2026/07/04", city: "Kiama", banner: "images/banner/kiama.jpg",
         places: [
-            { time: "10:00", title: "Kiama Blowhole", note: "澳洲最著名天然噴水洞。", img: "images/places/kiama-blowhole.jpg" }
+            { id: 1006, time: "10:00", title: "Kiama Blowhole", note: "澳洲最著名天然噴水洞。", img: "images/places/kiama-blowhole.jpg", order: 6 }
         ]
     }
 ];
 
+// 💾 ⑤ 防資料損壞的保險加固載入機制
 function loadData(){
     let cache = localStorage.getItem("tripData");
     if(cache){
-        tripData = JSON.parse(cache);
+        try {
+            tripData = JSON.parse(cache);
+        } catch(e) {
+            console.error("快取資料損壞，已還原預設資料", e);
+            tripData = JSON.parse(JSON.stringify(defaultData));
+        }
     } else {
-        tripData = defaultData;
+        tripData = JSON.parse(JSON.stringify(defaultData));
         saveData();
     }
 }
@@ -619,44 +397,66 @@ function saveData(){
     localStorage.setItem("tripData", JSON.stringify(tripData));
 }
 
-function renderDOM() {
+// ⚡ ④ 自動 Day 重新編排演算法
+function normalizeDays(){
+    // 先刪除沒有任何景點的空心 Day 群組
+    tripData = tripData.filter(d => d.places.length > 0);
+    // 排序天數
+    tripData.sort((a, b) => a.day - b.day);
+    // 依序重新索引重新排列流水號 Day 1, Day 2, Day 3...
+    tripData.forEach((d, i) => {
+        d.day = i + 1;
+    });
+}
+
+// 🔍 ② 支援搜尋過濾的動態網頁渲染引擎
+function renderDOM(keyword = "") {
     const container = document.getElementById("tripContainer");
     container.innerHTML = "";
 
     if (tripData.length === 0) {
-        container.innerHTML = "<p style='color:var(--sub);text-align:center;padding:20px;'>目前沒有行程，點擊右下角新增吧！</p>";
+        container.innerHTML = "<p style='color:var(--sub);text-align:center;padding:20px;'>目前沒有行程，快來新增吧！</p>";
         return;
     }
 
-    tripData.sort((a, b) => a.day - b.day);
+    const cleanKeyword = keyword.trim().toLowerCase();
 
     tripData.forEach(dayGroup => {
+        // 🔍 過濾景點
+        let filteredPlaces = dayGroup.places.filter(p => 
+            p.title.toLowerCase().includes(cleanKeyword) || 
+            p.note.toLowerCase().includes(cleanKeyword)
+        );
+
+        // 如果在搜尋狀態下，該天沒有符合的景點，就不渲染該天
+        if (cleanKeyword !== "" && filteredPlaces.length === 0) return;
+
+        // 排定時間順序
+        filteredPlaces.sort((a, b) => a.time.localeCompare(b.time));
+
         let dayCard = document.createElement("div");
         dayCard.className = "dayCard";
+        dayCard.setAttribute("data-day", dayGroup.day); // 綁定天數標籤供 Sortable 識別
 
         let placesHTML = "";
-        dayGroup.places.sort((a, b) => a.time.localeCompare(b.time));
-
-        // ✅ 1. 在 place 卡片加「編輯 / 刪除按鈕」
-        dayGroup.places.forEach((p, idx) => {
+        // ✅ 1. 改為基於安全唯一 id 的 DOM 生成
+        filteredPlaces.forEach(p => {
             placesHTML += `
-            <div class="place">
+            <div class="place" data-id="${p.id}">
                 <img class="placeImage" src="${p.img || 'images/places/fishmarket.jpg'}" alt="${p.title}">
-
-                <div class="placeInfo" onclick="editPlace(${dayGroup.day}, ${idx})">
+                <div class="placeInfo" onclick="editPlace(${p.id})">
                     <div class="placeTime">${p.time}</div>
                     <div class="placeTitle">${p.title}</div>
                     <div class="placeNote">${p.note}</div>
                 </div>
-
-                <button class="delBtn" onclick="deletePlace(event, ${dayGroup.day}, ${idx})">🗑</button>
+                <button class="delBtn" onclick="deletePlace(event, ${p.id})">🗑</button>
             </div>
             `;
         });
 
         dayCard.innerHTML = `
             <img class="dayImage" src="${dayGroup.banner || 'images/banner/sydney.jpg'}">
-            <div class="dayContent">
+            <div class="dayContent" data-day="${dayGroup.day}">
                 <div class="dayTop">
                     <div class="dayBadge">Day ${dayGroup.day}</div>
                     <div class="dayDate">${dayGroup.date}</div>
@@ -668,6 +468,248 @@ function renderDOM() {
     });
 
     bindImageViewer();
+    
+    // 🔥 ③ 在渲染結束後，動態將各天綁定 Sortable（支援跨天拖拽組件）
+    if(cleanKeyword === "") { // 僅在非搜尋狀態下允許拖曳排序，防邏輯衝突
+        initSortable();
+    }
+}
+
+// 🔥 ③ 整合 Notion 般拖曳排序核心
+function initSortable() {
+    document.querySelectorAll(".dayContent").forEach(el => {
+        new Sortable(el, {
+            group: "shared", // 開啟跨天拖拽群組
+            animation: 150,
+            draggable: ".place",
+            ghostClass: "sortable-ghost",
+            onEnd: function () {
+                syncOrder();
+            }
+        });
+    });
+}
+
+// 🔥 ③ 拖動後同步資料集與數據模型
+function syncOrder(){
+    let newTripData = [];
+
+    // 巡檢當前畫面中所有 Day 容器節點
+    document.querySelectorAll(".dayContent").forEach((contentEl) => {
+        const currentDayNum = parseInt(contentEl.getAttribute("data-day"));
+        
+        // 從舊數據中抽出該天的基本資料（Date, City, Banner）
+        const oldDayMeta = tripData.find(d => d.day === currentDayNum);
+        if(!oldDayMeta) return;
+
+        // 撈取容器內當前所有的 place 的 Data-ID 排序
+        let orderedPlaces = [];
+        contentEl.querySelectorAll(".place").forEach((placeEl) => {
+            const pid = parseInt(placeEl.getAttribute("data-id"));
+            // 全域協尋對應的 Place 物件
+            let foundPlace = null;
+            tripData.forEach(d => {
+                let p = d.places.find(item => item.id === pid);
+                if(p) foundPlace = p;
+            });
+            if(foundPlace) orderedPlaces.push(foundPlace);
+        });
+
+        if(orderedPlaces.length > 0) {
+            newTripData.push({
+                day: currentDayNum,
+                date: oldDayMeta.date,
+                city: oldDayMeta.city,
+                banner: oldDayMeta.banner,
+                places: orderedPlaces
+            });
+        }
+    });
+
+    tripData = newTripData;
+    normalizeDays(); // ⚡ 自動排序與防斷代更新
+    saveData();
+    renderDOM();
+    toast("已更新排序 🔁");
+}
+
+// 🔍 ② 搜尋輸入框監聽器打通
+document.getElementById("searchBox").addEventListener("input", (e) => {
+    const keyword = e.target.value;
+    renderDOM(keyword);
+});
+
+// ⚡ ⑤ 快速新增欄位事件
+document.getElementById("quickInput").addEventListener("keydown", (e) => {
+    if(e.key === "Enter") quickAddPlace();
+});
+
+function quickAddPlace() {
+    const inputEl = document.getElementById("quickInput");
+    const title = inputEl.value.trim();
+    if(!title) return;
+
+    // 預設將景點塞在第一天，若無第一天則創建
+    let dayOne = tripData.find(d => d.day === 1);
+    const newPlace = {
+        id: Date.now(),
+        time: "12:00",
+        title: title,
+        note: "快速新增的景點...",
+        img: "",
+        order: Date.now()
+    };
+
+    if(dayOne) {
+        dayOne.places.push(newPlace);
+    } else {
+        tripData.push({
+            day: 1,
+            date: new Date().toISOString().split('T')[0].replace(/-/g, "/"),
+            city: "Sydney",
+            banner: "",
+            places: [newPlace]
+        });
+    }
+
+    inputEl.value = ""; // 清空
+    normalizeDays();
+    saveData();
+    renderDOM();
+    toast("⚡ 快速新增成功！");
+}
+
+// ✏️ ④ 點選編輯（升級為 ID 導向，完全防錯位）
+function editPlace(id){
+    let targetDay = null;
+    let targetPlace = null;
+
+    // 用 ID 去篩查資料
+    for(let d of tripData) {
+        let p = d.places.find(item => item.id === id);
+        if(p) {
+            targetDay = d;
+            targetPlace = p;
+            break;
+        }
+    }
+
+    if(!targetPlace) return;
+
+    editMode = { id: id }; // 記住目前正在修改的 ID 標章
+    document.getElementById("modalTitle").innerText = "✏️ 編輯行程";
+
+    document.getElementById("editDayNum").value = targetDay.day;
+    document.getElementById("editDate").value = targetDay.date.replace(/ /g,"-").replaceAll("/", "-");
+    document.getElementById("editCity").value = targetDay.city;
+    document.getElementById("editPlace").value = targetPlace.title;
+    document.getElementById("editTime").value = targetPlace.time;
+    document.getElementById("editNote").value = targetPlace.note;
+    document.getElementById("editBanner").value = targetDay.banner;
+    document.getElementById("editPhoto").value = targetPlace.img;
+
+    document.getElementById("editModal").style.display = "flex";
+}
+
+// 🗑 ⑤ 刪除功能修正（認 ID 機制）
+function deletePlace(e, id){
+    e.stopPropagation();
+    if(!confirm("確定要刪除這個景點嗎？")) return;
+
+    tripData.forEach(d => {
+        d.places = d.places.filter(p => p.id !== id);
+    });
+
+    normalizeDays(); // ⚡ 自動剔除空天數重編
+    saveData();
+    renderDOM();
+    toast("已刪除 🗑");
+}
+
+// 🔁 ⑥ 修改 saveTrip（全面兼容 ID 更新機制）
+function saveTrip(){
+    const dayNum = parseInt(document.getElementById("editDayNum").value) || 1;
+    const rawDate = document.getElementById("editDate").value.replace(/-/g, "/");
+    const city = document.getElementById("editCity").value || "Sydney";
+    const placeTitle = document.getElementById("editPlace").value.trim();
+    const placeTime = document.getElementById("editTime").value || "12:00";
+    const placeNote = document.getElementById("editNote").value || "未輸入介紹。";
+    const bannerUrl = document.getElementById("editBanner").value || "";
+    const photoUrl = document.getElementById("editPhoto").value || "";
+
+    if(!placeTitle){
+        alert("請輸入景點名稱！");
+        return;
+    }
+
+    // ====== 編輯模式 ======
+    if(editMode){
+        let oldDayOfPlace = null;
+        let placeObj = null;
+
+        // 先把原來的物件與其所屬天數找出來
+        tripData.forEach(d => {
+            let found = d.places.find(p => p.id === editMode.id);
+            if(found) { oldDayOfPlace = d; placeObj = found; }
+        });
+
+        if(placeObj) {
+            // 更新景點屬性
+            placeObj.time = placeTime;
+            placeObj.title = placeTitle;
+            placeObj.note = placeNote;
+            placeObj.img = photoUrl;
+
+            // 檢查使用者有沒有改天數
+            if(oldDayOfPlace.day === dayNum) {
+                // 沒有改天數，直接更新該天的元數據
+                oldDayOfPlace.date = rawDate;
+                oldDayOfPlace.city = city;
+                if(bannerUrl) oldDayOfPlace.banner = bannerUrl;
+            } else {
+                // 有改天數！從舊天數中移除
+                oldDayOfPlace.places = oldDayOfPlace.places.filter(p => p.id !== editMode.id);
+                
+                // 放到新天數去
+                let targetNewDay = tripData.find(d => d.day === dayNum);
+                if(targetNewDay) {
+                    targetNewDay.places.push(placeObj);
+                } else {
+                    tripData.push({
+                        day: dayNum, date: rawDate, city: city, banner: bannerUrl, places: [placeObj]
+                    });
+                }
+            }
+        }
+        editMode = null;
+        toast("已更新 ✔");
+    }
+    // ====== 新增模式 ======
+    else{
+        const newPlace = {
+            id: Date.now(), // 🧠 產生安全唯一時間戳記 ID
+            time: placeTime,
+            title: placeTitle,
+            note: placeNote,
+            img: photoUrl,
+            order: Date.now()
+        };
+
+        let targetDay = tripData.find(d => d.day === dayNum);
+        if(targetDay){
+            targetDay.places.push(newPlace);
+        } else {
+            tripData.push({
+                day: dayNum, date: rawDate, city: city, banner: bannerUrl, places: [newPlace]
+            });
+        }
+        toast("已新增 ✔");
+    }
+
+    normalizeDays(); // ⚡ 安全自動重估
+    saveData();
+    renderDOM();
+    closeEditor();
 }
 
 function bindImageViewer() {
@@ -680,117 +722,11 @@ function bindImageViewer() {
     });
 }
 
-function toast(text){
-    let t = document.getElementById("toast");
-    t.innerHTML = text;
-    t.classList.add("show");
-    setTimeout(() => {
-        t.classList.remove("show");
-    }, 1800);
-}
-
-// ✏️ 4. 新增「點選編輯」
-function editPlace(day, index){
-    const targetDay = tripData.find(d => d.day === day);
-    const place = targetDay.places[index];
-
-    editMode = { day, index };
-    document.getElementById("modalTitle").innerText = "✏️ 編輯行程";
-
-    document.getElementById("editDayNum").value = day;
-    document.getElementById("editDate").value = targetDay.date.replace(/ /g,"-").replaceAll("/", "-");
-    document.getElementById("editCity").value = targetDay.city;
-    document.getElementById("editPlace").value = place.title;
-    document.getElementById("editTime").value = place.time;
-    document.getElementById("editNote").value = place.note;
-    document.getElementById("editBanner").value = targetDay.banner;
-    document.getElementById("editPhoto").value = place.img;
-
-    document.getElementById("editModal").style.display = "flex";
-}
-
-// 🗑 5. 刪除功能
-function deletePlace(e, day, index){
-    e.stopPropagation();
-
-    if(!confirm("確定要刪除這個景點嗎？")) return;
-
-    const targetDay = tripData.find(d => d.day === day);
-    targetDay.places.splice(index, 1);
-
-    if(targetDay.places.length === 0){
-        tripData = tripData.filter(d => d.day !== day);
-    }
-
-    saveData();
-    renderDOM();
-    toast("已刪除 🗑");
-}
-
-// 🔁 6. 修改 saveTrip（支援「新增 + 編輯」）
-function saveTrip(){
-    const dayNum = parseInt(document.getElementById("editDayNum").value) || 1;
-    const rawDate = document.getElementById("editDate").value.replace(/-/g, "/");
-    const city = document.getElementById("editCity").value || "Sydney";
-    const placeTitle = document.getElementById("editPlace").value;
-    const placeTime = document.getElementById("editTime").value || "12:00";
-    const placeNote = document.getElementById("editNote").value || "未輸入介紹。";
-    const bannerUrl = document.getElementById("editBanner").value || "images/banner/sydney.jpg";
-    const photoUrl = document.getElementById("editPhoto").value || "images/places/fishmarket.jpg";
-
-    if(!placeTitle){
-        alert("請輸入景點名稱！");
-        return;
-    }
-
-    const newPlace = {
-        time: placeTime,
-        title: placeTitle,
-        note: placeNote,
-        img: photoUrl
-    };
-
-    // ====== 編輯模式 ======
-    if(editMode){
-        const targetDay = tripData.find(d => d.day === editMode.day);
-        targetDay.places[editMode.index] = newPlace;
-
-        targetDay.date = rawDate;
-        targetDay.city = city;
-        targetDay.banner = bannerUrl;
-
-        editMode = null;
-        toast("已更新 ✔");
-    }
-    // ====== 新增模式 ======
-    else{
-        let targetDay = tripData.find(d => d.day === dayNum);
-
-        if(targetDay){
-            targetDay.places.push(newPlace);
-        } else {
-            tripData.push({
-                day: dayNum,
-                date: rawDate,
-                city,
-                banner: bannerUrl,
-                places: [newPlace]
-            });
-        }
-
-        toast("已新增 ✔");
-    }
-
-    saveData();
-    renderDOM();
-    closeEditor();
-}
-
 document.getElementById("viewer").onclick = () => {
     document.getElementById("viewer").style.display = "none";
 };
 
-// 點擊右下角 FAB 為新增模式
+// 點擊原生的右下角 FAB
 document.getElementById("editButton").onclick = () => {
     editMode = null; 
     document.getElementById("modalTitle").innerText = "✏️ 新增行程";
@@ -810,6 +746,13 @@ function closeEditor(){
     editMode = null;
 }
 
+function toast(text){
+    let t = document.getElementById("toast");
+    t.innerHTML = text;
+    t.classList.add("show");
+    setTimeout(() => { t.classList.remove("show"); }, 1800);
+}
+
 const tabs = document.querySelectorAll(".tab");
 tabs.forEach(tab => {
     tab.onclick = () => {
@@ -820,9 +763,9 @@ tabs.forEach(tab => {
 
 window.onload = () => {
     loadData();
+    normalizeDays();
     renderDOM();
 };
-
 </script>
 
 <script>

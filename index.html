@@ -1,586 +1,1130 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>AusDrive V3 - 雪梨自駕奢華領航</title>
-  
-  <!-- Apple PWA 專用設定與 iOS 安全區優化 -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Australia Trip Pro</title>
 
-  <style>
-    :root {
-      --bg-dark: #000000;
-      --ios-card: rgba(28, 28, 30, 0.65);
-      --ios-blur: blur(30px);
-      --text-main: #FFFFFF;
-      --text-sub: #8E8E93;
-      --accent-blue: #0A84FF;
-      --accent-green: #30D158;
-      --accent-red: #FF453A;
-      --safe-top: env(safe-area-inset-top, 44px);
-      --safe-bottom: env(safe-area-inset-bottom, 34px);
-    }
+<link rel="manifest" href="manifest.json">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
+<meta name="theme-color" content="#0B1F35">
 
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      overflow-x: hidden;
-      padding-bottom: calc(85px + var(--safe-bottom));
-      /* 確保支援 120Hz 螢幕流暢滾動 */
-      min-height: 100vh;
-      scroll-behavior: smooth;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    /* ==========================================
-       iOS 26 頂級視覺核心：滿版動態 Banner
-       ========================================== */
-    .hero-banner-wrapper {
-      position: relative;
-      width: 100%;
-      height: 48vh;
-      min-height: 320px;
-      overflow: hidden;
-      background: #1c1c1e;
-    }
-    .hero-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(1.02);
-      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 40%, var(--bg-dark) 100%);
-    }
-    .hero-content {
-      position: absolute;
-      bottom: 24px;
-      left: 20px;
-      right: 20px;
-      z-index: 2;
-    }
-    .hero-day-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+<style>
 
-    /* iOS 26 超級智慧動態島 */
-    .dynamic-island {
-      position: fixed;
-      top: calc(var(--safe-top) - 32px);
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 32px;
-      background: #000000;
-      border-radius: 20px;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      border: 0.5px solid rgba(255,255,255,0.15);
-      cursor: pointer;
-      overflow: hidden;
-    }
-    .dynamic-island.expanded {
-      width: 90%;
-      max-width: 380px;
-      height: 75px;
-      border-radius: 24px;
-      top: calc(var(--safe-top) - 25px);
-      padding: 0 20px;
-      justify-content: space-between;
-    }
-    .island-content {
-      opacity: 0;
-      display: none;
-      width: 100%;
-      color: #fff;
-      font-size: 0.88rem;
-      align-items: center;
-      justify-content: space-between;
-      transition: opacity 0.3s ease;
-    }
-    .dynamic-island.expanded .island-content {
-      opacity: 1;
-      display: flex;
-    }
-    .island-dot {
-      width: 10px;
-      height: 10px;
-      background: #30D158;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #30D158;
-    }
+:root{
 
-    /* 頂部全域動態儀表板 */
-    .dashboard-panel {
-      margin: -40px 16px 24px 16px;
-      position: relative;
-      z-index: 5;
-      background: var(--ios-card);
-      backdrop-filter: var(--ios-blur);
-      -webkit-backdrop-filter: var(--ios-blur);
-      border-radius: 24px;
-      padding: 20px;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-    .db-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      text-align: center;
-    }
-    .db-item h5 { color: var(--text-sub); font-size: 0.72rem; margin-bottom: 4px; }
-    .db-item p { font-size: 1.15rem; font-weight: 700; color: #fff; }
+--bg:#081522;
+--card:rgba(255,255,255,.08);
+--line:rgba(255,255,255,.08);
+--text:#fff;
+--sub:#9db7d4;
+--blue:#2E90FA;
+--green:#30D158;
+--orange:#FF9F0A;
+--red:#FF453A;
+--radius:24px;
 
-    /* 120Hz 絲滑全景式橫向天數選單 */
-    .day-scroller {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding: 0 16px 16px 16px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-    }
-    .day-scroller::-webkit-scrollbar { display: none; }
-    .day-tab-btn {
-      scroll-snap-align: start;
-      flex: 0 0 auto;
-      padding: 12px 20px;
-      background: rgba(255,255,255,0.06);
-      border: none;
-      border-radius: 18px;
-      color: var(--text-sub);
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .day-tab-btn.active {
-      background: var(--text-main);
-      color: var(--bg-dark);
-      transform: scale(1.03);
-    }
+}
 
-    /* 景點主清單卡片 */
-    .main-container { padding: 0 16px; }
-    .spot-card {
-      background: var(--ios-card);
-      backdrop-filter: var(--ios-blur);
-      -webkit-backdrop-filter: var(--ios-blur);
-      border-radius: 24px;
-      margin-bottom: 20px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.06);
-      will-change: transform;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .spot-card:active { transform: scale(0.98); }
-    .spot-media-box {
-      position: relative;
-      height: 190px;
-      overflow: hidden;
-      cursor: zoom-in;
-    }
-    .spot-media-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .spot-body { padding: 20px; }
-    .spot-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 10px;
-    }
-    .spot-title-group { flex: 1; padding-right: 12px; }
-    .spot-name { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .spot-time { font-size: 0.8rem; color: var(--accent-blue); font-weight: 600; }
-    
-    .spot-checkbox {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .spot-checkbox.checked {
-      background: var(--accent-green);
-      border-color: var(--accent-green);
-    }
-    .spot-desc {
-      font-size: 0.88rem;
-      color: #D1D1D6;
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
 
-    /* 即時雙地圖智慧導航按鈕組 */
-    .nav-btn-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .nav-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 12px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #fff;
-      transition: background 0.2s;
-    }
-    .btn-google { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); }
-    .btn-apple { background: rgba(10, 132, 255, 0.15); border: 1px solid rgba(10, 132, 255, 0.3); color: var(--accent-blue); }
+html{
+scroll-behavior:smooth;
+}
 
-    /* 景點行內即時快編模式 */
-    .inline-edit-btn {
-      font-size: 0.78rem;
-      color: var(--accent-blue);
-      background: none;
-      border: none;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-    .edit-area {
-      display: none;
-      margin-top: 12px;
-      background: rgba(0,0,0,0.3);
-      padding: 12px;
-      border-radius: 14px;
-    }
-    .edit-input {
-      width: 100%;
-      background: #2c2c2e;
-      border: none;
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      font-size: 0.88rem;
-    }
+body{
 
-    /* ==========================================
-       120Hz 全螢幕燈箱相簿功能 (Lightbox)
-       ========================================== */
-    .ios-lightbox {
-      position: fixed;
-      inset: 0;
-      background: #000000;
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity;
-    }
-    .ios-lightbox.open { opacity: 1; pointer-events: auto; }
-    .lightbox-img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      transform: scale(0.9);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .ios-lightbox.open .lightbox-img { transform: scale(1); }
-    .lightbox-close {
-      position: absolute;
-      top: calc(var(--safe-top) + 10px);
-      right: 20px;
-      width: 36px;
-      height: 36px;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-    }
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"SF Pro Display",
+"PingFang TC",
+sans-serif;
 
-    /* 底部 iOS 微型導航列 */
-    .ios-tab-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: calc(65px + var(--safe-bottom));
-      background: rgba(20, 20, 20, 0.6);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-top: 0.5px solid rgba(255,255,255,0.08);
-      display: flex;
-      justify-content: space-around;
-      padding-top: 10px;
-      z-index: 900;
-    }
-    .tab-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: var(--text-sub);
-      font-size: 0.65rem;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .tab-item.active { color: var(--accent-blue); }
-    .tab-icon { font-size: 1.4rem; margin-bottom: 2px; }
-  </style>
+background:
+linear-gradient(180deg,#05111d,#0a2138);
+
+color:white;
+
+padding-bottom:110px;
+
+}
+
+img{
+display:block;
+width:100%;
+}
+
+button{
+
+border:none;
+background:none;
+font:inherit;
+
+}
+
+a{
+
+text-decoration:none;
+color:inherit;
+
+}
+
+.hero{
+
+height:330px;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.hero img{
+
+height:100%;
+object-fit:cover;
+
+filter:brightness(.82);
+
+}
+
+.heroOverlay{
+
+position:absolute;
+inset:0;
+
+background:
+
+linear-gradient(
+180deg,
+rgba(0,0,0,.15),
+rgba(0,0,0,.55)
+);
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:flex-end;
+
+padding:26px;
+
+}
+
+.tripTitle{
+
+font-size:34px;
+
+font-weight:800;
+
+}
+
+.tripSub{
+
+margin-top:8px;
+
+color:#d7e8ff;
+
+font-size:15px;
+
+}
+
+.dashboard{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(2,1fr);
+
+gap:14px;
+
+padding:18px;
+
+margin-top:-40px;
+
+position:relative;
+
+z-index:5;
+
+}
+
+.card{
+
+background:var(--card);
+
+backdrop-filter:blur(22px);
+
+border:1px solid var(--line);
+
+border-radius:var(--radius);
+
+padding:18px;
+
+box-shadow:
+
+0 10px 30px rgba(0,0,0,.25);
+
+}
+
+.cardTitle{
+
+font-size:13px;
+
+color:var(--sub);
+
+margin-bottom:10px;
+
+}
+
+.cardValue{
+
+font-size:26px;
+
+font-weight:700;
+
+}
+
+.banner{
+
+margin:20px;
+
+border-radius:28px;
+
+overflow:hidden;
+
+position:relative;
+
+}
+
+.banner img{
+
+height:210px;
+
+object-fit:cover;
+
+}
+
+.bannerInfo{
+
+position:absolute;
+
+left:0;
+right:0;
+bottom:0;
+
+padding:18px;
+
+background:
+
+linear-gradient(
+
+180deg,
+
+transparent,
+
+rgba(0,0,0,.75)
+
+);
+
+}
+
+.bannerTitle{
+
+font-size:28px;
+
+font-weight:700;
+
+}
+
+.bannerDesc{
+
+margin-top:5px;
+
+color:#e3eefb;
+
+font-size:14px;
+
+}
+
+.section{
+
+padding:20px;
+
+}
+
+.sectionTitle{
+
+font-size:26px;
+
+font-weight:800;
+
+margin-bottom:18px;
+
+}
+
+.dayCard{
+
+background:var(--card);
+
+border-radius:22px;
+
+overflow:hidden;
+
+margin-bottom:22px;
+
+border:1px solid var(--line);
+
+}
+
+.dayImage{
+
+height:190px;
+
+object-fit:cover;
+
+}
+
+.dayContent{
+
+padding:18px;
+
+}
+
+.dayTop{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:10px;
+
+}
+
+.dayBadge{
+
+background:var(--blue);
+
+padding:7px 15px;
+
+border-radius:30px;
+
+font-size:13px;
+
+font-weight:700;
+
+}
+
+.dayDate{
+
+color:var(--sub);
+
+font-size:13px;
+
+}
+
+.place{
+
+padding:15px;
+
+border-radius:18px;
+
+background:rgba(255,255,255,.05);
+
+margin-top:14px;
+
+display:flex;
+
+gap:14px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.place:hover{
+
+transform:translateY(-2px);
+
+}
+
+.placeImage{
+
+width:95px;
+
+height:95px;
+
+border-radius:18px;
+
+object-fit:cover;
+
+flex-shrink:0;
+
+}
+
+.placeInfo{
+
+flex:1;
+
+}
+
+.placeTitle{
+
+font-size:19px;
+
+font-weight:700;
+
+margin-bottom:6px;
+
+}
+
+.placeTime{
+
+font-size:13px;
+
+color:#5fb5ff;
+
+margin-bottom:5px;
+
+}
+
+.placeNote{
+
+font-size:14px;
+
+color:var(--sub);
+
+line-height:1.55;
+
+}
+
+.bottomBar{
+
+position:fixed;
+
+left:18px;
+right:18px;
+bottom:18px;
+
+height:78px;
+
+background:
+
+rgba(12,24,40,.82);
+
+backdrop-filter:blur(30px);
+
+border-radius:30px;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+border:1px solid rgba(255,255,255,.08);
+
+z-index:999;
+
+}
+
+.tab{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+gap:5px;
+
+font-size:12px;
+
+color:#8eaecf;
+
+}
+
+.tab.active{
+
+color:white;
+
+}
+
+.tab i{
+
+font-size:24px;
+
+font-style:normal;
+
+}
+
+.fab{
+
+position:fixed;
+
+right:26px;
+
+bottom:120px;
+
+width:64px;
+
+height:64px;
+
+border-radius:50%;
+
+background:var(--blue);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:30px;
+
+box-shadow:0 15px 40px rgba(0,0,0,.45);
+
+cursor:pointer;
+
+}
+
+</style>
 </head>
+
 <body>
 
-  <!-- iOS 26 智慧動態島 -->
-  <div class="dynamic-island" id="island" onclick="toggleIsland()">
-    <div class="island-content">
-      <span id="island-msg">⚡ 系統已就緒</span>
-      <div class="island-dot"></div>
+<header class="hero">
+
+<img
+src="images/banner/sydney-opera-house.jpg"
+id="heroImage"
+>
+
+<div class="heroOverlay">
+
+<div class="tripTitle">
+
+Australia Road Trip
+
+</div>
+
+<div class="tripSub">
+
+Sydney → Blue Mountains → Kiama → Coffs Harbour → Byron Bay → Gold Coast → Brisbane
+
+</div>
+
+</div>
+
+</header>
+
+<section class="dashboard">
+
+<div class="card">
+
+<div class="cardTitle">
+
+📍 目前城市
+
+</div>
+
+<div class="cardValue" id="cityName">
+
+Sydney
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+
+📅 Day
+
+</div>
+
+<div class="cardValue" id="dayNumber">
+
+1
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+
+☀️ Weather
+
+</div>
+
+<div class="cardValue">
+
+16°C
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+
+🚗 Next
+
+</div>
+
+<div class="cardValue" style="font-size:18px">
+
+Sydney Fish Market
+
+</div>
+
+</div>
+
+</section>
+
+<section class="banner">
+
+<img
+src="images/banner/sydney.jpg"
+id="todayBanner">
+
+<div class="bannerInfo">
+
+<div class="bannerTitle">
+
+Day 1 · Sydney
+
+</div>
+
+<div class="bannerDesc">
+
+Opera House · Harbour Bridge · Fish Market
+
+</div>
+
+</div>
+
+</section>
+<section class="section">
+
+    <div class="sectionTitle">
+        🗺️ 行程安排
     </div>
-  </div>
 
-  <!-- 滿版動態 Banner 區 -->
-  <div class="hero-banner-wrapper">
-    <img id="hero-cover" class="hero-img" src="" alt="Trip Banner">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <div class="hero-day-badge" id="hero-day-lbl">Loading...</div>
-      <h2 id="hero-title" style="font-size: 1.7rem; font-weight: 700;">載入行程中</h2>
-    </div>
-  </div>
+    <div id="tripContainer">
 
-  <!-- 頂部智慧全域面板 -->
-  <div class="dashboard-panel">
-    <div class="db-grid">
-      <div class="db-item">
-        <h5>📍 當前錨點</h5>
-        <p id="db-loc">--</p>
-      </div>
-      <div class="db-item">
-        <h5>☀️ 預留天氣</h5>
-        <p id="db-wea">22°C</p>
-      </div>
-      <div class="db-item">
-        <h5>📈 進度解鎖</h5>
-        <p id="db-progress">0%</p>
-      </div>
-    </div>
-  </div>
+        <!-- Day 1 -->
 
-  <!-- 橫向滑動天數控制列 -->
-  <div class="day-scroller" id="day-tabs"></div>
+        <div class="dayCard">
 
-  <!-- 主行程卡片渲染區 -->
-  <div class="main-container" id="spots-list"></div>
+            <img
+                class="dayImage"
+                src="images/banner/sydney.jpg"
+            >
 
-  <!-- 全螢幕高級相簿燈箱 -->
-  <div class="ios-lightbox" id="lightbox" onclick="closeLightbox()">
-    <div class="lightbox-close">✕</div>
-    <img class="lightbox-img" id="lightbox-target" src="" alt="Fullscreen">
-  </div>
+            <div class="dayContent">
 
-  <!-- 底部 iOS 固定選單 -->
-  <nav class="ios-tab-bar">
-    <a href="#" class="tab-item active"><div class="tab-icon">🗺️</div>行程</a>
-    <a href="#" class="tab-item" onclick="triggerIsland('💰 記帳功能模組已載入系統', true)"><div class="tab-icon">💵</div>記帳</a>
-    <a href="#" class="tab-item" onclick="triggerIsland('🧳 行李核對功能同步中', true)"><div class="tab-icon">🧳</div>行李</a>
-  </nav>
+                <div class="dayTop">
 
-  <!-- 載入資料與控制器邏輯 -->
-  <script src="trip-data.js"></script>
-  <script>
-    let activeDayIdx = 0;
-    // 讀取本地快取紀錄（已解鎖景點）
-    let db_spots_done = JSON.parse(localStorage.getItem('ios26_spots_done') || '{}');
-    // 讀取本地快取紀錄（使用者自行修改過的景點名稱與描述）
-    let db_custom_edits = JSON.parse(localStorage.getItem('ios26_custom_edits') || '{}');
+                    <div class="dayBadge">
+                        Day 1
+                    </div>
 
-    // 系統島通知核心
-    function triggerIsland(msg, isExpand = false) {
-      const island = document.getElementById('island');
-      const text = document.getElementById('island-msg');
-      if(!island || !text) return;
-      text.textContent = msg;
-      if(isExpand) {
-        island.classList.add('expanded');
-        setTimeout(() => island.classList.remove('expanded'), 3500);
-      }
-    }
-    function toggleIsland() {
-      document.getElementById('island')?.classList.toggle('expanded');
-    }
+                    <div class="dayDate">
+                        2026 / 07 / 02
+                    </div>
 
-    // 燈箱控制（點圖滿版）
-    function openLightbox(url) {
-      const lb = document.getElementById('lightbox');
-      const img = document.getElementById('lightbox-target');
-      if(lb && img) {
-        img.src = url;
-        lb.classList.add('open');
-      }
-    }
-    function closeLightbox() {
-      document.getElementById('lightbox')?.classList.remove('open');
-    }
-
-    // 渲染核心頁面
-    function initApp() {
-      if (!window.tripItinerary || !window.tripItinerary.length) {
-        document.getElementById('spots-list').innerHTML = '<p style="color:var(--text-sub); text-align:center; padding:4px;">暫無公開行程資料。</p>';
-        return;
-      }
-      renderTabs();
-      renderDayContent();
-    }
-
-    function renderTabs() {
-      const container = document.getElementById('day-tabs');
-      container.innerHTML = window.tripItinerary.map((d, idx) => `
-        <button class="day-tab-btn ${idx === activeDayIdx ? 'active' : ''}" onclick="switchDay(${idx})">
-          Day ${d.day}
-        </button>
-      `).join('');
-    }
-
-    function renderDayContent() {
-      const data = window.tripItinerary[activeDayIdx];
-      if(!data) return;
-
-      // 更新頂部滿版橫幅
-      document.getElementById('hero-cover').src = data.dayBanner;
-      document.getElementById('hero-day-lbl').textContent = `DAY ${data.day} • ${data.date}`;
-      document.getElementById('hero-title').textContent = data.title;
-      document.getElementById('db-loc').textContent = data.region;
-
-      // 渲染景點
-      const listContainer = document.getElementById('spots-list');
-      listContainer.innerHTML = data.spots.map(s => {
-        const isDone = db_spots_done[s.id] ? 'checked' : '';
-        // 檢查是否有使用者自訂過的資料
-        const currentName = db_custom_edits[`name_${s.id}`] || s.name;
-        const currentDesc = db_custom_edits[`desc_${s.id}`] || s.desc;
-
-        return `
-          <div class="spot-card">
-            <div class="spot-media-box" onclick="openLightbox('${s.img}')">
-              <img src="${s.img}" alt="${currentName}" loading="lazy">
-            </div>
-            <div class="spot-body">
-              <div class="spot-header">
-                <div class="spot-title-group">
-                  <div class="spot-name" id="lbl-name-${s.id}">${currentName}</div>
-                  <div class="spot-time">⏱️ 建議停留：${s.stay}</div>
                 </div>
-                <div class="spot-checkbox ${isDone}" onclick="toggleSpot('${s.id}')">
-                  ${isDone ? '✓' : ''}
+
+                <div class="place">
+
+                    <img
+                        class="placeImage"
+                        src="images/places/fishmarket.jpg"
+                    >
+
+                    <div class="placeInfo">
+
+                        <div class="placeTime">
+                            11:30
+                        </div>
+
+                        <div class="placeTitle">
+                            Sydney Fish Market
+                        </div>
+
+                        <div class="placeNote">
+                            澳洲最大的魚市場，品嚐生蠔、龍蝦與海鮮拼盤。
+                        </div>
+
+                    </div>
+
                 </div>
-              </div>
-              <p class="spot-desc" id="lbl-desc-${s.id}">${currentDesc}</p>
-              
-              <!-- 雙地圖即時智慧導航 -->
-              <div class="nav-btn-group">
-                <a class="nav-link btn-google" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.mapQuery)}" target="_blank">🗺️ Google 地圖</a>
-                <a class="nav-link btn-apple" href="http://maps.apple.com/?q=${encodeURIComponent(s.mapQuery)}" target="_blank">🍎 Apple 地圖</a>
-              </div>
 
-              <!-- 行程可直接編輯按鈕與區塊 -->
-              <button class="inline-edit-btn" onclick="toggleEditBlock('${s.id}')">✏️ 編輯景點備忘</button>
-              <div class="edit-area" id="edit-box-${s.id}">
-                <input class="edit-input" id="input-name-${s.id}" type="text" value="${currentName}" placeholder="修改景點名稱">
-                <textarea class="edit-input" id="input-desc-${s.id}" rows="2" placeholder="修改行程備註描述">${currentDesc}</textarea>
-                <button class="nav-link btn-apple" style="width:100%; padding:8px;" onclick="saveInlineEdit('${s.id}')">保存修改</button>
-              </div>
+                <div class="place">
+
+                    <img
+                        class="placeImage"
+                        src="images/places/opera-house.jpg"
+                    >
+
+                    <div class="placeInfo">
+
+                        <div class="placeTime">
+                            15:00
+                        </div>
+
+                        <div class="placeTitle">
+                            Sydney Opera House
+                        </div>
+
+                        <div class="placeNote">
+                            澳洲最具代表性的世界文化遺產。
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="place">
+
+                    <img
+                        class="placeImage"
+                        src="images/places/qvb.jpg"
+                    >
+
+                    <div class="placeInfo">
+
+                        <div class="placeTime">
+                            17:00
+                        </div>
+
+                        <div class="placeTitle">
+                            Queen Victoria Building
+                        </div>
+
+                        <div class="placeNote">
+                            百年古典購物中心。
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
-          </div>
-        `;
-      }).join('');
 
-      calculateProgress();
+        </div>
+
+        <!-- Day 2 -->
+
+        <div class="dayCard">
+
+            <img
+                class="dayImage"
+                src="images/banner/blue-mountains.jpg"
+            >
+
+            <div class="dayContent">
+
+                <div class="dayTop">
+
+                    <div class="dayBadge">
+                        Day 2
+                    </div>
+
+                    <div class="dayDate">
+                        2026 / 07 / 03
+                    </div>
+
+                </div>
+
+                <div class="place">
+
+                    <img
+                        class="placeImage"
+                        src="images/places/scenic-world.jpg"
+                    >
+
+                    <div class="placeInfo">
+
+                        <div class="placeTime">
+                            09:00
+                        </div>
+
+                        <div class="placeTitle">
+                            Scenic World
+                        </div>
+
+                        <div class="placeNote">
+                            搭乘森林纜車與全世界最陡客運鐵道。
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="place">
+
+                    <img
+                        class="placeImage"
+                        src="images/places/three-sisters.jpg"
+                    >
+
+                    <div class="placeInfo">
+
+                        <div class="placeTime">
+                            14:30
+                        </div>
+
+                        <div class="placeTitle">
+                            Three Sisters
+                        </div>
+
+                        <div class="placeNote">
+                            藍山最著名的三姐妹岩觀景台。
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Day 3 -->
+
+        <div class="dayCard">
+
+            <img
+                class="dayImage"
+                src="images/banner/kiama.jpg"
+            >
+
+            <div class="dayContent">
+
+                <div class="dayTop">
+
+                    <div class="dayBadge">
+                        Day 3
+                    </div>
+
+                    <div class="dayDate">
+                        2026 / 07 / 04
+                    </div>
+
+                </div>
+
+                <div class="place">
+
+                    <img
+                        class="placeImage"
+                        src="images/places/kiama-blowhole.jpg"
+                    >
+
+                    <div class="placeInfo">
+
+                        <div class="placeTime">
+                            10:00
+                        </div>
+
+                        <div class="placeTitle">
+                            Kiama Blowhole
+                        </div>
+
+                        <div class="placeNote">
+                            澳洲最著名天然噴水洞。
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<div class="fab" id="editButton">
+    ✏️
+</div>
+
+<nav class="bottomBar">
+
+    <div class="tab active">
+        <i>🏠</i>
+        首頁
+    </div>
+
+    <div class="tab">
+        <i>🗺️</i>
+        行程
+    </div>
+
+    <div class="tab">
+        <i>🧳</i>
+        行李
+    </div>
+
+    <div class="tab">
+        <i>💰</i>
+        記帳
+    </div>
+
+    <div class="tab">
+        <i>👥</i>
+        更多
+    </div>
+
+</nav>
+
+<!-- Part 1 第三段會接續：
+1. 行程編輯 Modal
+2. 景點圖片全螢幕 Viewer
+3. JavaScript 初始化
+4. LocalStorage
+5. PWA 註冊
+6. index.html 結尾 -->
+  <!-- ========================= -->
+<!-- Edit Trip Modal -->
+<!-- ========================= -->
+
+<div id="editModal" class="modal">
+
+    <div class="modalCard">
+
+        <div class="modalHeader">
+
+            <h2>✏️ 編輯行程</h2>
+
+            <button class="closeBtn" onclick="closeEditor()">
+                ✕
+            </button>
+
+        </div>
+
+        <div class="modalBody">
+
+            <label>日期</label>
+
+            <input
+                id="editDate"
+                type="date"
+            >
+
+            <label>地點</label>
+
+            <input
+                id="editPlace"
+                type="text"
+                placeholder="Sydney Fish Market"
+            >
+
+            <label>時間</label>
+
+            <input
+                id="editTime"
+                type="time"
+            >
+
+            <label>說明</label>
+
+            <textarea
+                id="editNote"
+                rows="5"
+                placeholder="輸入介紹..."
+            ></textarea>
+
+            <label>Banner 圖片網址</label>
+
+            <input
+                id="editBanner"
+                type="text"
+                placeholder="https://..."
+            >
+
+            <label>景點圖片網址</label>
+
+            <input
+                id="editPhoto"
+                type="text"
+                placeholder="https://..."
+            >
+
+            <button
+                class="saveBtn"
+                onclick="saveTrip()"
+            >
+                💾 儲存
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- Photo Viewer -->
+<!-- ========================= -->
+
+<div id="viewer" class="viewer">
+
+    <img id="viewerImg">
+
+</div>
+
+<!-- ========================= -->
+<!-- Toast -->
+<!-- ========================= -->
+
+<div id="toast">
+
+    已儲存 ✔
+
+</div>
+
+<!-- ========================= -->
+<!-- JavaScript -->
+<!-- ========================= -->
+
+<script>
+
+let tripData=[]
+
+function loadData(){
+
+    let cache=localStorage.getItem("tripData")
+
+    if(cache){
+
+        tripData=JSON.parse(cache)
+
     }
 
-    function switchDay(idx) {
-      activeDayIdx = idx;
-      renderTabs();
-      renderDayContent();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function saveData(){
+
+    localStorage.setItem(
+
+        "tripData",
+
+        JSON.stringify(tripData)
+
+    )
+
+}
+
+function toast(text){
+
+    let t=document.getElementById("toast")
+
+    t.innerHTML=text
+
+    t.classList.add("show")
+
+    setTimeout(()=>{
+
+        t.classList.remove("show")
+
+    },1800)
+
+}
+
+document.querySelectorAll(".placeImage").forEach(img=>{
+
+    img.onclick=()=>{
+
+        document.getElementById("viewer").style.display="flex"
+
+        document.getElementById("viewerImg").src=img.src
+
     }
 
-    function toggleSpot(id) {
-      db_spots_done[id] = !db_spots_done[id];
-      localStorage.setItem('ios26_spots_done', JSON.stringify(db_spots_done));
-      renderDayContent();
-      if(db_spots_done[id]) triggerIsland('🎉 成功踩點一個目的地！', true);
+})
+
+document.getElementById("viewer").onclick=()=>{
+
+    document.getElementById("viewer").style.display="none"
+
+}
+
+document.getElementById("editButton").onclick=()=>{
+
+    document.getElementById("editModal").style.display="flex"
+
+}
+
+function closeEditor(){
+
+    document.getElementById("editModal").style.display="none"
+
+}
+
+function saveTrip(){
+
+    toast("已更新行程")
+
+    closeEditor()
+
+}
+
+const tabs=document.querySelectorAll(".tab")
+
+tabs.forEach(tab=>{
+
+    tab.onclick=()=>{
+
+        tabs.forEach(t=>t.classList.remove("active"))
+
+        tab.classList.add("active")
+
     }
 
-    // 編輯控制
-    function toggleEditBlock(id) {
-      const box = document.getElementById(`edit-box-${id}`);
-      if(box) box.style.display = box.style.display === 'block' ? 'none' : 'block';
-    }
+})
 
-    function saveInlineEdit(id) {
-      const newName = document.getElementById(`input-name-${id}`).value;
-      const newDesc = document.getElementById(`input-desc-${id}`).value;
-      
-      db_custom_edits[`name_${id}`] = newName;
-      db_custom_edits[`desc_${id}`] = newDesc;
-      
-      localStorage.setItem('ios26_custom_edits', JSON.stringify(db_custom_edits));
-      toggleEditBlock(id);
-      renderDayContent();
-      triggerIsland('💾 備忘資訊已即時儲存', true);
-    }
+window.onload=()=>{
 
-    function calculateProgress() {
-      let total = 0;
-      let done = 0;
-      window.tripItinerary.forEach(d => {
-        d.spots.forEach(s => {
-          total++;
-          if(db_spots_done[s.id]) done++;
-        });
-      });
-      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-      document.getElementById('db-progress').textContent = `${pct}%`;
-    }
+    loadData()
 
-    window.onload = initApp;
-  </script>
+}
+
+</script>
+
+<!-- ========================= -->
+<!-- PWA -->
+<!-- ========================= -->
+
+<script>
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("service-worker.js")
+
+}
+
+</script>
+
 </body>
+
 </html>
